@@ -1,0 +1,38 @@
+const express = require("express");
+const cors = require("cors");
+const rateLimit = require("express-rate-limit");
+const routes = require("./routes/index");
+const auth = require("./middleware/auth");
+const errorHandler = require("./middleware/errorHandler");
+const formatDateMiddleware = require("./utils/formatDate");
+// const login = require("./routes/login");
+const db = require("./models");
+const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
+const sequelize = db.sequelize;
+
+const app = express();
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: false, // must be false when origin is "*"
+  })
+);
+app.use(express.json());
+app.use(formatDateMiddleware);
+app.use(limiter);
+// app.use("/api/lm", login); // Public route
+app.use("/api", routes); // Protected routes
+// app.use("/api/lm", auth, routes);
+app.use(errorHandler);
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Authenticated");
+    // return sequelize.sync({ alter: true }); // Only for Dev
+  })
+  .then(() => console.log("Database connected..."))
+  .catch((err) => console.error("DB connection failed:", err));
+
+module.exports = app;

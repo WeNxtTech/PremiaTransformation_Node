@@ -1,0 +1,30 @@
+/////////create
+res.status(201).json({
+      status:200,
+      message:'Cover Created With The Primary key :'+result.COVER_CODE,
+      data:result
+    });
+/////////////update
+      res.status(201).json({
+      status:200,
+      message:'Cover Updated With The Primary Key :'+result.COVER_CODE,
+      data:result
+    });
+/////////////////get all
+      res.status(201).json({
+      status:200,
+      message:'All Data',
+      data:result
+    });
+//////////////getbyid
+      res.status(201).json({
+      status:200,
+      message:'Data For This ID :'+result.COVER_CODE,
+      data:result
+    });
+/////////////delete
+      res.status(201).json({
+      status:200,
+      message:'Cover Deleted For This ID : '+result.COVER_CODE,
+      data:result
+    });
