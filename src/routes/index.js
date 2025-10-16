@@ -4,8 +4,8 @@ const lmCompanyRoutes=require('./lmCompanyRoutes');
 const class_of_busRoute = require('./class_of_busRoute');
 const motorRoute =require('./motorRoute');
 const mainTemplateRoute = require("./mainTemplateRoute");
-const instancePolicy_01Route = require("./instancePolicy_01Route");
-
+const instancePolicy_01Route = require("./policyInstancesRoute");
+const polOneInstCode = require("./policyOneInstCodeRoute");
 
 
 
@@ -17,5 +17,5 @@ router.use('/businesses', class_of_busRoute);
 router.use('/motor',motorRoute);
 router.use('/templates/policy',mainTemplateRoute);
 router.use('/policy/instance',instancePolicy_01Route);
-
+router.use('/policy/instanceCode',polOneInstCode)
 module.exports = router;
