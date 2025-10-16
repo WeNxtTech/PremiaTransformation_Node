@@ -1,4 +1,4 @@
-const { getInstPol } = require('../services/instancePolicy_01Service');
+const { getInstPol } = require('../services/policyInstancesService');
 const { successResponse, errorResponse } = require('../utils/response'); // adjust path if needed
 
 exports.getInstPol = async (req, res) => {
