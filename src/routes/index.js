@@ -16,6 +16,6 @@ router.use('/businesses', class_of_busRoute);
 // router.use('/businesses/motor/programs/PGIT6_01/instances/10-PD-01_01',motorRoute);
 router.use('/motor',motorRoute);
 router.use('/templates/policy',mainTemplateRoute);
-router.use('/instance/policy/PGIT6_01',instancePolicy_01Route);
+router.use('/policy/instance',instancePolicy_01Route);
 
 module.exports = router;
