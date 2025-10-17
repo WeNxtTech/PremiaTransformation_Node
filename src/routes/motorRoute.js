@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const class_of_busController = require('../controllers/motorController');
+const motorController = require('../controllers/motorController');
 
-router.get('/', class_of_busController.getMotor);
+router.get('/', motorController.getMotor);
+router.post('/save', motorController.saveMotorData);
+
 
 module.exports = router;

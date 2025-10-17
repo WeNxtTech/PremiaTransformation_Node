@@ -7,7 +7,7 @@ const mainTemplateRoute = require("./mainTemplateRoute");
 const instancePolicy_01Route = require("./policyInstancesRoute");
 const polOneInstCode = require("./policyOneInstCodeRoute");
 const oneProgProdInst = require("./oneProgProdeInstRoute");
-
+const listOfInst = require('./listOfInstanceRoute');
 
 
 
@@ -19,4 +19,5 @@ router.use('/templates/policy',mainTemplateRoute);
 router.use('/policy/instance',instancePolicy_01Route);
 router.use('/policy/instanceCode',polOneInstCode);
 router.use('/program/product/instance',oneProgProdInst);
+router.use('/listOfInst',listOfInst);
 module.exports = router;

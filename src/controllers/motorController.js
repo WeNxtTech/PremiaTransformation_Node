@@ -17,3 +17,15 @@ exports.getMotor = async (req, res) => {
     );
   }
 };
+
+
+exports.saveMotorData = async (req, res) => {
+  try {
+    const records = req.body; // expect JSON array of motor data objects
+    const result = await saveMotorDataBulk(records);
+    return successResponse(res, 201, 'Motor data saved successfully', result);
+  } catch (error) {
+    console.error('Save Controller error:', error);
+    return errorResponse(res, 500, 'Failed to save motor data', error.message || error);
+  }
+};

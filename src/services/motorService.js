@@ -39,3 +39,36 @@ exports.getMotor = async (prodCode, instCode, busType) => {
 
   return records;
 };
+exports.saveMotorDataBulk = async (records) => {
+  const transaction = await sequelize.transaction();
+
+  try {
+    for (const record of records) {
+      const query = `
+        MERGE INTO PGIT_POLICY tgt
+        USING (SELECT :POL_PROD_CODE AS POL_PROD_CODE, :POL_INST_CODE AS POL_INST_CODE FROM DUAL) src
+        ON (tgt.POL_PROD_CODE = src.POL_PROD_CODE AND tgt.POL_INST_CODE = src.POL_INST_CODE)
+        WHEN MATCHED THEN
+          UPDATE SET POL_BUS_TYPE = :POL_BUS_TYPE
+        WHEN NOT MATCHED THEN
+          INSERT (POL_PROD_CODE, POL_BUS_TYPE, POL_INST_CODE)
+          VALUES (:POL_PROD_CODE, :POL_BUS_TYPE, :POL_INST_CODE)
+      `;
+
+      await sequelize.query(query, {
+        replacements: {
+          POL_PROD_CODE: record.POL_PROD_CODE,
+          POL_INST_CODE: record.INSTANCE_CODE,
+          POL_BUS_TYPE: record.POL_BUS_TYPE,
+          // Add other fields here for update/insert as needed
+        },
+        transaction,
+      });
+    }
+    await transaction.commit();
+    return { success: true, message: 'All records processed successfully' };
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
+  }
+};
