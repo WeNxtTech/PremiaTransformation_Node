@@ -11,3 +11,8 @@ exports.getOneInst = async (req, res) => {
     return errorResponse(res, 500, 'Failed to fetch class_of_bus data', error.message || error);
   }
 };
+
+
+
+
+
