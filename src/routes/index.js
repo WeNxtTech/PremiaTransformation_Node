@@ -6,7 +6,7 @@ const motorRoute =require('./motorRoute');
 const mainTemplateRoute = require("./mainTemplateRoute");
 const instancePolicy_01Route = require("./policyInstancesRoute");
 const polOneInstCode = require("./policyOneInstCodeRoute");
-
+const oneProgProdInst = require("./oneProgProdeInstRoute");
 
 
 
@@ -17,5 +17,6 @@ router.use('/businesses', class_of_busRoute);
 router.use('/motor',motorRoute);
 router.use('/templates/policy',mainTemplateRoute);
 router.use('/policy/instance',instancePolicy_01Route);
-router.use('/policy/instanceCode',polOneInstCode)
+router.use('/policy/instanceCode',polOneInstCode);
+router.use('/program/product/instance',oneProgProdInst);
 module.exports = router;
