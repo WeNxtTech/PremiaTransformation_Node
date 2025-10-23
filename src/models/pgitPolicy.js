@@ -11,12 +11,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       pol_end_no_idx: {
         type: DataTypes.INTEGER,
+        primaryKey: true,
         allowNull: false,
 
         field: "POL_END_NO_IDX",
       },
       pol_end_sr_no: {
         type: DataTypes.INTEGER,
+        primaryKey: true,
         allowNull: false,
 
         field: "POL_END_SR_NO",

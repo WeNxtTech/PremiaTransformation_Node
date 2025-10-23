@@ -1,12 +1,24 @@
-const { PgitPolInstPrem } = require('../models');
+const { PgitPolInstPrem ,sequelize} = require('../models');
 
 exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
   return PgitPolInstPrem.findAll({ where: filters, limit, offset, ...(order && { order }) });
 };
 
+async function getNextPolSysId() {
+  const [result] = await sequelize.query('SELECT PIP_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
+  return result[0].NEXTVAL || result[0].nextVal;  // depending on driver case
+}
+
 exports.create = async (data) => {
+  const nextId = await getNextPolSysId();
+  data.pip_sys_id = nextId;
+
   return await PgitPolInstPrem.create(data);
 };
+
+// exports.create = async (data) => {
+//   return await PgitPolInstPrem.create(data);
+// };
 
 exports.update = async (id, updatedData) => {
   const item = await PgitPolInstPrem.findByPk(id);
