@@ -60,7 +60,7 @@ rl.question('Enter table name: ', async (tableName) => {
   // Fetch table metadata
   const columns = await sequelize.query(
     `SELECT COLUMN_NAME, DATA_TYPE, DATA_LENGTH, DATA_PRECISION, DATA_SCALE, NULLABLE 
-     FROM ALL_TAB_COLUMNS 
+     FROM USER_TAB_COLUMNS 
      WHERE TABLE_NAME = :table`,
     { replacements: { table: tableName.toUpperCase() }, type: Sequelize.QueryTypes.SELECT }
   );

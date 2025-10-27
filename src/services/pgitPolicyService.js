@@ -1,12 +1,46 @@
-const { PgitPolicy } = require('../models');
+// const { PgitPolicy } = require('../models');
+const { PgitPolicy, sequelize } = require('../models');
 
 exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
   return PgitPolicy.findAll({ where: filters, limit, offset, ...(order && { order }) });
 };
 
+
+async function getNextPolSysId() {
+  const [result] = await sequelize.query('SELECT POL_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
+  return result[0].NEXTVAL || result[0].nextVal;
+}
+
 exports.create = async (data) => {
-  return await PgitPolicy.create(data);
+  const nextId = await getNextPolSysId();
+  data.pol_sys_id = nextId;
+
+  const createdRecord = await PgitPolicy.create(data);
+
+  const responseData = {
+    pol_sys_id: createdRecord.pol_sys_id,
+    pol_end_no_idx: createdRecord.pol_end_no_idx,
+    pol_end_sr_no: createdRecord.pol_end_sr_no
+  };
+
+  return {
+    success: true,
+    message: 'Record created successfully',
+    data: responseData,
+  };
 };
+// async function getNextPolSysId() {
+//   const [result] = await sequelize.query('SELECT POL_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
+//   return result[0].NEXTVAL || result[0].nextVal;  // depending on driver case
+// }
+
+// exports.create = async (data) => {
+//   const nextId = await getNextPolSysId();
+//   data.pol_sys_id = nextId;
+
+//   return await PgitPolicy.create(data);
+// };
+
 
 exports.update = async (id, updatedData) => {
   const item = await PgitPolicy.findByPk(id);
