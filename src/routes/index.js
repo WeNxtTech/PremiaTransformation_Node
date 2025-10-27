@@ -21,8 +21,10 @@ const instancePolicy_01Route = require("./policyInstancesRoute");
 const polOneInstCode = require("./policyOneInstCodeRoute");
 const oneProgProdInst = require("./oneProgProdeInstRoute");
 const listOfInst = require('./listOfInstanceRoute');
-
-
+const policyLov = require('./policyLovRoute');
+const secForOneProd = require('./secForOneProdRoute');
+const pcom_codes = require('./pcom_codes_pctypeRoute');
+const pcom_app = require('./pcom_app_paracodeRoute');
 
 router.use('/company',lmCompanyRoutes);
 router.use('/businesses', class_of_busRoute);
@@ -46,4 +48,9 @@ router.use('/pgitPolApplCurr', pgitPolApplCurrRouter);
 router.use('/pgitPolInstPrem', pgitPolInstPremRouter);
 router.use('/pgitPolPremCompSheet', pgitPolPremCompSheetRouter);
 router.use('/pgitAcntDoc', pgitAcntDocRouter);
+router.use('/policyLov',policyLov);
+router.use('/secForOneProd',secForOneProd);
+router.use('/lovspc',pcom_codes);
+router.use('/lovpara',pcom_app);
+
 module.exports = router;
