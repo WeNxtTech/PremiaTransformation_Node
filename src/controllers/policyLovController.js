@@ -1,5 +1,5 @@
 const { getLov } = require('../services/policyLovService');
-const { successResponse, errorResponse } = require('../utils/response'); // adjust path if needed
+const { successResponse, errorResponse } = require('../utils/response'); 
 
 
 exports.getLov = async (req, res) => {
@@ -11,3 +11,4 @@ exports.getLov = async (req, res) => {
 
   }
 };
+

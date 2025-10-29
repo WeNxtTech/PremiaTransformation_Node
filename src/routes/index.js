@@ -11,7 +11,7 @@ const pgitPolChargeRouter = require('./pgitPolCharge');
 const pgitPolApplCurrRouter = require('./pgitPolApplCurr');
 const pgitPolInstPremRouter = require('./pgitPolInstPrem');
 const pgitPolPremCompSheetRouter = require('./pgitPolPremCompSheet');
- const pgitAcntDocRouter = require('./pgitAcntDoc');
+const pgitAcntDocRouter = require('./pgitAcntDoc');
 const router = express.Router();
 const lmCompanyRoutes=require('./lmCompanyRoutes');
 const class_of_busRoute = require('./class_of_busRoute');
@@ -25,6 +25,13 @@ const policyLov = require('./policyLovRoute');
 const secForOneProd = require('./secForOneProdRoute');
 const pcom_codes = require('./pcom_codes_pctypeRoute');
 const pcom_app = require('./pcom_app_paracodeRoute');
+const riskLov = require('./riskLovRoute');
+
+
+
+
+
+
 
 router.use('/company',lmCompanyRoutes);
 router.use('/businesses', class_of_busRoute);
@@ -52,5 +59,7 @@ router.use('/policyLov',policyLov);
 router.use('/secForOneProd',secForOneProd);
 router.use('/lovspc',pcom_codes);
 router.use('/lovpara',pcom_app);
+router.use('/riskLov',riskLov);
+
 
 module.exports = router;
