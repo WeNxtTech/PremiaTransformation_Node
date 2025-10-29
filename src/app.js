@@ -22,8 +22,9 @@ app.use(express.json());
 app.use(formatDateMiddleware);
 app.use(limiter);
  app.use("/api", login); // Public route
-app.use("/api", routes); // Protected routes
+// Protected routes
 app.use("/api", auth, routes);
+app.use("/api", routes); 
 app.use(errorHandler);
 
 sequelize
