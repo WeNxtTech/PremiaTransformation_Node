@@ -7,7 +7,7 @@ const errorHandler = require("./middleware/errorHandler");
 const formatDateMiddleware = require("./utils/formatDate");
  const login = require("./routes/login");
 const db = require("./models");
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
+const limiter = rateLimit({ windowMs: 24 * 60 * 60 * 1000, max: 100 });
 const sequelize = db.sequelize;
 
 const app = express();
