@@ -1,13 +1,13 @@
 const express = require("express");
 const cors = require("cors");
-const rateLimit = require("express-rate-limit");
+//const rateLimit = require("express-rate-limit");
 const routes = require("./routes/index");
 const auth = require("./middleware/auth");
 const errorHandler = require("./middleware/errorHandler");
 const formatDateMiddleware = require("./utils/formatDate");
  const login = require("./routes/login");
 const db = require("./models");
-const limiter = rateLimit({ windowMs: 24 * 60 * 60 * 1000 });
+//const limiter = rateLimit({ windowMs: 24 * 60 * 60 * 1000 });
 const sequelize = db.sequelize;
 
 const app = express();
@@ -20,7 +20,7 @@ app.use(
 );
 app.use(express.json());
 app.use(formatDateMiddleware);
-app.use(limiter);
+// app.use(limiter);
  app.use("/api", login); // Public route
 // Protected routes
 app.use("/api", auth, routes);
