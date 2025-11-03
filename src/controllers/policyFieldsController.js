@@ -1,4 +1,4 @@
-const { getMotor } = require('../services/motorService');
+const { getMotor } = require('../services/policyFieldsService');
 const { successResponse, errorResponse } = require('../utils/response');
 
 exports.getMotor = async (req, res) => {

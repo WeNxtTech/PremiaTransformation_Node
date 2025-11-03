@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const motorController = require('../controllers/motorController');
+const motorController = require('../controllers/policyFieldsController');
 
 router.get('/', motorController.getMotor);
 router.post('/save', motorController.saveMotorData);
