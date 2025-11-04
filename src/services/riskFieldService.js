@@ -1,57 +1,20 @@
 const { sequelize, QueryTypes } = require('../models');
 
-exports.get = async () => {
-  const query = `SELECT  IFD_INST_CODE "INSTANCE_CODE", IFD_PROG_CODE "PROGRAM_CODE", IFD_PB_BLK_NAME "TABLE_NAME",
-IFD_PBF_FLD_NAME "COLUMN_NAME",IFD_PROMPT "FIELD_PROMPT",IFD_SEQ_NO "DISPLAY_ORDER_NO",A.IFD_MANDATORY_YN_NUM "MANDATORY",
-IFD_DATA_TYPE "DATA_TYPE",a.ifd_form_item_type "SOURCE_DESIGN_TYPE",IFD_FLD_LEN "FIELD_LENGTH", IFD_DISP_LEN "DISPLAY_LENGTH",    
-IFD_HINT "TOOL_TIP"
-FROM IM_INSTANCE_FIELD_DEFN A
-WHERE IFD_PROG_CODE='PGIT6_03'
-AND IFD_PB_BLK_NAME='PGIT_POL_RISK_ADDL_INFO_01'
-AND IFD_HIDE_YN_NUM=2
-AND IFD_PBF_FLD_NAME NOT LIKE 'M_%' AND IFD_PROMPT IS NOT NULL
-AND IFD_CANVAS_NAME='PGIT_POL_RISK_ADDL_INFO_01'
-ORDER BY IFD_SEQ_NO;`;
-  const records = await sequelize.query(query, {
+exports.get = async (section_code,product_code) => {
+  const query = `select DISTINCT  PBD_PROD_CODE "PRODUCT_CODE",PBD_SEC_CODE "SECTION_CODE",PBD_TABLE_NAME "TABLE_NAME", PBD_BLOCK_NAME "BLOCK_NAME",PFD_FIELD_NAME "COLUMN_NAME",
+ PARA_NAME "DATA_TYPE",PFD_FIELD_SR_NO "DISPLAY_ORDER_NO", PFD_MANDATORY_YN "MANDATORY" ,PFD_DISPLAY_LENGTH "FIELD_LENGTH", PROD_DESC "PRODUCT",pfd_bp_text "FIELD_PROMPT"
+  from PCOM_APP_PARAMETER, pgim_prod_block_defn a , pgim_prod_field_defn b, PGIM_PRODUCT where pbd_prod_code = prod_code
+  and pfd_pbd_sys_id = pbd_sys_id AND PBD_LVL_NO = 1 AND PBD_SR_NO = 1 AND PBD_SEC_CODE = :section_code AND PROD_CODE = :product_code
+AND NVL(PFD_HIDE_YN,'0') <> '1' AND PFD_FIELD_NAME NOT LIKE 'M_PRAI_DESC%' AND PARA_CODE = 'DATA_TYPE' AND PARA_SUB_CODE =PFD_DATA_TYPE
+order by PBD_PROD_CODE, NVL(pfd_field_sr_no,9999)`;
+   const records = await sequelize.query(query, {
     type: QueryTypes.SELECT,
+    replacements: {
+      section_code,
+      product_code,
+    }
   });
 
   return records;
 };
 
-// const { sequelize, QueryTypes } = require('../models');
-
-// exports.get = async (progCode, blockName, modCode) => {
-//   let query = `
-//     SELECT IFD_INST_CODE "INSTANCE_CODE", IFD_PROG_CODE "PROGRAM_CODE", IFD_PB_BLK_NAME "TABLE_NAME",
-//            IFD_PBF_FLD_NAME "COLUMN_NAME", IFD_PROMPT "FIELD_PROMPT", IFD_SEQ_NO "DISPLAY_ORDER_NO",
-//            A.IFD_MANDATORY_YN_NUM "MANDATORY", IFD_DATA_TYPE "DATA_TYPE", a.ifd_form_item_type "SOURCE_DESIGN_TYPE",
-//            IFD_FLD_LEN "FIELD_LENGTH", IFD_DISP_LEN "DISPLAY_LENGTH", IFD_HINT "TOOL_TIP"
-//     FROM IM_INSTANCE_FIELD_DEFN A
-//     WHERE IFD_PROG_CODE = :progCode
-//       AND IFD_PB_BLK_NAME = :blockName
-//       AND IFD_HIDE_YN_NUM = 2
-//       AND IFD_PBF_FLD_NAME NOT LIKE 'M_%' 
-//       AND IFD_PROMPT IS NOT NULL
-//       AND IFD_CANVAS_NAME = :blockName
-//   `;
-
-//   if (modCode) {
-//     query += ' AND IFD_MOD_CODE = :modCode';
-//   } else {
-//     query += ' AND IFD_MOD_CODE IS NULL';
-//   }
-
-//   query += ' ORDER BY IFD_SEQ_NO';
-
-//   const records = await sequelize.query(query, {
-//     type: QueryTypes.SELECT,
-//     replacements: {
-//       progCode,
-//       blockName,
-//       modCode
-//     }
-//   });
-
-//   return records;
-// };
