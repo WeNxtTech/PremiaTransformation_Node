@@ -5,11 +5,15 @@ const routes = require("./routes/index");
 const auth = require("./middleware/auth");
 const errorHandler = require("./middleware/errorHandler");
 const formatDateMiddleware = require("./utils/formatDate");
- const login = require("./routes/login");
+const login = require("./routes/login");
 const db = require("./models");
 //const limiter = rateLimit({ windowMs: 24 * 60 * 60 * 1000 });
 const sequelize = db.sequelize;
 const app = express();
+// app.use("/", (req, res, next) => {
+//   console.log(`Request URL: ${req.url} - Method: ${req.method}`);
+//   next()
+// });
 app.use(
   cors({
     origin: "*",
@@ -20,10 +24,10 @@ app.use(
 app.use(express.json());
 app.use(formatDateMiddleware);
 // app.use(limiter);
- app.use("/api", login); // Public route
+app.use("/api", login); // Public route
 // Protected routes
 app.use("/api", auth, routes);
-app.use("/api", routes); 
+app.use("/api", routes);
 app.use(errorHandler);
 
 sequelize
