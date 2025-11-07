@@ -4,5 +4,6 @@ const logincontroller = require('../controllers/logincontroller');
  
  
 router.post('/login', logincontroller.login);
+router.get('/health', logincontroller.checkHealth);
  
 module.exports = router;

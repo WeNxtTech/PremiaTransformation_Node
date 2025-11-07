@@ -9,7 +9,6 @@ const formatDateMiddleware = require("./utils/formatDate");
 const db = require("./models");
 //const limiter = rateLimit({ windowMs: 24 * 60 * 60 * 1000 });
 const sequelize = db.sequelize;
-
 const app = express();
 app.use(
   cors({

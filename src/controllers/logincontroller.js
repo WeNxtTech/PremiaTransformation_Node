@@ -10,3 +10,10 @@ exports.login = async (req, res, next) => {
     next(err);
   }
 };
+exports.checkHealth = async (req, res, next) => {
+  try {
+    return successResponse(res, 200, "Health ok", {});
+  } catch (err) {
+    next(err);
+  }
+};
