@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_prem_calc_type: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_PREM_CALC_TYPE' 
     }
@@ -72,14 +72,14 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_ri_basis: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_RI_BASIS' 
     }
     ,
    pol_sts: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_STS' 
     }
@@ -93,7 +93,7 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_appr_sts: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_APPR_STS' 
     }
@@ -149,14 +149,14 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_rec_type: { 
       type: DataTypes.STRING(1), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_REC_TYPE' 
     }
     ,
    pol_mode_of_pay: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_MODE_OF_PAY' 
     }
@@ -191,7 +191,7 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_ncb_yrs: { 
       type: DataTypes.INTEGER, 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_NCB_YRS' 
     }
@@ -345,14 +345,14 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_flex_18: { 
       type: DataTypes.STRING(240), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_FLEX_18' 
     }
     ,
    pol_flex_19: { 
       type: DataTypes.STRING(240), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_FLEX_19' 
     }
@@ -366,14 +366,14 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_cr_uid: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_CR_UID' 
     }
     ,
    pol_cr_dt: { 
       type: DataTypes.DATE, 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_CR_DT' 
     }
@@ -604,7 +604,7 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_ri_ceding_basis: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_RI_CEDING_BASIS' 
     }
@@ -618,63 +618,63 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_dept_code: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_DEPT_CODE' 
     }
     ,
    pol_ds_type: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_DS_TYPE' 
     }
     ,
    pol_ds_code: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_DS_CODE' 
     }
     ,
    pol_src_type: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_SRC_TYPE' 
     }
     ,
    pol_src_code: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_SRC_CODE' 
     }
     ,
    pol_bus_type: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_BUS_TYPE' 
     }
     ,
    pol_class_code: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_CLASS_CODE' 
     }
     ,
    pol_prod_code: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_PROD_CODE' 
     }
     ,
    pol_walk_in_cust_yn: { 
       type: DataTypes.STRING(1), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_WALK_IN_CUST_YN' 
     }
@@ -695,14 +695,14 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_cust_code: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_CUST_CODE' 
     }
     ,
    pol_assr_code: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_ASSR_CODE' 
     }
@@ -723,7 +723,7 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_addr_01: { 
       type: DataTypes.STRING(240), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_ADDR_01' 
     }
@@ -814,7 +814,7 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_no: { 
       type: DataTypes.STRING(60), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_NO' 
     }
@@ -835,14 +835,14 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_fm_dt: { 
       type: DataTypes.DATE, 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_FM_DT' 
     }
     ,
    pol_to_dt: { 
       type: DataTypes.DATE, 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_TO_DT' 
     }
@@ -863,7 +863,7 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_duration_type: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_DURATION_TYPE' 
     }
@@ -891,14 +891,14 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_dflt_si_curr_code: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_DFLT_SI_CURR_CODE' 
     }
     ,
    pol_prem_curr_code: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_PREM_CURR_CODE' 
     }
@@ -989,14 +989,14 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_catg: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_CATG' 
     }
     ,
    pol_type: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_TYPE' 
     }
@@ -1248,7 +1248,7 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_sys_id: { 
       type: DataTypes.INTEGER, 
-      allowNull: true, 
+      allowNull: false, 
       primaryKey: true,
       autoIncrement: true,
       field: 'POL_SYS_ID' 
@@ -1256,28 +1256,28 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pol_end_no_idx: { 
       type: DataTypes.INTEGER, 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_END_NO_IDX' 
     }
     ,
    pol_end_sr_no: { 
       type: DataTypes.INTEGER, 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_END_SR_NO' 
     }
     ,
    pol_comp_code: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_COMP_CODE' 
     }
     ,
    pol_divn_code: { 
       type: DataTypes.STRING(12), 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'POL_DIVN_CODE' 
     }
@@ -2495,7 +2495,7 @@ module.exports = (sequelize, DataTypes) => {
     
     }, {
         tableName: 'PGIT_POLICY',
-        timestamps: true,
+        timestamps: false,
         freezeTableName: true,
         underscored: true,
     });
