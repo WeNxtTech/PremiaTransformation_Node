@@ -15,6 +15,7 @@ exports.getAll = async (req, res, next) => {
 exports.create = async (req, res, next) => {
   try {
     const result = await pgitPolicyService.create(req.body);
+    console(responseData)
     return successResponse(res, 201, "Created", result);
   } catch (err) {
     next(err);

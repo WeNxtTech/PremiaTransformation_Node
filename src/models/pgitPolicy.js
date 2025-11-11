@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       field: 'POL_NO_OF_LTERM_YRS' 
     }
     ,
-   pol_prem_calc_type: { 
+   POL_PREM_CALC_TYPE: { 
       type: DataTypes.STRING(12), 
       allowNull: false, 
       
