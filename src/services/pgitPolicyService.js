@@ -13,14 +13,14 @@ async function getNextPolSysId() {
 exports.create = async (data) => {
   console.log(data);
   const nextId = await getNextPolSysId();
-  data.pol_sys_id = nextId;
+  data.POL_SYS_ID = nextId;
 
   const createdRecord = await PgitPolicy.create(data);
 
   const responseData = {
-    pol_sys_id: createdRecord.pol_sys_id,
-    pol_end_no_idx: createdRecord.pol_end_no_idx,
-    pol_end_sr_no: createdRecord.pol_end_sr_no
+    POL_SYS_ID: createdRecord.POL_SYS_ID,
+    POL_END_NO_IDX: createdRecord.POL_END_NO_IDX,
+    POL_END_SR_NO: createdRecord.POL_END_SR_NO                                                                                         
   };
 
   return {
