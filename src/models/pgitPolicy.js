@@ -1,2503 +1,936 @@
+// models/pgit_policy.js
+
 module.exports = (sequelize, DataTypes) => {
-  const PgitPolicy = sequelize.define('PgitPolicy', {
-       pol_long_term_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_LONG_TERM_YN' 
-    }
-    ,
-   pol_inst_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_INST_YN' 
-    }
-    ,
-   pol_no_of_inst: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_NO_OF_INST' 
-    }
-    ,
-   pol_lterm_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_LTERM_TYPE' 
-    }
-    ,
-   pol_no_of_lterm_yrs: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_NO_OF_LTERM_YRS' 
-    }
-    ,
-   pol_prem_calc_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: false, 
-      
-      field: 'POL_PREM_CALC_TYPE' 
-    }
-    ,
-   pol_no_risk: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_NO_RISK' 
-    }
-    ,
-   pol_no_section: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_NO_SECTION' 
-    }
-    ,
-   pol_fac_pool_code: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_FAC_POOL_CODE' 
-    }
-    ,
-   pol_coins_pool_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_COINS_POOL_CODE' 
-    }
-    ,
-   pol_ri_basis: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_RI_BASIS' 
-    }
-    ,
-   pol_sts: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_STS' 
-    }
-    ,
-   pol_convert_type: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_CONVERT_TYPE' 
-    }
-    ,
-   pol_appr_sts: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_APPR_STS' 
-    }
-    ,
-   pol_appr_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_APPR_DT' 
-    }
-    ,
-   pol_appr_uid: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_APPR_UID' 
-    }
-    ,
-   pol_close_flag: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_CLOSE_FLAG' 
-    }
-    ,
-   pol_close_reason: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_CLOSE_REASON' 
-    }
-    ,
-   pol_close_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_CLOSE_DT' 
-    }
-    ,
-   pol_clm_sys_id: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_CLM_SYS_ID' 
-    }
-    ,
-   pol_clm_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_CLM_NO' 
-    }
-    ,
-   pol_rec_type: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_REC_TYPE' 
-    }
-    ,
-   pol_mode_of_pay: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_MODE_OF_PAY' 
-    }
-    ,
-   pol_short_coll_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_SHORT_COLL_YN' 
-    }
-    ,
-   pol_si_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_SI_LC_1' 
-    }
-    ,
-   pol_si_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_SI_LC_3' 
-    }
-    ,
-   pol_si_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_SI_LC_2' 
-    }
-    ,
-   pol_ncb_yrs: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_NCB_YRS' 
-    }
-    ,
-   pol_clm_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_CLM_YN' 
-    }
-    ,
-   pol_service_tax_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_SERVICE_TAX_YN' 
-    }
-    ,
-   pol_adv_prem_proc_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_ADV_PREM_PROC_YN' 
-    }
-    ,
-   pol_uw_year: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_UW_YEAR' 
-    }
-    ,
-   pol_flex_01: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_01' 
-    }
-    ,
-   pol_flex_02: { 
-      type: DataTypes.STRING(400), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_02' 
-    }
-    ,
-   pol_flex_03: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_03' 
-    }
-    ,
-   pol_flex_04: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_04' 
-    }
-    ,
-   pol_flex_05: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_05' 
-    }
-    ,
-   pol_flex_06: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_06' 
-    }
-    ,
-   pol_flex_07: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_07' 
-    }
-    ,
-   pol_flex_08: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_08' 
-    }
-    ,
-   pol_flex_09: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_09' 
-    }
-    ,
-   pol_flex_10: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_10' 
-    }
-    ,
-   pol_flex_11: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_11' 
-    }
-    ,
-   pol_flex_12: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_12' 
-    }
-    ,
-   pol_flex_13: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_13' 
-    }
-    ,
-   pol_flex_14: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_14' 
-    }
-    ,
-   pol_flex_15: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_15' 
-    }
-    ,
-   pol_flex_16: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_16' 
-    }
-    ,
-   pol_flex_17: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_17' 
-    }
-    ,
-   pol_flex_18: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_18' 
-    }
-    ,
-   pol_flex_19: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_19' 
-    }
-    ,
-   pol_flex_20: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_20' 
-    }
-    ,
-   pol_cr_uid: { 
-      type: DataTypes.STRING(12), 
-      allowNull: false, 
-      
-      field: 'POL_CR_UID' 
-    }
-    ,
-   pol_cr_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: false, 
-      
-      field: 'POL_CR_DT' 
-    }
-    ,
-   pol_upd_uid: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_UPD_UID' 
-    }
-    ,
-   pol_upd_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_UPD_DT' 
-    }
-    ,
-   pol_prem_freeze_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_PREM_FREEZE_YN' 
-    }
-    ,
-   pol_add_prem_calc_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_ADD_PREM_CALC_TYPE' 
-    }
-    ,
-   pol_city: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_CITY' 
-    }
-    ,
-   pol_country: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_COUNTRY' 
-    }
-    ,
-   pol_end_layup_adj_method: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_END_LAYUP_ADJ_METHOD' 
-    }
-    ,
-   pol_addr_state: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_ADDR_STATE' 
-    }
-    ,
-   pol_retro_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_RETRO_DT' 
-    }
-    ,
-   pol_org_si_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_SI_LC_1' 
-    }
-    ,
-   pol_org_si_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_SI_LC_2' 
-    }
-    ,
-   pol_org_si_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_SI_LC_3' 
-    }
-    ,
-   pol_sgn_sts: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_SGN_STS' 
-    }
-    ,
-   pol_decl_cnt_srno: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_DECL_CNT_SRNO' 
-    }
-    ,
-   pol_pml_perc: { 
-      type: DataTypes.DECIMAL(8, 5), 
-      allowNull: true, 
-      
-      field: 'POL_PML_PERC' 
-    }
-    ,
-   pol_pml_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_PML_LC_1' 
-    }
-    ,
-   pol_pml_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_PML_LC_2' 
-    }
-    ,
-   pol_pml_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_PML_LC_3' 
-    }
-    ,
-   pol_stamp_duty_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_STAMP_DUTY_YN' 
-    }
-    ,
-   pol_org_pml_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_PML_LC_1' 
-    }
-    ,
-   pol_org_pml_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_PML_LC_2' 
-    }
-    ,
-   pol_org_pml_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_PML_LC_3' 
-    }
-    ,
-   pol_prd_sys_id: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_PRD_SYS_ID' 
-    }
-    ,
-   pol_prd_ra_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_PRD_RA_NO' 
-    }
-    ,
-   pol_instl_method: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_INSTL_METHOD' 
-    }
-    ,
-   pol_clm_total_loss_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_CLM_TOTAL_LOSS_YN' 
-    }
-    ,
-   pol_tot_refund_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_TOT_REFUND_YN' 
-    }
-    ,
-   pol_ncb_perc: { 
-      type: DataTypes.DECIMAL(8, 5), 
-      allowNull: true, 
-      
-      field: 'POL_NCB_PERC' 
-    }
-    ,
-   pol_profit_comm_perc: { 
-      type: DataTypes.DECIMAL(8, 5), 
-      allowNull: true, 
-      
-      field: 'POL_PROFIT_COMM_PERC' 
-    }
-    ,
-   pol_qualify_perc: { 
-      type: DataTypes.DECIMAL(8, 5), 
-      allowNull: true, 
-      
-      field: 'POL_QUALIFY_PERC' 
-    }
-    ,
-   pol_coll_divn_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_COLL_DIVN_CODE' 
-    }
-    ,
-   pol_prem_curr_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_PREM_CURR_TYPE' 
-    }
-    ,
-   pol_ri_ceding_basis: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_RI_CEDING_BASIS' 
-    }
-    ,
-   pol_refund_period_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_REFUND_PERIOD_TYPE' 
-    }
-    ,
-   pol_dept_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: false, 
-      
-      field: 'POL_DEPT_CODE' 
-    }
-    ,
-   pol_ds_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_DS_TYPE' 
-    }
-    ,
-   pol_ds_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_DS_CODE' 
-    }
-    ,
-   pol_src_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_SRC_TYPE' 
-    }
-    ,
-   pol_src_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_SRC_CODE' 
-    }
-    ,
-   pol_bus_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_BUS_TYPE' 
-    }
-    ,
-   pol_class_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_CLASS_CODE' 
-    }
-    ,
-   pol_prod_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: false, 
-      
-      field: 'POL_PROD_CODE' 
-    }
-    ,
-   pol_walk_in_cust_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_WALK_IN_CUST_YN' 
-    }
-    ,
-   pol_irda_class_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_IRDA_CLASS_CODE' 
-    }
-    ,
-   pol_irda_social_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_IRDA_SOCIAL_TYPE' 
-    }
-    ,
-   pol_cust_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_CUST_CODE' 
-    }
-    ,
-   pol_assr_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_ASSR_CODE' 
-    }
-    ,
-   pol_assr_name: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_ASSR_NAME' 
-    }
-    ,
-   pol_cust_cons_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_CUST_CONS_CODE' 
-    }
-    ,
-   pol_addr_01: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_ADDR_01' 
-    }
-    ,
-   pol_addr_02: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_ADDR_02' 
-    }
-    ,
-   pol_addr_03: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_ADDR_03' 
-    }
-    ,
-   pol_tel_no: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_TEL_NO' 
-    }
-    ,
-   pol_fax_no: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FAX_NO' 
-    }
-    ,
-   pol_email_id: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_EMAIL_ID' 
-    }
-    ,
-   pol_state: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_STATE' 
-    }
-    ,
-   pol_district: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_DISTRICT' 
-    }
-    ,
-   pol_taluk: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_TALUK' 
-    }
-    ,
-   pol_village: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_VILLAGE' 
-    }
-    ,
-   pol_pin_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_PIN_CODE' 
-    }
-    ,
-   pol_open_pol_sys_id: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_OPEN_POL_SYS_ID' 
-    }
-    ,
-   pol_open_pol_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_OPEN_POL_NO' 
-    }
-    ,
-   pol_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: false, 
-      
-      field: 'POL_NO' 
-    }
-    ,
-   pol_issue_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_ISSUE_DT' 
-    }
-    ,
-   pol_dt_tba: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_DT_TBA' 
-    }
-    ,
-   pol_fm_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_FM_DT' 
-    }
-    ,
-   pol_to_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_TO_DT' 
-    }
-    ,
-   pol_period_unit: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_PERIOD_UNIT' 
-    }
-    ,
-   pol_period: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_PERIOD' 
-    }
-    ,
-   pol_duration_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_DURATION_TYPE' 
-    }
-    ,
-   pol_nl_fm_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_NL_FM_DT' 
-    }
-    ,
-   pol_nl_to_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_NL_TO_DT' 
-    }
-    ,
-   pol_interest: { 
-      type: DataTypes.STRING(2000), 
-      allowNull: true, 
-      
-      field: 'POL_INTEREST' 
-    }
-    ,
-   pol_dflt_si_curr_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_DFLT_SI_CURR_CODE' 
-    }
-    ,
-   pol_prem_curr_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_PREM_CURR_CODE' 
-    }
-    ,
-   pol_prem_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_PREM_LC_1' 
-    }
-    ,
-   pol_prem_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_PREM_LC_2' 
-    }
-    ,
-   pol_prem_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_PREM_LC_3' 
-    }
-    ,
-   pol_org_prem_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_PREM_LC_1' 
-    }
-    ,
-   pol_org_prem_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_PREM_LC_2' 
-    }
-    ,
-   pol_org_prem_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_PREM_LC_3' 
-    }
-    ,
-   pol_clm_intm_days: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_CLM_INTM_DAYS' 
-    }
-    ,
-   pol_issue_officer_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_ISSUE_OFFICER_CODE' 
-    }
-    ,
-   pol_cn_agent_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_CN_AGENT_CODE' 
-    }
-    ,
-   pol_cn_dev_off_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_CN_DEV_OFF_CODE' 
-    }
-    ,
-   pol_cn_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_CN_NO' 
-    }
-    ,
-   pol_cn_iss_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_CN_ISS_DT' 
-    }
-    ,
-   pol_catg: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_CATG' 
-    }
-    ,
-   pol_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_TYPE' 
-    }
-    ,
-   pol_end_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_END_TYPE' 
-    }
-    ,
-   pol_end_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_END_CODE' 
-    }
-    ,
-   pol_end_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_END_NO' 
-    }
-    ,
-   pol_end_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_END_DT' 
-    }
-    ,
-   pol_end_eff_fm_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_END_EFF_FM_DT' 
-    }
-    ,
-   pol_end_eff_to_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_END_EFF_TO_DT' 
-    }
-    ,
-   pol_end_desc: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_END_DESC' 
-    }
-    ,
-   pol_remarks: { 
-      type: DataTypes.STRING(2000), 
-      allowNull: true, 
-      
-      field: 'POL_REMARKS' 
-    }
-    ,
-   pol_claim_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_CLAIM_NO' 
-    }
-    ,
-   pol_hypothecation_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_HYPOTHECATION_YN' 
-    }
-    ,
-   pol_fleet_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FLEET_YN' 
-    }
-    ,
-   pol_our_share_perc: { 
-      type: DataTypes.DECIMAL(8, 5), 
-      allowNull: true, 
-      
-      field: 'POL_OUR_SHARE_PERC' 
-    }
-    ,
-   pol_our_share_si_fc: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_OUR_SHARE_SI_FC' 
-    }
-    ,
-   pol_our_share_si_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_OUR_SHARE_SI_LC_1' 
-    }
-    ,
-   pol_our_share_si_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_OUR_SHARE_SI_LC_2' 
-    }
-    ,
-   pol_our_share_si_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_OUR_SHARE_SI_LC_3' 
-    }
-    ,
-   pol_our_share_prem_fc: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_OUR_SHARE_PREM_FC' 
-    }
-    ,
-   pol_our_share_prem_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_OUR_SHARE_PREM_LC_1' 
-    }
-    ,
-   pol_our_share_prem_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_OUR_SHARE_PREM_LC_2' 
-    }
-    ,
-   pol_our_share_prem_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_OUR_SHARE_PREM_LC_3' 
-    }
-    ,
-   pol_org_our_share_perc: { 
-      type: DataTypes.DECIMAL(8, 5), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_OUR_SHARE_PERC' 
-    }
-    ,
-   pol_org_our_share_si_fc: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_OUR_SHARE_SI_FC' 
-    }
-    ,
-   pol_org_our_share_si_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_OUR_SHARE_SI_LC_1' 
-    }
-    ,
-   pol_org_our_share_si_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_OUR_SHARE_SI_LC_2' 
-    }
-    ,
-   pol_org_our_share_si_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_OUR_SHARE_SI_LC_3' 
-    }
-    ,
-   pol_org_our_share_prem_fc: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_OUR_SHARE_PREM_FC' 
-    }
-    ,
-   pol_org_our_share_prem_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_OUR_SHARE_PREM_LC_1' 
-    }
-    ,
-   pol_org_our_share_prem_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_OUR_SHARE_PREM_LC_2' 
-    }
-    ,
-   pol_org_our_share_prem_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ORG_OUR_SHARE_PREM_LC_3' 
-    }
-    ,
-   pol_quot_sys_id: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_QUOT_SYS_ID' 
-    }
-    ,
-   pol_quot_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_QUOT_NO' 
-    }
-    ,
-   pol_ren_pol_sys_id: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_REN_POL_SYS_ID' 
-    }
-    ,
-   pol_ren_pol_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_REN_POL_NO' 
-    }
-    ,
-   pol_ren_cnt_sr_no: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_REN_CNT_SR_NO' 
-    }
-    ,
-   pol_rph_sys_id: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_RPH_SYS_ID' 
-    }
-    ,
-   pol_sys_id: { 
-      type: DataTypes.INTEGER, 
-      allowNull: false, 
-      primaryKey: true,
-      autoIncrement: true,
-      field: 'POL_SYS_ID' 
-    }
-    ,
-   pol_end_no_idx: { 
-      type: DataTypes.INTEGER, 
-      allowNull: false, 
-      
-      field: 'POL_END_NO_IDX' 
-    }
-    ,
-   pol_end_sr_no: { 
-      type: DataTypes.INTEGER, 
-      allowNull: false, 
-      
-      field: 'POL_END_SR_NO' 
-    }
-    ,
-   pol_comp_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: false, 
-      
-      field: 'POL_COMP_CODE' 
-    }
-    ,
-   pol_divn_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: false, 
-      
-      field: 'POL_DIVN_CODE' 
-    }
-    ,
-   pol_iteration_reason: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_ITERATION_REASON' 
-    }
-    ,
-   pol_prod_symbol: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_PROD_SYMBOL' 
-    }
-    ,
-   pol_uw_id: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_UW_ID' 
-    }
-    ,
-   pol_quot_recvd_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_QUOT_RECVD_DT' 
-    }
-    ,
-   pol_agent_contact_name: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_AGENT_CONTACT_NAME' 
-    }
-    ,
-   pol_agent_contact_no: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_AGENT_CONTACT_NO' 
-    }
-    ,
-   pol_agent_contact_email_id: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_AGENT_CONTACT_EMAIL_ID' 
-    }
-    ,
-   pol_ctrl_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_CTRL_DT' 
-    }
-    ,
-   pol_end_ctrl_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_END_CTRL_DT' 
-    }
-    ,
-   pol_producer_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_PRODUCER_CODE' 
-    }
-    ,
-   pol_sic_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_SIC_CODE' 
-    }
-    ,
-   pol_sic_group: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_SIC_GROUP' 
-    }
-    ,
-   pol_prior_pol_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_PRIOR_POL_NO' 
-    }
-    ,
-   pol_terrorism_appl_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_TERRORISM_APPL_YN' 
-    }
-    ,
-   pol_dnr_reason: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_DNR_REASON' 
-    }
-    ,
-   pol_terr_val_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_TERR_VAL_TYPE' 
-    }
-    ,
-   pol_ren_reason: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_REN_REASON' 
-    }
-    ,
-   pol_conv_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_CONV_DT' 
-    }
-    ,
-   pol_clm_made_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_CLM_MADE_YN' 
-    }
-    ,
-   pol_intl_end_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_INTL_END_YN' 
-    }
-    ,
-   pol_ren_manual_move_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_REN_MANUAL_MOVE_YN' 
-    }
-    ,
-   pol_ren_proc_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_REN_PROC_TYPE' 
-    }
-    ,
-   pol_rewritten_pol_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_REWRITTEN_POL_NO' 
-    }
-    ,
-   pol_uw_review_reqd_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_UW_REVIEW_REQD_YN' 
-    }
-    ,
-   pol_uw_reviewed_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_UW_REVIEWED_YN' 
-    }
-    ,
-   pol_lap_reason: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_LAP_REASON' 
-    }
-    ,
-   pol_ent_compl_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_ENT_COMPL_YN' 
-    }
-    ,
-   pol_ri_ded_inw_comm: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_RI_DED_INW_COMM' 
-    }
-    ,
-   pol_ri_prem_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_RI_PREM_TYPE' 
-    }
-    ,
-   pol_ri_end_alloc_basis: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_RI_END_ALLOC_BASIS' 
-    }
-    ,
-   pol_fac_prov_on: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_FAC_PROV_ON' 
-    }
-    ,
-   pol_coins_issue_type: { 
-      type: DataTypes.STRING(2), 
-      allowNull: true, 
-      
-      field: 'POL_COINS_ISSUE_TYPE' 
-    }
-    ,
-   pol_link_alloc_comb_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_LINK_ALLOC_COMB_YN' 
-    }
-    ,
-   pol_depo_prem_perc: { 
-      type: DataTypes.DECIMAL(8, 5), 
-      allowNull: true, 
-      
-      field: 'POL_DEPO_PREM_PERC' 
-    }
-    ,
-   pol_first_loss_perc: { 
-      type: DataTypes.DECIMAL(8, 5), 
-      allowNull: true, 
-      
-      field: 'POL_FIRST_LOSS_PERC' 
-    }
-    ,
-   pol_coins_part_lvl: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_COINS_PART_LVL' 
-    }
-    ,
-   pol_sing_ac_brk: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_SING_AC_BRK' 
-    }
-    ,
-   pol_collector_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_COLLECTOR_CODE' 
-    }
-    ,
-   pol_collector_name: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_COLLECTOR_NAME' 
-    }
-    ,
-   pol_acnt_handler_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_ACNT_HANDLER_CODE' 
-    }
-    ,
-   pol_acnt_handler_name: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_ACNT_HANDLER_NAME' 
-    }
-    ,
-   pol_fac_perc: { 
-      type: DataTypes.DECIMAL(8, 5), 
-      allowNull: true, 
-      
-      field: 'POL_FAC_PERC' 
-    }
-    ,
-   pol_producer_name: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_PRODUCER_NAME' 
-    }
-    ,
-   pol_inst_cvr_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_INST_CVR_YN' 
-    }
-    ,
-   pol_grace_appl_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_GRACE_APPL_YN' 
-    }
-    ,
-   pol_grace_end_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_GRACE_END_DT' 
-    }
-    ,
-   pol_trafic_serial: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_TRAFIC_SERIAL' 
-    }
-    ,
-   pol_wf_sts: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_WF_STS' 
-    }
-    ,
-   pol_najm_sts: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_NAJM_STS' 
-    }
-    ,
-   pol_najm_remarks: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_NAJM_REMARKS' 
-    }
-    ,
-   pol_cbc_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_CBC_YN' 
-    }
-    ,
-   pol_pkg_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_PKG_CODE' 
-    }
-    ,
-   pol_scheme: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_SCHEME' 
-    }
-    ,
-   pol_comm_channel: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_COMM_CHANNEL' 
-    }
-    ,
-   pol_br_status: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_BR_STATUS' 
-    }
-    ,
-   pol_parent_pol_sys_id: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_PARENT_POL_SYS_ID' 
-    }
-    ,
-   pol_user_end_no_idx: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_USER_END_NO_IDX' 
-    }
-    ,
-   pol_sm_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_SM_CODE' 
-    }
-    ,
-   pol_remarks_01: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_REMARKS_01' 
-    }
-    ,
-   pol_remarks_02: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_REMARKS_02' 
-    }
-    ,
-   pol_remarks_03: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_REMARKS_03' 
-    }
-    ,
-   pol_prem_warr_days: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_PREM_WARR_DAYS' 
-    }
-    ,
-   pol_flex_21: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_21' 
-    }
-    ,
-   pol_flex_22: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_22' 
-    }
-    ,
-   pol_flex_23: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_23' 
-    }
-    ,
-   pol_flex_24: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_24' 
-    }
-    ,
-   pol_flex_25: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_25' 
-    }
-    ,
-   pol_assr_contact_no: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_ASSR_CONTACT_NO' 
-    }
-    ,
-   pol_assr_contact_mail_id: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_ASSR_CONTACT_MAIL_ID' 
-    }
-    ,
-   pol_flex_num_01: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_NUM_01' 
-    }
-    ,
-   pol_flex_num_02: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_NUM_02' 
-    }
-    ,
-   pol_flex_num_03: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_NUM_03' 
-    }
-    ,
-   pol_flex_num_04: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_NUM_04' 
-    }
-    ,
-   pol_flex_num_05: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_NUM_05' 
-    }
-    ,
-   pol_flex_dt_01: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_DT_01' 
-    }
-    ,
-   pol_flex_dt_02: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_DT_02' 
-    }
-    ,
-   pol_flex_dt_03: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_DT_03' 
-    }
-    ,
-   pol_flex_dt_04: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_DT_04' 
-    }
-    ,
-   pol_flex_dt_05: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_DT_05' 
-    }
-    ,
-   pol_remarks_04: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_REMARKS_04' 
-    }
-    ,
-   pol_remarks_05: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_REMARKS_05' 
-    }
-    ,
-   pol_flex_26: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_26' 
-    }
-    ,
-   pol_flex_27: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_27' 
-    }
-    ,
-   pol_flex_28: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_28' 
-    }
-    ,
-   pol_flex_29: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_29' 
-    }
-    ,
-   pol_flex_30: { 
-      type: DataTypes.STRING(240), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_30' 
-    }
-    ,
-   pol_dish_ref_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_DISH_REF_NO' 
-    }
-    ,
-   pol_dish_chq_no: { 
-      type: DataTypes.STRING(30), 
-      allowNull: true, 
-      
-      field: 'POL_DISH_CHQ_NO' 
-    }
-    ,
-   pol_chq_dish_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_CHQ_DISH_TYPE' 
-    }
-    ,
-   pol_aoa_limit_fc: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_AOA_LIMIT_FC' 
-    }
-    ,
-   pol_aoa_limit_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_AOA_LIMIT_LC_1' 
-    }
-    ,
-   pol_aoa_limit_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_AOA_LIMIT_LC_2' 
-    }
-    ,
-   pol_aoa_limit_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_AOA_LIMIT_LC_3' 
-    }
-    ,
-   pol_aoy_limit_fc: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_AOY_LIMIT_FC' 
-    }
-    ,
-   pol_aoy_limit_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_AOY_LIMIT_LC_1' 
-    }
-    ,
-   pol_aoy_limit_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_AOY_LIMIT_LC_2' 
-    }
-    ,
-   pol_aoy_limit_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_AOY_LIMIT_LC_3' 
-    }
-    ,
-   pol_open_bal_lc_1: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_OPEN_BAL_LC_1' 
-    }
-    ,
-   pol_bill_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_BILL_TYPE' 
-    }
-    ,
-   pol_bill_acc_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_BILL_ACC_NO' 
-    }
-    ,
-   pol_tpa_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_TPA_CODE' 
-    }
-    ,
-   pol_close_bal_lc_1: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_CLOSE_BAL_LC_1' 
-    }
-    ,
-   pol_ose_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_OSE_YN' 
-    }
-    ,
-   pol_parent_end_no_idx: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_PARENT_END_NO_IDX' 
-    }
-    ,
-   pol_parent_end_sr_no: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_PARENT_END_SR_NO' 
-    }
-    ,
-   pol_ose_invalid_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_OSE_INVALID_YN' 
-    }
-    ,
-   pol_quot_exp_prd: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_QUOT_EXP_PRD' 
-    }
-    ,
-   pol_acnt_doc_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_ACNT_DOC_DT' 
-    }
-    ,
-   pol_cust_acnt_type: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_CUST_ACNT_TYPE' 
-    }
-    ,
-   pol_brk_acnt_type: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_BRK_ACNT_TYPE' 
-    }
-    ,
-   pol_suryr_acnt_type: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_SURYR_ACNT_TYPE' 
-    }
-    ,
-   pol_ren_sts: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_REN_STS' 
-    }
-    ,
-   pol_link_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_LINK_YN' 
-    }
-    ,
-   pol_link_pol_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_LINK_POL_NO' 
-    }
-    ,
-   pol_inst_code: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_INST_CODE' 
-    }
-    ,
-   pol_conv_inst_code: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_CONV_INST_CODE' 
-    }
-    ,
-   pol_assr_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_ASSR_TYPE' 
-    }
-    ,
-   pol_cancel_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_CANCEL_TYPE' 
-    }
-    ,
-   pol_decl_freq: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_DECL_FREQ' 
-    }
-    ,
-   pol_cal_yr: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_CAL_YR' 
-    }
-    ,
-   pol_pre_insp_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_PRE_INSP_YN' 
-    }
-    ,
-   pol_refund_even_claim: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_REFUND_EVEN_CLAIM' 
-    }
-    ,
-   pol_cn_book_id: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_CN_BOOK_ID' 
-    }
-    ,
-   pol_discovery_prd_appl_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_DISCOVERY_PRD_APPL_YN' 
-    }
-    ,
-   pol_discovery_prd_in_days: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_DISCOVERY_PRD_IN_DAYS' 
-    }
-    ,
-   pol_county: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_COUNTY' 
-    }
-    ,
-   pol_reject_reason: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_REJECT_REASON' 
-    }
-    ,
-   pol_revert_reason: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_REVERT_REASON' 
-    }
-    ,
-   pol_flex_yn_01: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_YN_01' 
-    }
-    ,
-   pol_flex_yn_02: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_YN_02' 
-    }
-    ,
-   pol_flex_yn_03: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_YN_03' 
-    }
-    ,
-   pol_flex_yn_04: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_YN_04' 
-    }
-    ,
-   pol_flex_yn_05: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_YN_05' 
-    }
-    ,
-   pol_flex_yn_06: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_YN_06' 
-    }
-    ,
-   pol_flex_yn_07: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_YN_07' 
-    }
-    ,
-   pol_flex_yn_08: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_YN_08' 
-    }
-    ,
-   pol_flex_yn_09: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_YN_09' 
-    }
-    ,
-   pol_flex_yn_10: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FLEX_YN_10' 
-    }
-    ,
-   pol_auto_renew_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_AUTO_RENEW_YN' 
-    }
-    ,
-   pol_do_not_ren_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_DO_NOT_REN_YN' 
-    }
-    ,
-   pol_non_ren_yr: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_NON_REN_YR' 
-    }
-    ,
-   pol_non_ren_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_NON_REN_YN' 
-    }
-    ,
-   pol_hold_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_HOLD_YN' 
-    }
-    ,
-   pol_end_adv_prem_adj_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_END_ADV_PREM_ADJ_TYPE' 
-    }
-    ,
-   pol_end_instl_appr_type: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_END_INSTL_APPR_TYPE' 
-    }
-    ,
-   pol_non_eff_fm_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_NON_EFF_FM_DT' 
-    }
-    ,
-   pol_non_eff_to_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: true, 
-      
-      field: 'POL_NON_EFF_TO_DT' 
-    }
-    ,
-   pol_annual_prem_lc_1: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ANNUAL_PREM_LC_1' 
-    }
-    ,
-   pol_annual_prem_lc_2: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ANNUAL_PREM_LC_2' 
-    }
-    ,
-   pol_annual_prem_lc_3: { 
-      type: DataTypes.DECIMAL(20, 3), 
-      allowNull: true, 
-      
-      field: 'POL_ANNUAL_PREM_LC_3' 
-    }
-    ,
-   pol_mail_attachment_url: { 
-      type: DataTypes.STRING(4000), 
-      allowNull: true, 
-      
-      field: 'POL_MAIL_ATTACHMENT_URL' 
-    }
-    ,
-   pol_old_pol_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_OLD_POL_NO' 
-    }
-    ,
-   pol_mar_rqst_no: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_MAR_RQST_NO' 
-    }
-    ,
-   pol_method_pay_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_METHOD_PAY_CODE' 
-    }
-    ,
-   pol_ind_ac_no: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_IND_AC_NO' 
-    }
-    ,
-   pol_excess_loss: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_EXCESS_LOSS' 
-    }
-    ,
-   pol_prod_number: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_PROD_NUMBER' 
-    }
-    ,
-   pol_mga_perc: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_MGA_PERC' 
-    }
-    ,
-   pol_cnct_sys_id: { 
-      type: DataTypes.INTEGER, 
-      allowNull: true, 
-      
-      field: 'POL_CNCT_SYS_ID' 
-    }
-    ,
-   pol_ren_rec: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_REN_REC' 
-    }
-    ,
-   pol_civil_id: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_CIVIL_ID' 
-    }
-    ,
-   pol_ref_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_REF_NO' 
-    }
-    ,
-   pol_no_cn_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_NO_CN_YN' 
-    }
-    ,
-   pol_salesman_code: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_SALESMAN_CODE' 
-    }
-    ,
-   pol_showromm_loc: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_SHOWROMM_LOC' 
-    }
-    ,
-   pol_nationality: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_NATIONALITY' 
-    }
-    ,
-   pol_comm_reg_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_COMM_REG_NO' 
-    }
-    ,
-   pol_substitute_car_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_SUBSTITUTE_CAR_YN' 
-    }
-    ,
-   pol_substitute_car: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_SUBSTITUTE_CAR' 
-    }
-    ,
-   pol_center_no: { 
-      type: DataTypes.STRING(60), 
-      allowNull: true, 
-      
-      field: 'POL_CENTER_NO' 
-    }
-    ,
-   pol_fac_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_FAC_YN' 
-    }
-    ,
-   pol_ra_appl_yn: { 
-      type: DataTypes.STRING(1), 
-      allowNull: true, 
-      
-      field: 'POL_RA_APPL_YN' 
-    }
-    ,
-   pol_ra_alloc_at: { 
-      type: DataTypes.STRING(12), 
-      allowNull: true, 
-      
-      field: 'POL_RA_ALLOC_AT' 
-    }
+  const PgitPolicy = sequelize.define(
+    "PgitPolicy",
+    {
+      POL_SYS_ID: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        primaryKey: true,
+        field: "POL_SYS_ID",
+      },
+      POL_END_NO_IDX: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: "POL_END_NO_IDX",
+      },
+      POL_END_SR_NO: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: "POL_END_SR_NO",
+      },
+      POL_COMP_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: false,
+        field: "POL_COMP_CODE",
+      },
+      POL_DIVN_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: false,
+        field: "POL_DIVN_CODE",
+      },
+      POL_DEPT_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: false,
+        field: "POL_DEPT_CODE",
+      },
+      POL_DS_TYPE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_DS_TYPE",
+      },
+      POL_DS_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_DS_CODE",
+      },
+      POL_SRC_TYPE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_SRC_TYPE",
+      },
+      POL_SRC_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_SRC_CODE",
+      },
+      POL_BUS_TYPE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_BUS_TYPE",
+      },
+      POL_CLASS_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_CLASS_CODE",
+      },
+      POL_PROD_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: false,
+        field: "POL_PROD_CODE",
+      },
+      POL_WALK_IN_CUST_YN: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_WALK_IN_CUST_YN",
+      },
+      POL_IRDA_CLASS_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_IRDA_CLASS_CODE",
+      },
+      POL_IRDA_SOCIAL_TYPE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_IRDA_SOCIAL_TYPE",
+      },
+      POL_CUST_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_CUST_CODE",
+      },
+      POL_ASSR_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_ASSR_CODE",
+      },
+      POL_ASSR_NAME: {
+        type: DataTypes.STRING(240),
+        allowNull: true,
+        field: "POL_ASSR_NAME",
+      },
+      POL_CUST_CONS_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_CUST_CONS_CODE",
+      },
+      POL_ADDR_01: {
+        type: DataTypes.STRING(240),
+        allowNull: true,
+        field: "POL_ADDR_01",
+      },
+      POL_ADDR_02: {
+        type: DataTypes.STRING(240),
+        allowNull: true,
+        field: "POL_ADDR_02",
+      },
+      POL_ADDR_03: {
+        type: DataTypes.STRING(240),
+        allowNull: true,
+        field: "POL_ADDR_03",
+      },
+      POL_TEL_NO: {
+        type: DataTypes.STRING(240),
+        allowNull: true,
+        field: "POL_TEL_NO",
+      },
+      POL_FAX_NO: {
+        type: DataTypes.STRING(240),
+        allowNull: true,
+        field: "POL_FAX_NO",
+      },
+      POL_EMAIL_ID: {
+        type: DataTypes.STRING(240),
+        allowNull: true,
+        field: "POL_EMAIL_ID",
+      },
+      POL_STATE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_STATE",
+      },
+      POL_DISTRICT: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_DISTRICT",
+      },
+      POL_TALUK: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_TALUK",
+      },
+      POL_VILLAGE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_VILLAGE",
+      },
+      POL_PIN_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_PIN_CODE",
+      },
+      POL_OPEN_POL_SYS_ID: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+        field: "POL_OPEN_POL_SYS_ID",
+      },
+      POL_OPEN_POL_NO: {
+        type: DataTypes.STRING(60),
+        allowNull: true,
+        field: "POL_OPEN_POL_NO",
+      },
+      POL_NO: {
+        type: DataTypes.STRING(60),
+        allowNull: false,
+        field: "POL_NO",
+      },
+      POL_ISSUE_DT: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: "POL_ISSUE_DT",
+      },
+      POL_DT_TBA: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_DT_TBA",
+      },
+      POL_FM_DT: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: "POL_FM_DT",
+      },
+      POL_TO_DT: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: "POL_TO_DT",
+      },
+      POL_PERIOD_UNIT: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_PERIOD_UNIT",
+      },
+      POL_PERIOD: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: "POL_PERIOD",
+      },
+      POL_DURATION_TYPE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_DURATION_TYPE",
+      },
+      POL_NL_FM_DT: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: "POL_NL_FM_DT",
+      },
+      POL_NL_TO_DT: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: "POL_NL_TO_DT",
+      },
+      POL_INTEREST: {
+        type: DataTypes.STRING(2000),
+        allowNull: true,
+        field: "POL_INTEREST",
+      },
+      POL_DFLT_SI_CURR_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_DFLT_SI_CURR_CODE",
+      },
+      POL_PREM_CURR_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_PREM_CURR_CODE",
+      },
+      POL_PREM_LC_1: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_PREM_LC_1",
+      },
+      POL_PREM_LC_2: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_PREM_LC_2",
+      },
+      POL_PREM_LC_3: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_PREM_LC_3",
+      },
+      POL_ORG_PREM_LC_1: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_ORG_PREM_LC_1",
+      },
+      POL_ORG_PREM_LC_2: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_ORG_PREM_LC_2",
+      },
+      POL_ORG_PREM_LC_3: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_ORG_PREM_LC_3",
+      },
+      POL_CLM_INTM_DAYS: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: "POL_CLM_INTM_DAYS",
+      },
+      POL_ISSUE_OFFICER_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_ISSUE_OFFICER_CODE",
+      },
+      POL_CN_AGENT_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_CN_AGENT_CODE",
+      },
+      POL_CN_DEV_OFF_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_CN_DEV_OFF_CODE",
+      },
+      POL_CN_NO: {
+        type: DataTypes.STRING(60),
+        allowNull: true,
+        field: "POL_CN_NO",
+      },
+      POL_CN_ISS_DT: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: "POL_CN_ISS_DT",
+      },
+      POL_CATG: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_CATG",
+      },
+      POL_TYPE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_TYPE",
+      },
+      POL_END_TYPE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_END_TYPE",
+      },
+      POL_END_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_END_CODE",
+      },
+      POL_END_NO: {
+        type: DataTypes.STRING(60),
+        allowNull: true,
+        field: "POL_END_NO",
+      },
+      POL_END_DT: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: "POL_END_DT",
+      },
+      POL_END_EFF_FM_DT: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: "POL_END_EFF_FM_DT",
+      },
+      POL_END_EFF_TO_DT: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: "POL_END_EFF_TO_DT",
+      },
+      POL_END_DESC: {
+        type: DataTypes.STRING(4000),
+        allowNull: true,
+        field: "POL_END_DESC",
+      },
+      POL_REMARKS: {
+        type: DataTypes.STRING(2000),
+        allowNull: true,
+        field: "POL_REMARKS",
+      },
+      POL_CLAIM_NO: {
+        type: DataTypes.STRING(60),
+        allowNull: true,
+        field: "POL_CLAIM_NO",
+      },
+      POL_HYPOTHECATION_YN: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_HYPOTHECATION_YN",
+      },
+      POL_FLEET_YN: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_FLEET_YN",
+      },
+      POL_OUR_SHARE_PERC: {
+        type: DataTypes.DECIMAL(8, 5),
+        allowNull: true,
+        field: "POL_OUR_SHARE_PERC",
+      },
+      POL_OUR_SHARE_SI_FC: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_OUR_SHARE_SI_FC",
+      },
+      POL_OUR_SHARE_SI_LC_1: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_OUR_SHARE_SI_LC_1",
+      },
+      POL_OUR_SHARE_SI_LC_2: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_OUR_SHARE_SI_LC_2",
+      },
+      POL_OUR_SHARE_SI_LC_3: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_OUR_SHARE_SI_LC_3",
+      },
+      POL_OUR_SHARE_PREM_FC: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_OUR_SHARE_PREM_FC",
+      },
+      POL_OUR_SHARE_PREM_LC_1: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_OUR_SHARE_PREM_LC_1",
+      },
+      POL_OUR_SHARE_PREM_LC_2: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_OUR_SHARE_PREM_LC_2",
+      },
+      POL_OUR_SHARE_PREM_LC_3: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_OUR_SHARE_PREM_LC_3",
+      },
+      POL_ORG_OUR_SHARE_PERC: {
+        type: DataTypes.DECIMAL(8, 5),
+        allowNull: true,
+        field: "POL_ORG_OUR_SHARE_PERC",
+      },
+      POL_ORG_OUR_SHARE_SI_FC: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_ORG_OUR_SHARE_SI_FC",
+      },
+      POL_ORG_OUR_SHARE_SI_LC_1: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_ORG_OUR_SHARE_SI_LC_1",
+      },
+      POL_ORG_OUR_SHARE_SI_LC_2: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_ORG_OUR_SHARE_SI_LC_2",
+      },
+      POL_ORG_OUR_SHARE_SI_LC_3: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_ORG_OUR_SHARE_SI_LC_3",
+      },
+      POL_ORG_OUR_SHARE_PREM_FC: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_ORG_OUR_SHARE_PREM_FC",
+      },
+      POL_ORG_OUR_SHARE_PREM_LC_1: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_ORG_OUR_SHARE_PREM_LC_1",
+      },
+      POL_ORG_OUR_SHARE_PREM_LC_2: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_ORG_OUR_SHARE_PREM_LC_2",
+      },
+      POL_ORG_OUR_SHARE_PREM_LC_3: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_ORG_OUR_SHARE_PREM_LC_3",
+      },
+      POL_QUOT_SYS_ID: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+        field: "POL_QUOT_SYS_ID",
+      },
+      POL_QUOT_NO: {
+        type: DataTypes.STRING(60),
+        allowNull: true,
+        field: "POL_QUOT_NO",
+      },
+      POL_REN_POL_SYS_ID: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+        field: "POL_REN_POL_SYS_ID",
+      },
+      POL_REN_POL_NO: {
+        type: DataTypes.STRING(60),
+        allowNull: true,
+        field: "POL_REN_POL_NO",
+      },
+      POL_REN_CNT_SR_NO: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: "POL_REN_CNT_SR_NO",
+      },
+      POL_RPH_SYS_ID: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+        field: "POL_RPH_SYS_ID",
+      },
+      POL_LONG_TERM_YN: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_LONG_TERM_YN",
+      },
+      POL_INST_YN: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_INST_YN",
+      },
+      POL_NO_OF_INST: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: "POL_NO_OF_INST",
+      },
+      POL_LTERM_TYPE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_LTERM_TYPE",
+      },
+      POL_NO_OF_LTERM_YRS: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_NO_OF_LTERM_YRS",
+      },
     
-    }, {
-        tableName: 'PGIT_POLICY',
-        timestamps: true,
-        freezeTableName: true,
-        underscored: true,
-    });
-    return PgitPolicy;
+
+
+
+
+
+
+
+
+
+
+
+
+// models/pgit_policy.js
+
+
+    
+      POL_PREM_CALC_TYPE: {
+        type: DataTypes.STRING(12),
+        allowNull: false,
+        field: "POL_PREM_CALC_TYPE",
+      },
+      POL_NO_RISK: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: "POL_NO_RISK",
+      },
+      POL_NO_SECTION: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: "POL_NO_SECTION",
+      },
+      POL_FAC_POOL_CODE: {
+        type: DataTypes.STRING(60),
+        allowNull: true,
+        field: "POL_FAC_POOL_CODE",
+      },
+      POL_COINS_POOL_CODE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_COINS_POOL_CODE",
+      },
+      POL_RI_BASIS: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        defaultValue: "02",
+        field: "POL_RI_BASIS",
+      },
+      POL_STS: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_STS",
+      },
+      POL_CONVERT_TYPE: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_CONVERT_TYPE",
+      },
+      POL_APPR_STS: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_APPR_STS",
+      },
+      POL_APPR_DT: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: "POL_APPR_DT",
+      },
+      POL_APPR_UID: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_APPR_UID",
+      },
+      POL_CLOSE_FLAG: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_CLOSE_FLAG",
+      },
+      POL_CLOSE_REASON: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_CLOSE_REASON",
+      },
+      POL_CLOSE_DT: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: "POL_CLOSE_DT",
+      },
+      POL_CLM_SYS_ID: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+        field: "POL_CLM_SYS_ID",
+      },
+      POL_CLM_NO: {
+        type: DataTypes.STRING(60),
+        allowNull: true,
+        field: "POL_CLM_NO",
+      },
+      POL_REC_TYPE: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_REC_TYPE",
+      },
+      POL_MODE_OF_PAY: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_MODE_OF_PAY",
+      },
+      POL_SHORT_COLL_YN: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_SHORT_COLL_YN",
+      },
+      POL_SI_LC_1: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_SI_LC_1",
+      },
+      POL_SI_LC_2: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_SI_LC_2",
+      },
+      POL_SI_LC_3: {
+        type: DataTypes.DECIMAL(20, 3),
+        allowNull: true,
+        field: "POL_SI_LC_3",
+      },
+      POL_NCB_YRS: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: "POL_NCB_YRS",
+      },
+      POL_CLM_YN: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_CLM_YN",
+      },
+      POL_SERVICE_TAX_YN: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_SERVICE_TAX_YN",
+      },
+      POL_ADV_PREM_PROC_YN: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        field: "POL_ADV_PREM_PROC_YN",
+      },
+      POL_UW_YEAR: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: "POL_UW_YEAR",
+      },
+      // FLEX FIELDS
+      POL_FLEX_01: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_01" },
+      POL_FLEX_02: { type: DataTypes.STRING(400), allowNull: true, field: "POL_FLEX_02" },
+      POL_FLEX_03: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_03" },
+      POL_FLEX_04: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_04" },
+      POL_FLEX_05: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_05" },
+      POL_FLEX_06: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_06" },
+      POL_FLEX_07: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_07" },
+      POL_FLEX_08: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_08" },
+      POL_FLEX_09: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_09" },
+      POL_FLEX_10: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_10" },
+      POL_FLEX_11: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_11" },
+      POL_FLEX_12: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_12" },
+      POL_FLEX_13: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_13" },
+      POL_FLEX_14: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_14" },
+      POL_FLEX_15: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_15" },
+      POL_FLEX_16: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_16" },
+      POL_FLEX_17: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_17" },
+      POL_FLEX_18: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_18" },
+      POL_FLEX_19: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_19" },
+      POL_FLEX_20: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_20" },
+
+      POL_CR_UID: { type: DataTypes.STRING(12), allowNull: false, field: "POL_CR_UID" },
+      POL_CR_DT: { type: DataTypes.DATE, allowNull: false, field: "POL_CR_DT" },
+      POL_UPD_UID: { type: DataTypes.STRING(12), allowNull: true, field: "POL_UPD_UID" },
+      POL_UPD_DT: { type: DataTypes.DATE, allowNull: true, field: "POL_UPD_DT" },
+
+      POL_PREM_FREEZE_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_PREM_FREEZE_YN" },
+      POL_ADD_PREM_CALC_TYPE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_ADD_PREM_CALC_TYPE" },
+      POL_CITY: { type: DataTypes.STRING(12), allowNull: true, field: "POL_CITY" },
+      POL_COUNTRY: { type: DataTypes.STRING(12), allowNull: true, field: "POL_COUNTRY" },
+      POL_END_LAYUP_ADJ_METHOD: { type: DataTypes.STRING(12), allowNull: true, field: "POL_END_LAYUP_ADJ_METHOD" },
+      POL_ADDR_STATE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_ADDR_STATE" },
+      POL_RETRO_DT: { type: DataTypes.DATE, allowNull: true, field: "POL_RETRO_DT" },
+      POL_ORG_SI_LC_1: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_ORG_SI_LC_1" },
+      POL_ORG_SI_LC_2: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_ORG_SI_LC_2" },
+      POL_ORG_SI_LC_3: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_ORG_SI_LC_3" },
+      POL_SGN_STS: { type: DataTypes.STRING(12), allowNull: true, field: "POL_SGN_STS" },
+      POL_DECL_CNT_SRNO: { type: DataTypes.INTEGER, allowNull: true, field: "POL_DECL_CNT_SRNO" },
+      POL_PML_PERC: { type: DataTypes.DECIMAL(8, 5), allowNull: true, field: "POL_PML_PERC" },
+      POL_PML_LC_1: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_PML_LC_1" },
+      POL_PML_LC_2: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_PML_LC_2" },
+      POL_PML_LC_3: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_PML_LC_3" },
+      POL_STAMP_DUTY_YN: {
+        type: DataTypes.STRING(1),
+        allowNull: true,
+        defaultValue: "1",
+        field: "POL_STAMP_DUTY_YN",
+      },
+      POL_ORG_PML_LC_1: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_ORG_PML_LC_1" },
+      POL_ORG_PML_LC_2: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_ORG_PML_LC_2" },
+      POL_ORG_PML_LC_3: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_ORG_PML_LC_3" },
+      POL_PRD_SYS_ID: { type: DataTypes.BIGINT, allowNull: true, field: "POL_PRD_SYS_ID" },
+      POL_PRD_RA_NO: { type: DataTypes.STRING(60), allowNull: true, field: "POL_PRD_RA_NO" },
+      POL_INSTL_METHOD: { type: DataTypes.STRING(12), allowNull: true, field: "POL_INSTL_METHOD" },
+      POL_CLM_TOTAL_LOSS_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_CLM_TOTAL_LOSS_YN" },
+      POL_TOT_REFUND_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_TOT_REFUND_YN" },
+      POL_NCB_PERC: { type: DataTypes.DECIMAL(8, 5), allowNull: true, field: "POL_NCB_PERC" },
+      POL_PROFIT_COMM_PERC: { type: DataTypes.DECIMAL(8, 5), allowNull: true, field: "POL_PROFIT_COMM_PERC" },
+      POL_QUALIFY_PERC: { type: DataTypes.DECIMAL(8, 5), allowNull: true, field: "POL_QUALIFY_PERC" },
+      POL_COLL_DIVN_CODE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_COLL_DIVN_CODE" },
+      POL_PREM_CURR_TYPE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_PREM_CURR_TYPE" },
+      POL_RI_CEDING_BASIS: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        defaultValue: "01",
+        field: "POL_RI_CEDING_BASIS",
+      },
+      POL_REFUND_PERIOD_TYPE: {
+        type: DataTypes.STRING(12),
+        allowNull: true,
+        field: "POL_REFUND_PERIOD_TYPE",
+      },
+      POL_DISH_REF_NO: { type: DataTypes.STRING(60), allowNull: true, field: "POL_DISH_REF_NO" },
+      POL_DISH_CHQ_NO: { type: DataTypes.STRING(30), allowNull: true, field: "POL_DISH_CHQ_NO" },
+      POL_CHQ_DISH_TYPE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_CHQ_DISH_TYPE" },
+      POL_AOA_LIMIT_FC: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_AOA_LIMIT_FC" },
+      POL_AOA_LIMIT_LC_1: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_AOA_LIMIT_LC_1" },
+      POL_AOA_LIMIT_LC_2: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_AOA_LIMIT_LC_2" },
+      POL_AOA_LIMIT_LC_3: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_AOA_LIMIT_LC_3" },
+      POL_AOY_LIMIT_FC: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_AOY_LIMIT_FC" },
+      POL_AOY_LIMIT_LC_1: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_AOY_LIMIT_LC_1" },
+      POL_AOY_LIMIT_LC_2: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_AOY_LIMIT_LC_2" },
+      POL_AOY_LIMIT_LC_3: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_AOY_LIMIT_LC_3" },
+      POL_OPEN_BAL_LC_1: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_OPEN_BAL_LC_1" },
+      POL_BILL_TYPE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_BILL_TYPE" },
+      POL_BILL_ACC_NO: { type: DataTypes.STRING(60), allowNull: true, field: "POL_BILL_ACC_NO" },
+      POL_TPA_CODE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_TPA_CODE" },
+      POL_CLOSE_BAL_LC_1: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_CLOSE_BAL_LC_1" },
+      POL_OSE_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_OSE_YN" },
+    
+
+
+
+// models/pgit_policy.js (segment continuation)
+
+
+    
+      POL_PARENT_END_NO_IDX: { type: DataTypes.INTEGER, allowNull: true, field: "POL_PARENT_END_NO_IDX" },
+      POL_PARENT_END_SR_NO: { type: DataTypes.INTEGER, allowNull: true, field: "POL_PARENT_END_SR_NO" },
+      POL_OSE_INVALID_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_OSE_INVALID_YN" },
+      POL_QUOT_EXP_PRD: { type: DataTypes.INTEGER, allowNull: true, field: "POL_QUOT_EXP_PRD" },
+      POL_ACNT_DOC_DT: { type: DataTypes.DATE, allowNull: true, field: "POL_ACNT_DOC_DT" },
+      POL_CUST_ACNT_TYPE: { type: DataTypes.STRING(1), allowNull: true, field: "POL_CUST_ACNT_TYPE" },
+      POL_BRK_ACNT_TYPE: { type: DataTypes.STRING(1), allowNull: true, field: "POL_BRK_ACNT_TYPE" },
+      POL_SURYR_ACNT_TYPE: { type: DataTypes.STRING(1), allowNull: true, field: "POL_SURYR_ACNT_TYPE" },
+      POL_REN_STS: { type: DataTypes.STRING(12), allowNull: true, field: "POL_REN_STS" },
+      POL_LINK_YN: { type: DataTypes.STRING(1), allowNull: true, defaultValue: "0", field: "POL_LINK_YN" },
+      POL_LINK_POL_NO: { type: DataTypes.STRING(60), allowNull: true, field: "POL_LINK_POL_NO" },
+      POL_INST_CODE: { type: DataTypes.STRING(60), allowNull: true, field: "POL_INST_CODE" },
+      POL_CONV_INST_CODE: { type: DataTypes.STRING(60), allowNull: true, field: "POL_CONV_INST_CODE" },
+      POL_ASSR_TYPE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_ASSR_TYPE" },
+      POL_CANCEL_TYPE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_CANCEL_TYPE" },
+      POL_DECL_FREQ: { type: DataTypes.STRING(12), allowNull: true, field: "POL_DECL_FREQ" },
+      POL_CAL_YR: { type: DataTypes.INTEGER, allowNull: true, field: "POL_CAL_YR" },
+      POL_PRE_INSP_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_PRE_INSP_YN" },
+      POL_REFUND_EVEN_CLAIM: { type: DataTypes.STRING(12), allowNull: true, field: "POL_REFUND_EVEN_CLAIM" },
+      POL_CN_BOOK_ID: { type: DataTypes.INTEGER, allowNull: true, field: "POL_CN_BOOK_ID" },
+      POL_DISCOVERY_PRD_APPL_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_DISCOVERY_PRD_APPL_YN" },
+      POL_DISCOVERY_PRD_IN_DAYS: { type: DataTypes.INTEGER, allowNull: true, field: "POL_DISCOVERY_PRD_IN_DAYS" },
+      POL_COUNTY: { type: DataTypes.STRING(12), allowNull: true, field: "POL_COUNTY" },
+      POL_REJECT_REASON: { type: DataTypes.STRING(4000), allowNull: true, field: "POL_REJECT_REASON" },
+      POL_REVERT_REASON: { type: DataTypes.STRING(4000), allowNull: true, field: "POL_REVERT_REASON" },
+      POL_FLEX_YN_01: { type: DataTypes.STRING(1), allowNull: true, field: "POL_FLEX_YN_01" },
+      POL_FLEX_YN_02: { type: DataTypes.STRING(1), allowNull: true, field: "POL_FLEX_YN_02" },
+      POL_FLEX_YN_03: { type: DataTypes.STRING(1), allowNull: true, field: "POL_FLEX_YN_03" },
+      POL_FLEX_YN_04: { type: DataTypes.STRING(1), allowNull: true, field: "POL_FLEX_YN_04" },
+      POL_FLEX_YN_05: { type: DataTypes.STRING(1), allowNull: true, field: "POL_FLEX_YN_05" },
+      POL_FLEX_YN_06: { type: DataTypes.STRING(1), allowNull: true, field: "POL_FLEX_YN_06" },
+      POL_FLEX_YN_07: { type: DataTypes.STRING(1), allowNull: true, field: "POL_FLEX_YN_07" },
+      POL_FLEX_YN_08: { type: DataTypes.STRING(1), allowNull: true, field: "POL_FLEX_YN_08" },
+      POL_FLEX_YN_09: { type: DataTypes.STRING(1), allowNull: true, field: "POL_FLEX_YN_09" },
+      POL_FLEX_YN_10: { type: DataTypes.STRING(1), allowNull: true, field: "POL_FLEX_YN_10" },
+      POL_AUTO_RENEW_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_AUTO_RENEW_YN" },
+      POL_DO_NOT_REN_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_DO_NOT_REN_YN" },
+      POL_NON_REN_YR: { type: DataTypes.INTEGER, allowNull: true, field: "POL_NON_REN_YR" },
+      POL_NON_REN_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_NON_REN_YN" },
+      POL_HOLD_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_HOLD_YN" },
+      POL_END_ADV_PREM_ADJ_TYPE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_END_ADV_PREM_ADJ_TYPE" },
+      POL_END_INSTL_APPR_TYPE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_END_INSTL_APPR_TYPE" },
+      POL_NON_EFF_FM_DT: { type: DataTypes.DATE, allowNull: true, field: "POL_NON_EFF_FM_DT" },
+      POL_NON_EFF_TO_DT: { type: DataTypes.DATE, allowNull: true, field: "POL_NON_EFF_TO_DT" },
+      POL_ANNUAL_PREM_LC_1: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_ANNUAL_PREM_LC_1" },
+      POL_ANNUAL_PREM_LC_2: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_ANNUAL_PREM_LC_2" },
+      POL_ANNUAL_PREM_LC_3: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_ANNUAL_PREM_LC_3" },
+      POL_MAIL_ATTACHMENT_URL: { type: DataTypes.STRING(4000), allowNull: true, field: "POL_MAIL_ATTACHMENT_URL" },
+      POL_OLD_POL_NO: { type: DataTypes.STRING(60), allowNull: true, field: "POL_OLD_POL_NO" },
+      POL_MAR_RQST_NO: { type: DataTypes.DECIMAL, allowNull: true, field: "POL_MAR_RQST_NO" },
+      POL_METHOD_PAY_CODE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_METHOD_PAY_CODE" },
+      POL_IND_AC_NO: { type: DataTypes.STRING(12), allowNull: true, field: "POL_IND_AC_NO" },
+      POL_EXCESS_LOSS: { type: DataTypes.DECIMAL, allowNull: true, field: "POL_EXCESS_LOSS" },
+      POL_PROD_NUMBER: { type: DataTypes.STRING(12), allowNull: true, field: "POL_PROD_NUMBER" },
+      POL_MGA_PERC: { type: DataTypes.DECIMAL, allowNull: true, field: "POL_MGA_PERC" },
+      POL_CNCT_SYS_ID: { type: DataTypes.DECIMAL, allowNull: true, field: "POL_CNCT_SYS_ID" },
+      POL_REN_REC: { type: DataTypes.STRING(1), allowNull: true, field: "POL_REN_REC" },
+      POL_CIVIL_ID: { type: DataTypes.STRING(60), allowNull: true, field: "POL_CIVIL_ID" },
+      POL_REF_NO: { type: DataTypes.STRING(60), allowNull: true, field: "POL_REF_NO" },
+      POL_NO_CN_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_NO_CN_YN" },
+      POL_SALESMAN_CODE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_SALESMAN_CODE" },
+      POL_SHOWROMM_LOC: { type: DataTypes.STRING(12), allowNull: true, field: "POL_SHOWROMM_LOC" },
+      POL_NATIONALITY: { type: DataTypes.STRING(12), allowNull: true, field: "POL_NATIONALITY" },
+      POL_COMM_REG_NO: { type: DataTypes.STRING(60), allowNull: true, field: "POL_COMM_REG_NO" },
+      POL_SUBSTITUTE_CAR_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_SUBSTITUTE_CAR_YN" },
+      POL_SUBSTITUTE_CAR: { type: DataTypes.STRING(12), allowNull: true, field: "POL_SUBSTITUTE_CAR" },
+      POL_CENTER_NO: { type: DataTypes.STRING(60), allowNull: true, field: "POL_CENTER_NO" },
+      POL_FAC_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_FAC_YN" },
+      POL_RA_APPL_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_RA_APPL_YN" },
+      POL_RA_ALLOC_AT: { type: DataTypes.STRING(12), allowNull: true, field: "POL_RA_ALLOC_AT" },
+      POL_ITERATION_REASON: { type: DataTypes.STRING(4000), allowNull: true, field: "POL_ITERATION_REASON" },
+      POL_PROD_SYMBOL: { type: DataTypes.STRING(12), allowNull: true, field: "POL_PROD_SYMBOL" },
+      POL_UW_ID: { type: DataTypes.STRING(12), allowNull: true, field: "POL_UW_ID" },
+      POL_QUOT_RECVD_DT: { type: DataTypes.DATE, allowNull: true, field: "POL_QUOT_RECVD_DT" },
+      POL_AGENT_CONTACT_NAME: { type: DataTypes.STRING(240), allowNull: true, field: "POL_AGENT_CONTACT_NAME" },
+      POL_AGENT_CONTACT_NO: { type: DataTypes.STRING(240), allowNull: true, field: "POL_AGENT_CONTACT_NO" },
+      POL_AGENT_CONTACT_EMAIL_ID: { type: DataTypes.STRING(240), allowNull: true, field: "POL_AGENT_CONTACT_EMAIL_ID" },
+      POL_CTRL_DT: { type: DataTypes.DATE, allowNull: true, field: "POL_CTRL_DT" },
+      POL_END_CTRL_DT: { type: DataTypes.DATE, allowNull: true, field: "POL_END_CTRL_DT" },
+      POL_PRODUCER_CODE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_PRODUCER_CODE" },
+      POL_SIC_CODE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_SIC_CODE" },
+      POL_SIC_GROUP: { type: DataTypes.STRING(12), allowNull: true, field: "POL_SIC_GROUP" },
+      POL_PRIOR_POL_NO: { type: DataTypes.STRING(60), allowNull: true, field: "POL_PRIOR_POL_NO" },
+      POL_TERRORISM_APPL_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_TERRORISM_APPL_YN" },
+      POL_DNR_REASON: { type: DataTypes.STRING(4000), allowNull: true, field: "POL_DNR_REASON" },
+      POL_TERR_VAL_TYPE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_TERR_VAL_TYPE" },
+      POL_REN_REASON: { type: DataTypes.STRING(240), allowNull: true, field: "POL_REN_REASON" },
+      POL_CONV_DT: { type: DataTypes.DATE, allowNull: true, field: "POL_CONV_DT" },
+      POL_CLM_MADE_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_CLM_MADE_YN" },
+      POL_INTL_END_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_INTL_END_YN" },
+      POL_REN_MANUAL_MOVE_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_REN_MANUAL_MOVE_YN" },
+      POL_REN_PROC_TYPE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_REN_PROC_TYPE" },
+      POL_REWRITTEN_POL_NO: { type: DataTypes.STRING(60), allowNull: true, field: "POL_REWRITTEN_POL_NO" },
+      POL_UW_REVIEW_REQD_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_UW_REVIEW_REQD_YN" },
+      POL_UW_REVIEWED_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_UW_REVIEWED_YN" },
+      POL_LAP_REASON: { type: DataTypes.STRING(240), allowNull: true, field: "POL_LAP_REASON" },
+      POL_ENT_COMPL_YN: { type: DataTypes.STRING(1), allowNull: true, defaultValue: "0", field: "POL_ENT_COMPL_YN" },
+      POL_RI_DED_INW_COMM: { type: DataTypes.STRING(12), allowNull: true, field: "POL_RI_DED_INW_COMM" },
+      POL_RI_PREM_TYPE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_RI_PREM_TYPE" },
+      POL_RI_END_ALLOC_BASIS: { type: DataTypes.STRING(12), allowNull: true, field: "POL_RI_END_ALLOC_BASIS" },
+    
+      POL_FAC_PROV_ON: { type: DataTypes.STRING(12), allowNull: true, field: "POL_FAC_PROV_ON" },
+      POL_COINS_ISSUE_TYPE: { type: DataTypes.STRING(2), allowNull: true, field: "POL_COINS_ISSUE_TYPE" },
+      POL_LINK_ALLOC_COMB_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_LINK_ALLOC_COMB_YN" },
+      POL_DEPO_PREM_PERC: { type: DataTypes.DECIMAL(8, 5), allowNull: true, field: "POL_DEPO_PREM_PERC" },
+      POL_FIRST_LOSS_PERC: { type: DataTypes.DECIMAL(8, 5), allowNull: true, field: "POL_FIRST_LOSS_PERC" },
+      POL_COINS_PART_LVL: { type: DataTypes.STRING(240), allowNull: true, field: "POL_COINS_PART_LVL" },
+      POL_SING_AC_BRK: { type: DataTypes.STRING(1), allowNull: true, field: "POL_SING_AC_BRK" },
+      POL_COLLECTOR_CODE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_COLLECTOR_CODE" },
+      POL_COLLECTOR_NAME: { type: DataTypes.STRING(240), allowNull: true, field: "POL_COLLECTOR_NAME" },
+      POL_ACNT_HANDLER_CODE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_ACNT_HANDLER_CODE" },
+      POL_ACNT_HANDLER_NAME: { type: DataTypes.STRING(240), allowNull: true, field: "POL_ACNT_HANDLER_NAME" },
+      POL_FAC_PERC: { type: DataTypes.DECIMAL(8, 5), allowNull: true, field: "POL_FAC_PERC" },
+      POL_PRODUCER_NAME: { type: DataTypes.STRING(240), allowNull: true, field: "POL_PRODUCER_NAME" },
+      POL_INST_CVR_YN: { type: DataTypes.STRING(1), allowNull: true, defaultValue: "1", field: "POL_INST_CVR_YN" },
+      POL_GRACE_APPL_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_GRACE_APPL_YN" },
+      POL_GRACE_END_DT: { type: DataTypes.DATE, allowNull: true, field: "POL_GRACE_END_DT" },
+      POL_TRAFIC_SERIAL: { type: DataTypes.DECIMAL(24, 0), allowNull: true, field: "POL_TRAFIC_SERIAL" },
+      POL_WF_STS: { type: DataTypes.STRING(60), allowNull: true, field: "POL_WF_STS" },
+      POL_NAJM_STS: { type: DataTypes.STRING(240), allowNull: true, field: "POL_NAJM_STS" },
+      POL_NAJM_REMARKS: { type: DataTypes.STRING(4000), allowNull: true, field: "POL_NAJM_REMARKS" },
+      POL_CBC_YN: { type: DataTypes.STRING(1), allowNull: true, field: "POL_CBC_YN" },
+      POL_PKG_CODE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_PKG_CODE" },
+      POL_SCHEME: { type: DataTypes.STRING(12), allowNull: true, field: "POL_SCHEME" },
+      POL_COMM_CHANNEL: { type: DataTypes.STRING(12), allowNull: true, field: "POL_COMM_CHANNEL" },
+      POL_BR_STATUS: { type: DataTypes.STRING(1), allowNull: true, field: "POL_BR_STATUS" },
+      POL_PARENT_POL_SYS_ID: { type: DataTypes.BIGINT, allowNull: true, field: "POL_PARENT_POL_SYS_ID" },
+      POL_USER_END_NO_IDX: { type: DataTypes.INTEGER, allowNull: true, field: "POL_USER_END_NO_IDX" },
+      POL_SM_CODE: { type: DataTypes.STRING(12), allowNull: true, field: "POL_SM_CODE" },
+      POL_REMARKS_01: { type: DataTypes.STRING(4000), allowNull: true, field: "POL_REMARKS_01" },
+      POL_REMARKS_02: { type: DataTypes.STRING(4000), allowNull: true, field: "POL_REMARKS_02" },
+      POL_REMARKS_03: { type: DataTypes.STRING(4000), allowNull: true, field: "POL_REMARKS_03" },
+      POL_PREM_WARR_DAYS: { type: DataTypes.INTEGER, allowNull: true, field: "POL_PREM_WARR_DAYS" },
+      POL_FLEX_21: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_21" },
+      POL_FLEX_22: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_22" },
+      POL_FLEX_23: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_23" },
+      POL_FLEX_24: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_24" },
+      POL_FLEX_25: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_25" },
+      POL_ASSR_CONTACT_NO: { type: DataTypes.STRING(240), allowNull: true, field: "POL_ASSR_CONTACT_NO" },
+      POL_ASSR_CONTACT_MAIL_ID: { type: DataTypes.STRING(240), allowNull: true, field: "POL_ASSR_CONTACT_MAIL_ID" },
+      POL_FLEX_NUM_01: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_FLEX_NUM_01" },
+      POL_FLEX_NUM_02: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_FLEX_NUM_02" },
+      POL_FLEX_NUM_03: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_FLEX_NUM_03" },
+      POL_FLEX_NUM_04: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_FLEX_NUM_04" },
+      POL_FLEX_NUM_05: { type: DataTypes.DECIMAL(20, 3), allowNull: true, field: "POL_FLEX_NUM_05" },
+      POL_FLEX_DT_01: { type: DataTypes.DATE, allowNull: true, field: "POL_FLEX_DT_01" },
+      POL_FLEX_DT_02: { type: DataTypes.DATE, allowNull: true, field: "POL_FLEX_DT_02" },
+      POL_FLEX_DT_03: { type: DataTypes.DATE, allowNull: true, field: "POL_FLEX_DT_03" },
+      POL_FLEX_DT_04: { type: DataTypes.DATE, allowNull: true, field: "POL_FLEX_DT_04" },
+      POL_FLEX_DT_05: { type: DataTypes.DATE, allowNull: true, field: "POL_FLEX_DT_05" },
+      POL_REMARKS_04: { type: DataTypes.STRING(4000), allowNull: true, field: "POL_REMARKS_04" },
+      POL_REMARKS_05: { type: DataTypes.STRING(4000), allowNull: true, field: "POL_REMARKS_05" },
+      POL_FLEX_26: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_26" },
+      POL_FLEX_27: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_27" },
+      POL_FLEX_28: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_28" },
+      POL_FLEX_29: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_29" },
+      POL_FLEX_30: { type: DataTypes.STRING(240), allowNull: true, field: "POL_FLEX_30" },
+ 
+
+
+
+
+
+
+
+
+
+
+       
+      tableName: "PGIT_POLICY",
+      timestamps: false,
+      freezeTableName: true,
+      underscored: true,
+    }
+  );
+
+  return PgitPolicy;
 };
