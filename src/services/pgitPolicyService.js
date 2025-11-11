@@ -11,6 +11,7 @@ async function getNextPolSysId() {
 }
 
 exports.create = async (data) => {
+  console.log(data);
   const nextId = await getNextPolSysId();
   data.pol_sys_id = nextId;
 
