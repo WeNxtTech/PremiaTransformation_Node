@@ -814,7 +814,8 @@ module.exports = (sequelize, DataTypes) => {
     ,
    POL_NO: { 
       type: DataTypes.STRING(60), 
-      allowNull: false, 
+      allowNull: false,
+      unique: true,  
       
       field: 'POL_NO' 
     }
