@@ -97,7 +97,7 @@ rl.question('Enter table name: ', async (tableName) => {
       default:
         typeMapping = 'DataTypes.STRING';
     }
-    return `   ${col.COLUMN_NAME.toLowerCase()}: { 
+    return `   ${col.COLUMN_NAME.toUpperCase()}: { 
       type: ${typeMapping}, 
       allowNull: ${col.NULLABLE === 'Y'}, 
       ${col.COLUMN_NAME.toLowerCase() === primaryKey ? 'primaryKey: true,\n      autoIncrement: true,' : ''}
