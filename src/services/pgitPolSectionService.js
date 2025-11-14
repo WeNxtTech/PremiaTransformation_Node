@@ -1,46 +1,35 @@
-// const { PgitPolSection  } = require('../models');
-const { PgitPolSection, sequelize } = require('../models');
-
-async function getNextPsecSysId() {
-  const [result] = await sequelize.query('SELECT PSEC_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
-  return result[0].NEXTVAL || result[0].nextVal;
-}
-
-exports.create = async (data) => {
-  const nextId = await getNextPsecSysId();
-  data.psec_sys_id = nextId;
-
-  const createdRecord = await PgitPolSection.create(data);
-
-  const responseData = {
-    psec_sys_id: createdRecord.psec_sys_id,
-    psec_pol_sys_id: createdRecord.psec_pol_sys_id,
-    psec_end_no_idx: createdRecord.psec_end_no_idx,
-    psec_end_sr_no: createdRecord.psec_end_sr_no
-  };
-
-  return {
-    success: true,
-    message: 'Record created successfully',
-    data: responseData,
-  };
-};
-// async function getNextPsecSysId() {
-//   const [result] = await sequelize.query('SELECT PSEC_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
-//   return result[0].NEXTVAL || result[0].nextVal; // accommodate case differences
-// }
-
-// exports.create = async (data) => {
-//   const nextId = await getNextPsecSysId();
-//   data.psec_sys_id = nextId;
-
-//   return await PgitPolSection.create(data);
-// };
-
+const { PgitPolSection ,sequelize} = require('../models');
 
 exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
   return PgitPolSection.findAll({ where: filters, limit, offset, ...(order && { order }) });
 };
+
+async function getNextPsecSysId() {
+  const result = await sequelize.query( 'SELECT PSEC_SYS_IDD_SEQ.NEXTVAL AS NEXTVAL FROM DUAL',
+    { type: sequelize.QueryTypes.SELECT }
+  );
+  return result[0].NEXTVAL;
+}
+exports.create = async (data) => {
+const nextId = await getNextPsecSysId();
+data.PSEC_SYS_ID = nextId;
+  const createdRecord = await PgitPolSection.create(data);
+
+      const responseData = {
+        PSEC_SYS_ID: createdRecord.PSEC_SYS_ID,
+        PSEC_POL_SYS_ID: createdRecord.PSEC_POL_SYS_ID,
+        PSEC_SEC_CODE: createdRecord.PSEC_SEC_CODE,
+        PSEC_END_NO_IDX:createdRecord.PSEC_END_NO_IDX,
+        PSEC_END_SR_NO:createdRecord.PSEC_END_SR_NO
+      };
+    
+      return {
+        success: true,
+        message: 'Record created successfully',
+        data: responseData,
+      };
+    };
+
 
 exports.update = async (id, updatedData) => {
   const item = await PgitPolSection.findByPk(id);
