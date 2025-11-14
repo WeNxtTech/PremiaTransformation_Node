@@ -45,7 +45,7 @@ router.use('/program/product/instance',oneProgProdInst);
 router.use('/listOfInst',listOfInst);
 router.use('/pgitPolicy', pgitPolicyRouter);
 router.use('/pgitPolSection', pgitPolSectionRouter);
-router.use('/PGITPOLRISKADDLINFO', PGITPOLRISKADDLINFORouter);
+router.use('/risk', PGITPOLRISKADDLINFORouter);
 router.use('/pgitPolRiskCover', pgitPolRiskCoverRouter);
 router.use('/PGITPOLDEDUCTIBLE', PGITPOLDEDUCTIBLERouter);
 router.use('/pgitPolCondition', pgitPolConditionRouter);
