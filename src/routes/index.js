@@ -27,6 +27,7 @@ const pcom_codes = require('./pcom_codes_pctypeRoute');
 const pcom_app = require('./pcom_app_paracodeRoute');
 const riskLov = require('./riskLovRoute');
 const riskField = require('./riskFieldRoute');
+const sectionfields = require('./sectionFieldRoute');
 
 
 
@@ -62,5 +63,6 @@ router.use('/lovspc',pcom_codes);
 router.use('/lovpara',pcom_app);
 router.use('/riskLov',riskLov);
 router.use('/riskField',riskField);
+router.use('/sectionField',sectionfields);
 
 module.exports = router;

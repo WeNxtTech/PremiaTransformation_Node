@@ -5,7 +5,6 @@ exports.getSecLov = async (dasDapProdCode, dasDsType) => {
     SELECT DISTINCT 
       A.DAS_SEC_CODE,
       B.PC_DESC,
-      A.DAS_MAND_YN
     FROM PGIM_DOC_APPL_SECTION A, PCOM_CODES B
     WHERE 
        B.PC_TYPE = 'SECTION'
