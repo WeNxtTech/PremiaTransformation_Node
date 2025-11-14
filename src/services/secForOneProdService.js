@@ -7,8 +7,8 @@ exports.getSecLov = async (dasDapProdCode, dasDsType) => {
       B.PC_DESC,
       A.DAS_MAND_YN
     FROM PGIM_DOC_APPL_SECTION A, PCOM_CODES B
-    WHERE A.DAS_DS_TYPE = :dasDsType
-      AND B.PC_TYPE = 'SECTION'
+    WHERE 
+       B.PC_TYPE = 'SECTION'
       AND B.PC_CODE = A.DAS_SEC_CODE
       AND A.DAS_DAP_PROD_CODE = :dasDapProdCode
   `;

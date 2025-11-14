@@ -11,22 +11,15 @@ exports.getAll = async (req, res, next) => {
     next(err);
   }
 };
+
 exports.create = async (req, res, next) => {
   try {
-    const serviceResponse = await pgitPolSectionService.create(req.body);
-    return successResponse(res, 201, serviceResponse.message, serviceResponse.data);
+    const result = await pgitPolSectionService.create(req.body);
+    return successResponse(res, 201, "Created", result);
   } catch (err) {
     next(err);
   }
 };
-// exports.create = async (req, res, next) => {
-//   try {
-//     const result = await pgitPolSectionService.create(req.body);
-//     return successResponse(res, 201, "Created", result);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
 
 exports.update = async (req, res, next) => {
   try {
