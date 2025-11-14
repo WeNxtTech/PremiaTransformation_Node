@@ -1,0 +1,40 @@
+
+const { sequelize, QueryTypes } = require('../models');
+
+exports.get = async (prodCode) => {
+  const query = `SELECT DISTINCT  POL_PROD_CODE,
+      PROD_DESC "PRODUCT",
+      POL_BUS_TYPE,
+      PARA_NAME "BUS_TYPE_DESC",
+      IFD_INST_CODE "INSTANCE_CODE",
+      IFD_PROG_CODE "PROGRAM_CODE",
+      IFD_PB_BLK_NAME "TABLE_NAME",
+      IFD_PBF_FLD_NAME "COLUMN_NAME",
+      IFD_PROMPT "FIELD_PROMPT",
+      IFD_SEQ_NO "DISPLAY_ORDER_NO",
+      IFD_MANDATORY_YN_NUM "MANDATORY",
+      IFD_DATA_TYPE "DATA_TYPE",
+      ifd_form_item_type "SOURCE_DESIGN_TYPE",
+      IFD_FLD_LEN "FIELD_LENGTH",
+      IFD_DISP_LEN "DISPLAY_LENGTH",IFD_ENTERABLE_YN_NUM "ENTERABLE",IFD_UPDATEABLE_YN_NUM "UPDATE_YN",
+      IFD_HINT "TOOL_TIP",IFD_CANVAS_NAME "CANVA_NAME"
+    FROM IM_INSTANCE_FIELD_DEFN, PGIT_POLICY, PCOM_APP_PARAMETER, PGIM_PRODUCT
+    WHERE 
+       IFD_PB_BLK_NAME='PGIT_POL_SECTION'
+      AND IFD_PBF_FLD_NAME NOT LIKE 'M_%' AND IFD_PROMPT IS NOT NULL
+      AND IFD_CANVAS_NAME='PGIT_POL_SECTION'
+      AND POL_INST_CODE = IFD_INST_CODE
+      AND PARA_CODE = 'BUS_TYPE'
+      AND PARA_SUB_CODE = POL_BUS_TYPE
+      AND PROD_CODE = POL_PROD_CODE
+      AND  (POL_PROD_CODE = :prodCode)`;
+   const records = await sequelize.query(query, {
+    type: QueryTypes.SELECT,
+    replacements: {
+      prodCode
+    }
+  });
+
+  return records;
+};
+
