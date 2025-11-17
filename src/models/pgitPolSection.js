@@ -171,7 +171,7 @@ module.exports = (sequelize, DataTypes) => {
     ,
    PSEC_REC_TYPE: { 
       type: DataTypes.STRING(1), 
-      allowNull: false, 
+      allowNull: true, 
       
       field: 'PSEC_REC_TYPE' 
     }
@@ -192,14 +192,14 @@ module.exports = (sequelize, DataTypes) => {
     ,
    PSEC_CR_UID: { 
       type: DataTypes.STRING(12), 
-      allowNull: false, 
+      allowNull: true, 
       
       field: 'PSEC_CR_UID' 
     }
     ,
    PSEC_CR_DT: { 
       type: DataTypes.DATE, 
-      allowNull: false, 
+      allowNull: true, 
       
       field: 'PSEC_CR_DT' 
     }
