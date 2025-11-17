@@ -28,6 +28,7 @@ const pcom_app = require('./pcom_app_paracodeRoute');
 const riskLov = require('./riskLovRoute');
 const riskField = require('./riskFieldRoute');
 const sectionfields = require('./sectionFieldRoute');
+const modernDropDown = require('./modernDropDownRoute');
 
 
 
@@ -64,5 +65,6 @@ router.use('/lovpara',pcom_app);
 router.use('/riskLov',riskLov);
 router.use('/riskField',riskField);
 router.use('/sectionField',sectionfields);
+router.use('/modernDropDown',modernDropDown);
 
 module.exports = router;
