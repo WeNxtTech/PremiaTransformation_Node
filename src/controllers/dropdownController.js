@@ -1,4 +1,3 @@
-// controllers/dropdownController.js
 const dropdownService = require('../services/dropdownService');
 const { successResponse, errorResponse } = require('../utils/response'); 
 

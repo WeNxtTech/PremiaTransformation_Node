@@ -1,5 +1,3 @@
-// services/dropdownService.js
-
 const { PGIM_LOV_DEFN, sequelize } = require("../models");
 
 class DropdownService {
