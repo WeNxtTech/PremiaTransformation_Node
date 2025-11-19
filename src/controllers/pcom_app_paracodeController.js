@@ -3,7 +3,7 @@ const { successResponse, errorResponse } = require('../utils/response'); // adju
 
 exports.get = async (req, res) => {
   try {
-    const { type } = req.query; // get both query params
+    const { type } = req.query; 
     const data = await get(type);
     return successResponse(res, 200, 'Data fetched successfully', data);
   } catch (error) {

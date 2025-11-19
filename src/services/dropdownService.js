@@ -1,44 +1,61 @@
-const { sequelize, QueryTypes } = require('../models');
+const dropdownSources = require("../dropdownSources");
+class DropdownService {
+  async getDropdownData(queryParams) {
+    const { source } = queryParams;
 
-exports.getCompanies = async (req, res, next) => {
-  try {
-    const { username } = req.query;
-    const companies = await sequelize.query(
-      `select muc_comp_code as value, comp_name as label from lm_menu_user_comp, LM_COMPANY where muc_comp_code = comp_code and muc_user_id = :muc_user_id`,
-      { replacements: {muc_user_id: username }, type: QueryTypes.SELECT }
-    );
-    res.status(200).json({ status: 200, message: 'Companies fetched successfully', data: companies });
-  } catch (err) {
-    next(err);
+    if (!source) {
+      throw new Error("Missing dropdown source");
+    }
+
+    const sourceList = source.split(","); // support multiple dropdowns
+    const results = {};
+
+    const promises = sourceList.map(async (src) => {
+      const config = dropdownSources[src];
+      if (!config) return; // ignore invalid sources
+
+      let where = {};
+
+      // ⿡ Apply fixed filters (always applied)
+      if (config.fixedWhere) {
+        where = { ...where, ...config.fixedWhere };
+      }
+
+      // ⿢ Apply dependent dropdown filter (like countryId → states)
+      if (config.filterKey && queryParams[config.filterKey] !== undefined) {
+        where[config.filterKey] = queryParams[config.filterKey];
+      }
+
+      // ⿣ Apply allowedFilters (dynamic user filters)
+      if (config.allowedFilters) {
+        config.allowedFilters.forEach((field) => {
+          if (queryParams[field] !== undefined) {
+            where[field] = queryParams[field];
+          }
+        });
+      }
+
+      // Build query options
+      const queryOptions = {
+        where,
+        attributes: config.attributes,
+        order: config.order || [["name", "ASC"]]
+      };
+
+      // Optional Sequelize include (joins)
+      if (config.include) {
+        queryOptions.include = config.include;
+      }
+
+      const rows = await config.model.findAll(queryOptions);
+
+      results[src] = rows;
+    });
+
+    await Promise.all(promises);
+
+    return results;
   }
-};
+}
 
-exports.getDivisions = async (req, res, next) => {
-  try {
-    const { username, company } = req.query;
-    if (!company) return res.status(400).json({ status: 400, message: 'Company required' });
-
-    const divisions = await sequelize.query(
-      `select mucd_divn_code as value, (select divn_name from AM_DIVISION where divn_code = mucd_divn_code) as label from lm_menu_user_comp, lm_menu_user_comp_divn where MUCD_USER_ID = MUC_USER_ID and mucd_comp_code = MUC_COMP_CODE AND muc_user_id = :muc_user_id AND MUCD_COMP_CODE = :MUCD_COMP_CODE`,
-      { replacements: {muc_user_id: username,MUCD_COMP_CODE: company }, type: QueryTypes.SELECT }
-    );
-    res.status(200).json({ status: 200, message: 'Divisions fetched successfully', data: divisions });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.getDepartments = async (req, res, next) => {
-  try {
-    const { username, company, division } = req.query;
-    if (!company || !division) return res.status(400).json({ status: 400, message: 'Company and Division required' });
-
-    const departments = await sequelize.query(
-      `select mucd_dept_code as value, (select dept_name from AM_DEPARTMENT where dept_code = mucd_dept_code) as label from lm_menu_user_comp, lm_menu_user_comp_divn where MUCD_USER_ID = MUC_USER_ID and mucd_comp_code = MUC_COMP_CODE AND MUCD_COMP_CODE = :MUCD_COMP_CODE AND muc_user_id = :muc_user_id AND mucd_divn_Code = :mucd_divn_code`,
-      { replacements: {muc_user_id: username,MUCD_COMP_CODE: company,mucd_divn_code: division }, type: QueryTypes.SELECT }
-    );
-    res.status(200).json({ status: 200, message: 'Departments fetched successfully', data: departments });
-  } catch (err) {
-    next(err);
-  }
-};
+module.exports = new DropdownService();
