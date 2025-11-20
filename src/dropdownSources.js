@@ -49,17 +49,17 @@ module.exports = {
 
  PCOM_CODES_LOV: {
     model: PcomCodes,  
-    attributes: [ [('PC_CODE'), 'id'],  [('PC_DESC'), 'name'] ],
+    attributes: [ 'PC_CODE', 'PC_DESC' ],
     allowedFilters: ['PC_TYPE'],          
-    group: ['PC_CODE','PC_DESC'],
-    order: [['name','ASC']]
+    // group: ['PC_CODE','PC_DESC'],
+    order: [['PC_DESC','ASC']]
   },
 
    PCOM_APP_PARAMETER_LOV: {
     model: PcomAppParameter, 
-    attributes: [  [('PARA_SUB_CODE'), 'id'],  [('PARA_NAME'), 'name']  ],
+    attributes: [  'PARA_SUB_CODE', 'PARA_NAME' ],
     allowedFilters: ['PARA_CODE'],          
-    group: ['PARA_SUB_CODE','PARA_NAME'],
-    order: [['name','ASC']]
+    // group: ['PARA_SUB_CODE','PARA_NAME'],
+    order: [['PARA_NAME','ASC']]
   }
 };
