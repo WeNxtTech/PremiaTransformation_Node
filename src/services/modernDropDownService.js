@@ -1,15 +1,5 @@
 const { sequelize, QueryTypes } = require('../models');
 
-exports.getCustomer = async () => {
-  const query = `SELECT CUST_CODE,CUST_NAME FROM  PCOM_CUSTOMER `;
-  const records = await sequelize.query(query, {
-    type: QueryTypes.SELECT,
-  });
-
-  return records;
-};        
-      
-
 exports.getInsured = async (custcode) => {
   const query = `SELECT   ASSR_CODE,  ASSR_NAME FROM PCOM_ASSURED WHERE ASSR_CUST_CODE =:custcode  `;
   return sequelize.query(query, {
@@ -37,5 +27,11 @@ exports.getCurrency = async () => {
   return records;
 };        
     
-
+exports.getCustomer = async () => {
+  const query = `SELECT CUST_CODE,CUST_NAME FROM  PCOM_CUSTOMER `;
+  const records = await sequelize.query(query, {
+    type: QueryTypes.SELECT,
+  });
+  return records;
+};        
 

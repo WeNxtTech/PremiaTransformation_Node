@@ -1,44 +1,138 @@
-const { sequelize, QueryTypes } = require('../models');
+// const { PGIM_LOV_DEFN, sequelize } = require("../models");
 
-exports.getCompanies = async (req, res, next) => {
-  try {
-    const { username } = req.query;
-    const companies = await sequelize.query(
-      `select muc_comp_code as value, comp_name as label from lm_menu_user_comp, LM_COMPANY where muc_comp_code = comp_code and muc_user_id = :muc_user_id`,
-      { replacements: {muc_user_id: username }, type: QueryTypes.SELECT }
-    );
-    res.status(200).json({ status: 200, message: 'Companies fetched successfully', data: companies });
-  } catch (err) {
-    next(err);
+// class DropdownService {
+//   async getDropdownData(queryParams) {
+//     const { PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_PROG_CODE } = queryParams;
+//     try {
+//       if (!PLD_BLOCK_NAME || !PLD_FIELD_NAME) {
+//         throw new Error(
+//           "Missing required fields: PLD_BLOCK_NAME or PLD_FIELD_NAME"
+//         );
+//       }
+
+//       const lovDef = await PGIM_LOV_DEFN.findOne({
+//         where: {
+//           PLD_BLOCK_NAME,
+//           PLD_FIELD_NAME,
+//           PLD_PROG_CODE,
+//           PLD_MOD_CODE: null,
+//         },
+//       });
+
+//       if (!lovDef) {
+//         throw new Error("LOV definition not found");
+//       }
+
+//       let sqlQuery = lovDef.PLD_LOV_SELECT_STMT;
+
+//       if (!sqlQuery) {
+//         throw new Error("No SQL statement found in PLD_LOV_SELECT_STMT");
+//       }
+//       const paramMap = {
+//         P_PARA_1: lovDef.PLD_PARA_COL_1,
+//         P_PARA_2: lovDef.PLD_PARA_COL_2,
+//         P_PARA_3: lovDef.PLD_PARA_COL_3,
+//         P_PARA_4: lovDef.PLD_PARA_COL_4,
+//         P_PARA_5: lovDef.PLD_PARA_COL_5,
+//       };
+//       sqlQuery = sqlQuery.replace(
+//         /:PARAMETER\.(P_PARA_[1-5])/g,
+//         (match, key) => {
+//           const col = paramMap[key];
+
+//           if (!col) {
+//             console.warn(`Warning: No column found for parameter ${key}`);
+//             return "NULL";
+//           }
+
+//           return col;
+//         }
+//       );
+
+//       const bind = {
+//         "GLOBAL.M_LANG_CODE": "ENG",
+//         "GLOBAL.M_LOGIN_APP_CODE": "01",
+//       };
+
+//       const results = await sequelize.query(sqlQuery, {
+//         type: sequelize.QueryTypes.SELECT,
+//         bind,
+//       });
+
+//       console.log(results);
+
+//       return {
+//         blockName: PLD_BLOCK_NAME,
+//         fieldName: PLD_FIELD_NAME,
+//         programCode: PLD_PROG_CODE,
+//         data: results,
+//       };
+//     } catch (error) {
+//       console.error("Error in DropdownService:", error);
+//       throw error;
+//     }
+//   }
+// }
+
+// module.exports = new DropdownService();
+
+
+const { PGIM_LOV_DEFN, sequelize } = require("../models");
+const { QueryTypes } = require("sequelize");
+
+class DropdownService {
+  async getDropdownData(queryParams) {
+    const { PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_PROG_CODE } = queryParams;
+
+   
+    if (!PLD_BLOCK_NAME || !PLD_FIELD_NAME) {
+      throw new Error("Missing required fields: PLD_BLOCK_NAME or PLD_FIELD_NAME");
+    } 
+
+    const lovDef = await PGIM_LOV_DEFN.findOne({
+      where: { PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_PROG_CODE, PLD_MOD_CODE: null }
+    });
+    if (!lovDef) {
+      throw new Error("LOV definition not found");
+    } 
+    let sql = lovDef.PLD_LOV_SELECT_STMT;
+    if (!sql) {
+      throw new Error("No SQL statement found in PLD_LOV_SELECT_STMT");
+    }
+
+    const paramMap = {
+      P_PARA_1: lovDef.PLD_PARA_COL_1,
+      P_PARA_2: lovDef.PLD_PARA_COL_2,
+      P_PARA_3: lovDef.PLD_PARA_COL_3,
+      P_PARA_4: lovDef.PLD_PARA_COL_4,
+      P_PARA_5: lovDef.PLD_PARA_COL_5
+    };
+    sql = sql.replace(/:PARAMETER\.(P_PARA_[1-5])/g, (_m, key) => (paramMap[key] ? paramMap[key] : "NULL")); 
+    sql = sql.replace(/:GLOBAL\.M_LANG_CODE/g, ':langCode');
+    sql = sql.replace(/:GLOBAL\.M_LOGIN_APP_CODE/g, ':loginAppCode'); 
+
+    const bind = {
+      langCode: 'ENG',
+      loginAppCode: '01'
+    }; 
+
+    Object.keys(bind).forEach(k => {
+      if (!new RegExp(`:${k}(\\b|\\W)`).test(sql)) delete bind[k];
+    }); 
+    const queryOptions = { type: QueryTypes.SELECT };
+    if (Object.keys(bind).length) {
+      queryOptions.bind = bind;
+    } 
+
+    const rows = await sequelize.query(sql, queryOptions); 
+
+    return {
+      blockName: PLD_BLOCK_NAME,
+      fieldName: PLD_FIELD_NAME,
+      programCode: PLD_PROG_CODE,
+      data: rows
+    }; 
   }
-};
+}
 
-exports.getDivisions = async (req, res, next) => {
-  try {
-    const { username, company } = req.query;
-    if (!company) return res.status(400).json({ status: 400, message: 'Company required' });
-
-    const divisions = await sequelize.query(
-      `select mucd_divn_code as value, (select divn_name from AM_DIVISION where divn_code = mucd_divn_code) as label from lm_menu_user_comp, lm_menu_user_comp_divn where MUCD_USER_ID = MUC_USER_ID and mucd_comp_code = MUC_COMP_CODE AND muc_user_id = :muc_user_id AND MUCD_COMP_CODE = :MUCD_COMP_CODE`,
-      { replacements: {muc_user_id: username,MUCD_COMP_CODE: company }, type: QueryTypes.SELECT }
-    );
-    res.status(200).json({ status: 200, message: 'Divisions fetched successfully', data: divisions });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.getDepartments = async (req, res, next) => {
-  try {
-    const { username, company, division } = req.query;
-    if (!company || !division) return res.status(400).json({ status: 400, message: 'Company and Division required' });
-
-    const departments = await sequelize.query(
-      `select mucd_dept_code as value, (select dept_name from AM_DEPARTMENT where dept_code = mucd_dept_code) as label from lm_menu_user_comp, lm_menu_user_comp_divn where MUCD_USER_ID = MUC_USER_ID and mucd_comp_code = MUC_COMP_CODE AND MUCD_COMP_CODE = :MUCD_COMP_CODE AND muc_user_id = :muc_user_id AND mucd_divn_Code = :mucd_divn_code`,
-      { replacements: {muc_user_id: username,MUCD_COMP_CODE: company,mucd_divn_code: division }, type: QueryTypes.SELECT }
-    );
-    res.status(200).json({ status: 200, message: 'Departments fetched successfully', data: departments });
-  } catch (err) {
-    next(err);
-  }
-};
+module.exports = new DropdownService();

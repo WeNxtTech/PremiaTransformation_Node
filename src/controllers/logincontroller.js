@@ -1,14 +1,16 @@
 const loginService = require('../services/loginService');
-const { successResponse } = require('../utils/response');
+const { successResponse , errorResponse} = require('../utils/response');
 
 exports.login = async (req, res, next) => {
   try {
     const { username, password,division,department,company } = req.body;
     const result = await loginService.loginUser({ username, password,division,department,company });
     return successResponse(res, 200, "Login successfully", result);
-  } catch (err) {
-    next(err);
+   } catch (error) {
+    console.error('Controller error:', error);
+    return errorResponse(res, 500, 'Failed to fetch Login data', error.message || error);
   }
+
 };
 exports.checkHealth = async (req, res, next) => {
   try {

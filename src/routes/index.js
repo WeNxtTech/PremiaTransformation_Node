@@ -12,6 +12,8 @@ const pgitPolApplCurrRouter = require('./pgitPolApplCurr');
 const pgitPolInstPremRouter = require('./pgitPolInstPrem');
 const pgitPolPremCompSheetRouter = require('./pgitPolPremCompSheet');
 const pgitAcntDocRouter = require('./pgitAcntDoc');
+const pcomCodesRouter = require('./pcomCodes');
+const pcomAppParameterRouter = require('./pcomAppParameter');
 const router = express.Router();
 const lmCompanyRoutes=require('./lmCompanyRoutes');
 const class_of_busRoute = require('./class_of_busRoute');
@@ -29,6 +31,7 @@ const riskLov = require('./riskLovRoute');
 const riskField = require('./riskFieldRoute');
 const sectionfields = require('./sectionFieldRoute');
 const modernDropDown = require('./modernDropDownRoute');
+const dropDown = require('./dropdownRoute');
 
 
 
@@ -66,5 +69,8 @@ router.use('/riskLov',riskLov);
 router.use('/riskField',riskField);
 router.use('/sectionField',sectionfields);
 router.use('/modernDropDown',modernDropDown);
+router.use('/dropDown',dropDown);
 
+router.use('/pcomCodes', pcomCodesRouter);
+router.use('/pcomAppParameter', pcomAppParameterRouter);
 module.exports = router;
