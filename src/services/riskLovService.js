@@ -25,8 +25,8 @@ const { sequelize, QueryTypes } = require('../models');
 exports.getRiskData = async (ProdCode) => {
   const query = `
     SELECT PLD_PROG_CODE, PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_LOV_TITLE, PLD_LOV_SELECT_STMT,
-           PLD_VALUES, PLD_INDEPT_DEPT, PC_PARA, pld_prod_code, PLD_SECTION_CODE
-    FROM PGIM_LOV_DEFN_API
+            pld_prod_code, PLD_SECTION_CODE
+    FROM PGIM_LOV_DEFN
     WHERE PLD_PROG_CODE = 'PGIT6_03'
       AND PLD_BLOCK_NAME = 'PGIT_POL_RISK_ADDL_INFO_01'
       AND pld_prod_code = :ProdCode

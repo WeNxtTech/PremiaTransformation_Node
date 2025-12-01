@@ -1,4 +1,3 @@
-
 const { sequelize, QueryTypes } = require('../models');
 
 exports.get = async (prodCode) => {
