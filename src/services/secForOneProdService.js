@@ -1,4 +1,4 @@
-const { sequelize, QueryTypes } = require('../models');
+  const { sequelize, QueryTypes } = require('../models');
 
 exports.getSecLov = async (dasDapProdCode, dasDsType) => {
   const query = `
