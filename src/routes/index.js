@@ -32,6 +32,9 @@ const riskField = require('./riskFieldRoute');
 const sectionfields = require('./sectionFieldRoute');
 const modernDropDown = require('./modernDropDownRoute');
 const dropDown = require('./dropdownRoute');
+const riskSmi = require('./riskSmiFieldRoute');
+const riskSmiLovFieldRoute = require('./riskSmiLovFieldRoute');
+
 
 
 
@@ -70,6 +73,9 @@ router.use('/riskField',riskField);
 router.use('/sectionField',sectionfields);
 router.use('/modernDropDown',modernDropDown);
 router.use('/dropDown',dropDown);
+router.use('/riskSmi', riskSmi);
+router.use('/riskSmiLovField', riskSmiLovFieldRoute);
+
 
 router.use('/pcomCodes', pcomCodesRouter);
 router.use('/pcomAppParameter', pcomAppParameterRouter);

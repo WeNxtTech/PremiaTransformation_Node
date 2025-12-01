@@ -54,7 +54,9 @@ function expandDuplicateBinds(sql, bind) {
 
 class DropdownService {
   async getDropdownData(queryParams) {
-    const { PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_PROG_CODE, custCode, POL_FM_DT, filter } = queryParams;
+    const { PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_PROG_CODE, custCode, POL_FM_DT, filter ,prodCode ,secCode
+
+    } = queryParams;
 
     if (!PLD_BLOCK_NAME || !PLD_FIELD_NAME) {
       throw new Error("Missing required fields: PLD_BLOCK_NAME or PLD_FIELD_NAME");
@@ -95,7 +97,7 @@ class DropdownService {
     // **************** NORMAL LOV FLOW (your existing logic) ****************
 
     const lovDef = await PGIM_LOV_DEFN.findOne({
-      where: { PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_PROG_CODE, PLD_MOD_CODE: null },
+      where: { PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_PROG_CODE },
     });
 
     if (!lovDef) throw new Error("LOV definition not found");
@@ -107,6 +109,8 @@ class DropdownService {
     sql = sql.replace(/:GLOBAL\.M_LOGIN_APP_CODE/g, ":loginAppCode");
     sql = sql.replace(/:PGIT_POLICY\.POL_CUST_CODE/g, ":custCode");
     sql = sql.replace(/:PGIT_POLICY\.POL_FM_DT/g, ":POL_FM_DT");
+    sql = sql.replace(/:GLOBAL\.M_PROD_CODE/g, ":prodCode");
+    sql = sql.replace(/:GLOBAL\.M_SECTION_CODE/g, ":secCode");
 
     const sqlUses_PARA3 = sql.includes(":P_PARA_3");
     const sqlUses_POLFMDT = sql.includes(":POL_FM_DT");
@@ -115,8 +119,10 @@ class DropdownService {
       langCode: "ENG",
       loginAppCode: "01",
       custCode: custCode || null,
-      P_PARA_1: queryParams.P_PARA_1 || "ENG",
-      P_PARA_2: queryParams.P_PARA_2 || custCode || "01" || null,
+      prodCode: prodCode || null,
+      secCode: secCode || null,
+      P_PARA_1: queryParams.P_PARA_1 || prodCode || "ENG",
+      P_PARA_2: queryParams.P_PARA_2 || custCode || secCode || "01" || null,
       P_PARA_3: queryParams.P_PARA_3 || POL_FM_DT || null,
       P_PARA_4: queryParams.P_PARA_4 || null,
       P_PARA_5: queryParams.P_PARA_5 || null,
@@ -163,6 +169,7 @@ class DropdownService {
       bind,
     });
 
+
     return {
       blockName: PLD_BLOCK_NAME,
       fieldName: PLD_FIELD_NAME,
@@ -170,13 +177,16 @@ class DropdownService {
       data: this.convertObjectsToFilteredObjects(rows),
     };
   }
+  
 
   convertObjectsToFilteredObjects(rows) {
     if (!rows || rows.length === 0) return [];
     return rows.map(row => {
       const filtered = {};
       Object.keys(row).forEach(key => {
-        if (key !== "NULL" && key !== "ROWID" && key !== "NULL_1" && key !== "ASSR_CIVIL_ID") {
+        if (key !== "NULL" && key !== "ROWID" && key !== "NULL_1" && key !== "ASSR_CIVIL_ID"
+          && key !== "PSMI_ADD_SI_YN" && key !== "NULL_2"
+        ) {
           filtered[key] = row[key];
         }
       });
