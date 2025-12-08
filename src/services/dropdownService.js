@@ -2,6 +2,7 @@ const { PGIM_LOV_DEFN, sequelize } = require("../models");
 const { QueryTypes } = require("sequelize");
 
 // ----------- DATE CONVERSION FIX ------------
+
 function convertToOracleDate(input) {
   if (!input) return null;
 
@@ -22,6 +23,7 @@ function convertToOracleDate(input) {
 }
 
 // ----------- Extract SELECT Columns (For Auto Filter Column) ------------
+
 function extractSelectColumns(sql) {
   const selectPart = sql.split(/from/i)[0];
   return selectPart
@@ -116,17 +118,17 @@ class DropdownService {
     const sqlUses_POLFMDT = sql.includes(":POL_FM_DT");
 
     let bind = {
-      langCode: "ENG",
-      loginAppCode: "01",
+      langCode: queryParams.langCode || "ENG",
+      loginAppCode: queryParams.loginAppCode || "01",
       custCode: custCode || null,
       prodCode: prodCode || null,
       secCode: secCode || null,
-      P_PARA_1: queryParams.P_PARA_1 || prodCode || "ENG",
+      POL_FM_DT: POL_FM_DT || null,
+      P_PARA_1: queryParams.P_PARA_1 || prodCode || "ENG" ||null,
       P_PARA_2: queryParams.P_PARA_2 || custCode || secCode || "01" || null,
       P_PARA_3: queryParams.P_PARA_3 || POL_FM_DT || null,
       P_PARA_4: queryParams.P_PARA_4 || null,
-      P_PARA_5: queryParams.P_PARA_5 || null,
-      POL_FM_DT: POL_FM_DT || null
+      P_PARA_5: queryParams.P_PARA_5 || null
     };
 
     if (sqlUses_PARA3 && bind.P_PARA_3)
@@ -162,13 +164,10 @@ class DropdownService {
 
     ({ sql, bind } = expandDuplicateBinds(sql, bind));
 
-
-
     const rows = await sequelize.query(sql, {
       type: QueryTypes.SELECT,
       bind,
     });
-
 
     return {
       blockName: PLD_BLOCK_NAME,
@@ -178,14 +177,13 @@ class DropdownService {
     };
   }
   
-
   convertObjectsToFilteredObjects(rows) {
     if (!rows || rows.length === 0) return [];
     return rows.map(row => {
       const filtered = {};
       Object.keys(row).forEach(key => {
         if (key !== "NULL" && key !== "ROWID" && key !== "NULL_1" && key !== "ASSR_CIVIL_ID"
-          && key !== "PSMI_ADD_SI_YN" && key !== "NULL_2"
+        && key !== "PSMI_ADD_SI_YN" && key !== "NULL_2"
         ) {
           filtered[key] = row[key];
         }
@@ -194,5 +192,8 @@ class DropdownService {
     });
   }
 }
+
+     
+
 
 module.exports = new DropdownService();
