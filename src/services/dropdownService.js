@@ -118,8 +118,8 @@ class DropdownService {
     const sqlUses_POLFMDT = sql.includes(":POL_FM_DT");
 
     let bind = {
-      langCode: queryParams.langCode || "ENG",
-      loginAppCode: queryParams.loginAppCode || "01",
+      langCode: queryParams.langCode || "ENG" || null,
+      loginAppCode: queryParams.loginAppCode || "01" || null,
       custCode: custCode || null,
       prodCode: prodCode || null,
       secCode: secCode || null,
