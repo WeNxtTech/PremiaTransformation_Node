@@ -56,7 +56,7 @@ function expandDuplicateBinds(sql, bind) {
 
 class DropdownService {
   async getDropdownData(queryParams) {
-    const { PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_PROG_CODE, custCode, POL_FM_DT, filter ,prodCode ,secCode
+    const { PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_PROG_CODE, custCode, polFmDt, filter ,prodCode ,secCode
 
     } = queryParams;
 
@@ -116,12 +116,12 @@ class DropdownService {
     sql = sql.replace(/:GLOBAL\.M_LANG_CODE/g, ":langCode");
     sql = sql.replace(/:GLOBAL\.M_LOGIN_APP_CODE/g, ":loginAppCode");
     sql = sql.replace(/:PGIT_POLICY\.POL_CUST_CODE/g, ":custCode");
-    sql = sql.replace(/:PGIT_POLICY\.POL_FM_DT/g, ":POL_FM_DT");
+    sql = sql.replace(/:PGIT_POLICY\.polFmDt/g, ":polFmDt");
     sql = sql.replace(/:GLOBAL\.M_PROD_CODE/g, ":prodCode");
     sql = sql.replace(/:GLOBAL\.M_SECTION_CODE/g, ":secCode");
 
     const sqlUses_PARA3 = sql.includes(":P_PARA_3");
-    const sqlUses_POLFMDT = sql.includes(":POL_FM_DT");
+    const sqlUses_POLFMDT = sql.includes(":polFmDt");
 
     let bind = {
       langCode: queryParams.langCode || "ENG" || null,
@@ -129,10 +129,10 @@ class DropdownService {
       custCode: custCode || null,
       prodCode: prodCode || null,
       secCode: secCode || null,
-      POL_FM_DT: POL_FM_DT || null,
+      polFmDt: polFmDt || null,
       P_PARA_1: queryParams.P_PARA_1 || prodCode || "ENG" ||null,
       P_PARA_2: queryParams.P_PARA_2 || custCode || secCode || "01" || null,
-      P_PARA_3: queryParams.P_PARA_3 || POL_FM_DT || null,
+      P_PARA_3: queryParams.P_PARA_3 || polFmDt || null,
       P_PARA_4: queryParams.P_PARA_4 || null,
       P_PARA_5: queryParams.P_PARA_5 || null
     };
@@ -140,8 +140,8 @@ class DropdownService {
     if (sqlUses_PARA3 && bind.P_PARA_3)
       bind.P_PARA_3 = convertToOracleDate(bind.P_PARA_3);
 
-    if (sqlUses_POLFMDT && bind.POL_FM_DT)
-      bind.POL_FM_DT = convertToOracleDate(bind.POL_FM_DT);
+    if (sqlUses_POLFMDT && bind.polFmDt)
+      bind.polFmDt = convertToOracleDate(bind.polFmDt);
 
     // ----------- AUTO DETECT FILTER COLUMN -----------
     if (filter && filter.trim()) {
