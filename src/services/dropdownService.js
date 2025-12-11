@@ -74,7 +74,17 @@ class DropdownService {
       POL_SRC_TYPE:
         "SELECT PARA_SUB_CODE,PARA_NAME FROM PCOM_APP_PARAMETER WHERE   PARA_CODE = 'SRC_TYPE'",
       POL_PREM_CALC_TYPE:
-        "SELECT PARA_SUB_CODE,PARA_NAME FROM PCOM_APP_PARAMETER WHERE  PARA_CODE = 'PREM_CALC'"  
+        "SELECT PARA_SUB_CODE,PARA_NAME FROM PCOM_APP_PARAMETER WHERE  PARA_CODE = 'PREM_CALC'",
+      PRS_FLEXI_03: 
+      "SELECT PC_CODE,PC_DESC FROM PCOM_CODES WHERE PC_TYPE='STATE'",  
+      PRAI_CODE_02:
+       "SELECT PC_CODE,PC_DESC FROM PCOM_CODES WHERE PC_TYPE = 'OCCUPANCY'",
+      PRAI_CODE_03:
+      "SELECT PC_CODE,PC_DESC FROM PCOM_CODES WHERE PC_TYPE ='INDEM_PER_UN'" ,
+      PRC_CODE:
+      "select distinct PCVR_CVR_CODE , PCVR_DESC from PGIM_PROD_APPL_COVER where  PCVR_PROD_CODE = :prodCode and PCVR_SEC_CODE = :secCode and PCVR_CVR_TYPE = 'C'"
+      
+
 
 
     };
@@ -83,6 +93,12 @@ class DropdownService {
     if (specialQueries[PLD_FIELD_NAME]) {
       let sql = specialQueries[PLD_FIELD_NAME];
       let bind = {};
+
+
+      if (PLD_FIELD_NAME === "PRC_CODE") {
+    bind.prodCode = prodCode || null;
+    bind.secCode  = secCode  || null;
+  }
 
       if (filter && filter.trim()) {
         sql += ` AND UPPER(CUST_NAME) LIKE UPPER(:filterStr)`;
@@ -116,7 +132,7 @@ class DropdownService {
     sql = sql.replace(/:GLOBAL\.M_LANG_CODE/g, ":langCode");
     sql = sql.replace(/:GLOBAL\.M_LOGIN_APP_CODE/g, ":loginAppCode");
     sql = sql.replace(/:PGIT_POLICY\.POL_CUST_CODE/g, ":custCode");
-    sql = sql.replace(/:PGIT_POLICY\.polFmDt/g, ":polFmDt");
+    sql = sql.replace(/:PGIT_POLICY\.POL_FM_DT/g, ":polFmDt");
     sql = sql.replace(/:GLOBAL\.M_PROD_CODE/g, ":prodCode");
     sql = sql.replace(/:GLOBAL\.M_SECTION_CODE/g, ":secCode");
 
@@ -131,7 +147,7 @@ class DropdownService {
       secCode: secCode || null,
       polFmDt: polFmDt || null,
       P_PARA_1: queryParams.P_PARA_1 || prodCode || "ENG" ||null,
-      P_PARA_2: queryParams.P_PARA_2 || custCode || secCode || "01" || null,
+      P_PARA_2: queryParams.P_PARA_2 || secCode || custCode || "01" || null,
       P_PARA_3: queryParams.P_PARA_3 || polFmDt || null,
       P_PARA_4: queryParams.P_PARA_4 || null,
       P_PARA_5: queryParams.P_PARA_5 || null

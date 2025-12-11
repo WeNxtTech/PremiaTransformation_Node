@@ -1,10 +1,7 @@
 const { sequelize, QueryTypes } = require("../models");
 exports.get = async () => {
-  const query = `SELECT PLD_PROG_CODE, PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_LOV_TITLE, PLD_LOV_SELECT_STMT,
-            pld_prod_code, PLD_SECTION_CODE
-    FROM PGIM_LOV_DEFN
-    WHERE PLD_PROG_CODE = 'PGIT6_03'
-      AND PLD_BLOCK_NAME = 'PGIT_POL_RISK_SMI'`;
+  const query = `SELECT distinct PLD_PROG_CODE, PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_LOV_TITLE, PLD_LOV_SELECT_STMT FROM PGIM_LOV_DEFN
+ WHERE PLD_PROG_CODE = 'PGIT6_03' AND PLD_BLOCK_NAME = 'PGIT_POL_RISK_SMI';`;
 
   const records = await sequelize.query(query, {
     type: QueryTypes.SELECT,

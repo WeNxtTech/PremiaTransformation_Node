@@ -18,14 +18,17 @@ const { successResponse, errorResponse } = require('../utils/response');
 
 exports.getRiskData = async (req, res) => {
   try {
-    const { ProdCode } = req.query;
+    const { ProdCode,SectionCode } = req.query;
 
     // Validate required query params if needed
     if (!ProdCode ) {
       return errorResponse(res, 400, 'ProdCode  query parameters are required');
     }
 
-    const data = await getRiskData(ProdCode);
+    if (!SectionCode ) {
+      return errorResponse(res, 400, 'ProdCode  query parameters are required');
+    }
+    const data = await getRiskData(ProdCode,SectionCode);
 
     return successResponse(res, 200, 'Risk data fetched successfully', data);
   } catch (error) {
