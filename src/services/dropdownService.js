@@ -84,7 +84,7 @@ class DropdownService {
       PRC_CODE:
       "select distinct PCVR_CVR_CODE , PCVR_DESC from PGIM_PROD_APPL_COVER where  PCVR_PROD_CODE = :prodCode and PCVR_SEC_CODE = :secCode and PCVR_CVR_TYPE = 'C'"
       
-
+      
 
 
     };
@@ -190,7 +190,7 @@ class DropdownService {
       type: QueryTypes.SELECT,
       bind,
     });
-
+console.log(sql)
     return {
       blockName: PLD_BLOCK_NAME,
       fieldName: PLD_FIELD_NAME,
