@@ -831,6 +831,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE, 
       allowNull: false, 
       
+      
       field: 'PRAI_CR_DT' 
     }
     ,
@@ -3264,20 +3265,34 @@ module.exports = (sequelize, DataTypes) => {
       field: 'PRAI_REMARKS_05' 
     }
     ,
-   prai_cr_uid: { 
-      type: DataTypes.STRING(12), 
-      allowNull: false, 
+  //  prai_cr_uid: { 
+  //     type: DataTypes.STRING(12), 
+  //     allowNull: true, 
       
-      field: 'PRAI_CR_UID' 
-    }
-    ,
-   prai_cr_dt: { 
-      type: DataTypes.DATE, 
-      allowNull: false, 
+  //     field: 'PRAI_CR_UID' 
+  //   }
+  //   ,
+  //  prai_cr_dt: { 
+  //     type: DataTypes.DATE, 
+  //     allowNull: true, 
       
-      field: 'PRAI_CR_DT' 
-    }
-    ,
+  //     field: 'PRAI_CR_DT' 
+  //   }
+
+  prai_cr_uid: {
+  type: DataTypes.STRING(12),
+  allowNull: true,
+  defaultValue: 'SYSTEM',
+  field: 'PRAI_CR_UID'
+},
+prai_cr_dt: {
+  type: DataTypes.DATE,
+  allowNull: true,
+  defaultValue: DataTypes.NOW,
+  field: 'PRAI_CR_DT'
+},
+
+    
    prai_upd_uid: { 
       type: DataTypes.STRING(12), 
       allowNull: true, 

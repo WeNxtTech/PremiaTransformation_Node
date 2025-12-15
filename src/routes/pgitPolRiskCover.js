@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const pgitPolRiskCoverController = require('../controllers/pgitPolRiskCoverController');
+const PGITPOLRISKCOVERController = require('../controllers/PGITPOLRISKCOVERController');
 
-router.get('/', pgitPolRiskCoverController.getAll);
-router.post('/', pgitPolRiskCoverController.create);
-router.put('/:id', pgitPolRiskCoverController.update);
-router.delete('/:id', pgitPolRiskCoverController.deleteItem);
+router.get('/', PGITPOLRISKCOVERController.getAll);
+router.post('/', PGITPOLRISKCOVERController.create);
+router.put('/:id', PGITPOLRISKCOVERController.update);
+router.delete('/:id', PGITPOLRISKCOVERController.deleteItem);
 
 module.exports = router;
