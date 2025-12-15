@@ -34,9 +34,10 @@ const modernDropDown = require('./modernDropDownRoute');
 const dropDown = require('./dropdownRoute');
 const riskSmi = require('./riskSmiFieldRoute');
 const riskSmiLovFieldRoute = require('./riskSmiLovFieldRoute');
+const pgit_pol_risk_cover = require('./pgitPolRiskCover');
+const pgit_pol_risk_smi = require('./PGITPOLRISKSMI');
 const riskCoverFieldRoute = require('./riskCoverFieldRoute');
 const riskCoverLovRoute = require('./riskCoverLovRoute');
-
 
 
 
@@ -80,4 +81,8 @@ router.use('/riskCoverLov', riskCoverLovRoute);
 
 router.use('/pcomCodes', pcomCodesRouter);
 router.use('/pcomAppParameter', pcomAppParameterRouter);
+router.use('/pgitPolRiskCover', pgit_pol_risk_cover);
+router.use('/pgitPolRiskSmi', pgit_pol_risk_smi);
+
+
 module.exports = router;

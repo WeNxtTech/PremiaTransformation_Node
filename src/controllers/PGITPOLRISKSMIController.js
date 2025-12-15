@@ -1,11 +1,11 @@
-const PGITPOLRISKCOVERService = require('../services/PGITPOLRISKCOVERService');
+const PGITPOLRISKSMIService = require('../services/PGITPOLRISKSMIService');
 const { successResponse } = require('../utils/response');
 
 exports.getAll = async (req, res, next) => {
   try {
     const { limit, offset, order, sort = 'ASC', ...filters } = req.query;
     const queryOptions = { limit: limit ? parseInt(limit, 10) : parseInt(process.env.DEFAULT_LIMIT, 10), offset: offset ? parseInt(offset, 10) : 0, order: order ? [[order, sort.toUpperCase()]] : undefined };
-    const result = await PGITPOLRISKCOVERService.getAll(filters, queryOptions);
+    const result = await PGITPOLRISKSMIService.getAll(filters, queryOptions);
     return successResponse(res, 200, "Data Fetched", result);
   } catch (err) {
     next(err);
@@ -14,7 +14,7 @@ exports.getAll = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
   try {
-    const result = await PGITPOLRISKCOVERService.create(req.body);
+    const result = await PGITPOLRISKSMIService.create(req.body);
     return successResponse(res, 201, "Created", result);
   } catch (err) {
     next(err);
@@ -23,7 +23,7 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    const result = await PGITPOLRISKCOVERService.update(req.params.id, req.body);
+    const result = await PGITPOLRISKSMIService.update(req.params.id, req.body);
     return successResponse(res, 200, "Updated", result);
   } catch (err) {
     next(err);
@@ -32,7 +32,7 @@ exports.update = async (req, res, next) => {
 
 exports.deleteItem = async (req, res, next) => {
   try {
-    const result = await PGITPOLRISKCOVERService.deleteItem(req.params.id);
+    const result = await PGITPOLRISKSMIService.deleteItem(req.params.id);
     return successResponse(res, 200, "Deleted", result);
   } catch (err) {
     next(err);
