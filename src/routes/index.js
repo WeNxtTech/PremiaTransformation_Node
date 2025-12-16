@@ -38,7 +38,17 @@ const pgit_pol_risk_cover = require('./pgitPolRiskCover');
 const pgit_pol_risk_smi = require('./PGITPOLRISKSMI');
 const riskCoverFieldRoute = require('./riskCoverFieldRoute');
 const riskCoverLovRoute = require('./riskCoverLovRoute');
+const riskDiscountFieldRoute = require('./riskDiscountFieldRoute');
+const riskDiscountLov = require('./riskDiscountLovRoute');
+const riskDeductible = require('./riskDeductibleFieldRoute');
+const riskDeductibleLov = require('./riskDeductibleLovRoute');
 
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -78,11 +88,19 @@ router.use('/riskSmi', riskSmi);
 router.use('/riskSmiLovField', riskSmiLovFieldRoute);
 router.use('/riskCover', riskCoverFieldRoute);
 router.use('/riskCoverLov', riskCoverLovRoute);
-
 router.use('/pcomCodes', pcomCodesRouter);
 router.use('/pcomAppParameter', pcomAppParameterRouter);
 router.use('/pgitPolRiskCover', pgit_pol_risk_cover);
 router.use('/pgitPolRiskSmi', pgit_pol_risk_smi);
+router.use('/riskDiscountField', riskDiscountFieldRoute);
+router.use('/riskDiscountLov', riskDiscountLov);
+router.use('/riskDeductibleField', riskDeductible);
+router.use('/riskDeductibleLov', riskDeductibleLov);
+
+
+
+
+
 
 
 module.exports = router;

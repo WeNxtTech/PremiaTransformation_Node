@@ -1,10 +1,20 @@
-const { PGITPOLRISKSMI } = require('../models');
+const { PGITPOLRISKSMI,sequelize } = require('../models');
 
 exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
   return PGITPOLRISKSMI.findAll({ where: filters, limit, offset, ...(order && { order }) });
 };
 
+
+
+ async function getNextTranSysId() {
+  const [result] = await sequelize.query('SELECT PRS_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
+  return result[0].NEXTVAL || result[0].nextVal;  
+}
 exports.create = async (data) => {
+
+   const nextId=await getNextTranSysId();
+    data.PRS_SYS_ID=nextId;
+
   return await PGITPOLRISKSMI.create(data);
 };
 

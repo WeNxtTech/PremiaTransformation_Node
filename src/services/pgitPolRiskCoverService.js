@@ -1,10 +1,19 @@
-const { PGITPOLRISKCOVER } = require('../models');
+const { PGITPOLRISKCOVER ,sequelize} = require('../models');
 
 exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
   return PGITPOLRISKCOVER.findAll({ where: filters, limit, offset, ...(order && { order }) });
 };
 
+
+ async function getNextTranSysId() {
+  const [result] = await sequelize.query('SELECT PRC_SYS_IDD_SEQ.NEXTVAL AS nextVal FROM DUAL');
+  return result[0].NEXTVAL || result[0].nextVal;  
+}
 exports.create = async (data) => {
+
+    const nextId=await getNextTranSysId();
+    data.PRC_SYS_ID=nextId;
+
   return await PGITPOLRISKCOVER.create(data);
 };
 
