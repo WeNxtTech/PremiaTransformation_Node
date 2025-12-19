@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.JWT_SECRET;
 
 exports.loginUser = async ({ username, password, division,department ,company}) => {
-  const USERNAME = 'admin';
-  const PASSWORD = 'admin123';
+  const USERNAME = 'PDC01';
+  const PASSWORD = 'PDC01';
   const DIVISION ='101';
   const DEPARTMENT ='20';
-  const COMPANY ='001';
+  const COMPANY ='004';
 
   if (username !== USERNAME) {
     throw createError('Customer not found', 404);

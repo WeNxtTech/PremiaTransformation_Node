@@ -28,7 +28,7 @@ function extractSelectColumns(sql) {
   const selectPart = sql.split(/from/i)[0];
   return selectPart
     .replace(/select/i, "")
-    .split(",")
+  .split(",")
     .map(col => col.trim().split(" ")[0]);
 }
 
@@ -83,10 +83,10 @@ class DropdownService {
       "SELECT PC_CODE,PC_DESC FROM PCOM_CODES WHERE PC_TYPE ='INDEM_PER_UN'" ,
       PRC_CODE:
       "select distinct PCVR_CVR_CODE , PCVR_DESC from PGIM_PROD_APPL_COVER where  PCVR_PROD_CODE = :prodCode and PCVR_SEC_CODE = :secCode and PCVR_CVR_TYPE = 'C'"
-
+     
 
     };
-
+             
     // ----------- SPECIAL QUERIES WITH FILTER ADDED ------------
     if (specialQueries[PLD_FIELD_NAME]) {
       let sql = specialQueries[PLD_FIELD_NAME];
