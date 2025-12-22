@@ -145,7 +145,7 @@ class DropdownService {
       secCode: secCode || null,
       polFmDt: polFmDt || null,
       P_PARA_1: queryParams.P_PARA_1 || prodCode || "ENG" ||null,
-      P_PARA_2: queryParams.P_PARA_2 || secCode || custCode || "01" || null,
+      P_PARA_2: queryParams.P_PARA_2  || prodCode || secCode || custCode  || "01" || null,
       P_PARA_3: queryParams.P_PARA_3 || polFmDt || null,
       P_PARA_4: queryParams.P_PARA_4 || null,
       P_PARA_5: queryParams.P_PARA_5 || null
@@ -188,7 +188,6 @@ class DropdownService {
       type: QueryTypes.SELECT,
       bind,
     });
-console.log(sql)
     return {
       blockName: PLD_BLOCK_NAME,
       fieldName: PLD_FIELD_NAME,
