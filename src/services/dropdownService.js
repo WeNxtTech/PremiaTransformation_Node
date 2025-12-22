@@ -39,9 +39,9 @@ function expandDuplicateBinds(sql, bind) {
     const matches = [...sql.matchAll(regex)];
 
     if (matches.length > 1) {
-      matches.forEach((_, i) => {
+      matches.forEach((match, i) => {
         const newKey = `${key}_${i + 1}`;
-        sql = sql.replace(`:${key}`, `:${newKey}`);
+        sql = sql.replace(match[0], `:${newKey}`);
         newBind[newKey] = bind[key];
       });
     } else if (matches.length === 1) {
@@ -81,7 +81,7 @@ class DropdownService {
       PRC_CODE: "select distinct PCVR_CVR_CODE , PCVR_DESC from PGIM_PROD_APPL_COVER where PCVR_PROD_CODE = :prodCode and PCVR_SEC_CODE = :secCode and PCVR_CVR_TYPE = 'C'",
       PCD_CODE: "SELECT PADED_CODE, PADED_DESC FROM PGIM_PROD_APPL_DED WHERE PADED_PROD_CODE = :prodCode AND PADED_LVL = 'P' AND TRUNC(NVL(PADED_EFF_TO_DT,SYSDATE)) >= TRUNC(SYSDATE)"
     };
-            
+    
     // ----------- SPECIAL QUERIES WITH FILTER ADDED ------------
     if (specialQueries[PLD_FIELD_NAME]) {
       let sql = specialQueries[PLD_FIELD_NAME];
@@ -97,11 +97,16 @@ class DropdownService {
       if (filter && filter.trim()) {
         if (PLD_FIELD_NAME === "PCD_CODE") {
           sql += ` AND UPPER(PADED_DESC) LIKE UPPER(:filterStr)`;
-        } else {
+        } else if (PLD_FIELD_NAME === "POL_SRC_CODE") {
           sql += ` AND UPPER(CUST_NAME) LIKE UPPER(:filterStr)`;
+        } else {
+          sql += ` AND UPPER(PARA_NAME) LIKE UPPER(:filterStr)`; // Default for most special queries
         }
         bind.filterStr = `${filter.trim()}%`;
       }
+
+      console.log('🔍 Special Query SQL:', sql);
+      console.log('🔍 Special Query Bind:', bind);
 
       const rows = await sequelize.query(sql, {
         type: QueryTypes.SELECT,
@@ -125,6 +130,7 @@ class DropdownService {
 
     let sql = lovDef.PLD_LOV_SELECT_STMT;
 
+    // Normalize Oracle placeholders
     sql = sql.replace(/:PARAMETER\.(P_PARA_[1-5])/g, (_m, p) => `:${p}`);
     sql = sql.replace(/:GLOBAL\.M_LANG_CODE/g, ":langCode");
     sql = sql.replace(/:GLOBAL\.M_LOGIN_APP_CODE/g, ":loginAppCode");
@@ -136,21 +142,22 @@ class DropdownService {
     const sqlUses_PARA3 = sql.includes(":P_PARA_3");
     const sqlUses_POLFMDT = sql.includes(":polFmDt");
 
+    // FIXED BIND OBJECT - Proper fallback chain using nullish coalescing
     let bind = {
-      langCode: queryParams.langCode || "ENG" || null,
-      loginAppCode: queryParams.loginAppCode || "01" || null,
-      custCode: custCode || null,
-      prodCode: prodCode || null,
-      secCode: secCode || null,
-      polFmDt: polFmDt || null,
-      P_PARA_1: queryParams.P_PARA_1 || prodCode || "ENG" ||null,
-      P_PARA_2: queryParams.P_PARA_2  || prodCode || secCode || custCode  || "01" || null,
-      P_PARA_2: queryParams.P_PARA_2  || secCode,
-      P_PARA_3: queryParams.P_PARA_3 || polFmDt || null,
-      P_PARA_4: queryParams.P_PARA_4 || null,
-      P_PARA_5: queryParams.P_PARA_5 || null
+      langCode: queryParams.langCode ?? "ENG",
+      loginAppCode: queryParams.loginAppCode ?? "01",
+      custCode: custCode ?? null,
+      prodCode: prodCode ?? null,
+      secCode: secCode ?? null,
+      polFmDt: polFmDt ?? null,
+      P_PARA_1: queryParams.P_PARA_1 ?? "ENG",                    // Language default
+      P_PARA_2: queryParams.P_PARA_2 ?? custCode ?? "01",         // Customer/App default
+      P_PARA_3: queryParams.P_PARA_3 ?? polFmDt ?? null,
+      P_PARA_4: queryParams.P_PARA_4 ?? null,
+      P_PARA_5: queryParams.P_PARA_5 ?? null
     };
 
+    // Convert dates only if used in SQL
     if (sqlUses_PARA3 && bind.P_PARA_3) {
       bind.P_PARA_3 = convertToOracleDate(bind.P_PARA_3);
     }
@@ -179,14 +186,22 @@ class DropdownService {
 
     // Remove unused binds
     Object.keys(bind).forEach((key) => {
-      if (!new RegExp(`:${key}(\\b|\\W)`).test(sql)) {
+      if (!new RegExp(`:${key}(?:\\b|\\W)`).test(sql)) {
         delete bind[key];
       }
     });
 
+    // Fix duplicate binds
     ({ sql, bind } = expandDuplicateBinds(sql, bind));
 
-
+    // DEBUG LOGGING - CRITICAL for POL_DFLT_SI_CURR_CODE issue
+    console.log('🔍 LOV Debug:', {
+      PLD_BLOCK_NAME,
+      PLD_FIELD_NAME, 
+      PLD_PROG_CODE,
+      sqlSnippet: sql.substring(0, 200) + '...',
+      finalBind: bind
+    });
 
     const rows = await sequelize.query(sql, {
       type: QueryTypes.SELECT,
