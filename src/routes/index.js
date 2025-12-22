@@ -42,7 +42,7 @@ const riskDiscountFieldRoute = require('./riskDiscountFieldRoute');
 const riskDiscountLov = require('./riskDiscountLovRoute');
 const riskDeductible = require('./riskDeductibleFieldRoute');
 const riskDeductibleLov = require('./riskDeductibleLovRoute');
-
+const dsCode = require('./ds_codeRoute');
 
 
 
@@ -96,6 +96,7 @@ router.use('/riskDiscountField', riskDiscountFieldRoute);
 router.use('/riskDiscountLov', riskDiscountLov);
 router.use('/riskDeductibleField', riskDeductible);
 router.use('/riskDeductibleLov', riskDeductibleLov);
+router.use('/dsCode',dsCode);
 
 
 
