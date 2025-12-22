@@ -146,6 +146,7 @@ class DropdownService {
       polFmDt: polFmDt || null,
       P_PARA_1: queryParams.P_PARA_1 || prodCode || "ENG" ||null,
       P_PARA_2: queryParams.P_PARA_2  || prodCode || secCode || custCode  || "01" || null,
+      P_PARA_2: queryParams.P_PARA_2  || secCode,
       P_PARA_3: queryParams.P_PARA_3 || polFmDt || null,
       P_PARA_4: queryParams.P_PARA_4 || null,
       P_PARA_5: queryParams.P_PARA_5 || null
