@@ -2,7 +2,6 @@ const { PGIM_LOV_DEFN, sequelize } = require("../models");
 const { QueryTypes } = require("sequelize");
 
 // ----------- DATE CONVERSION FIX ------------
-
 function convertToOracleDate(input) {
   if (!input) return null;
 
@@ -23,12 +22,11 @@ function convertToOracleDate(input) {
 }
 
 // ----------- Extract SELECT Columns (For Auto Filter Column) ------------
-
 function extractSelectColumns(sql) {
   const selectPart = sql.split(/from/i)[0];
   return selectPart
     .replace(/select/i, "")
-  .split(",")
+    .split(",")
     .map(col => col.trim().split(" ")[0]);
 }
 
@@ -56,8 +54,15 @@ function expandDuplicateBinds(sql, bind) {
 
 class DropdownService {
   async getDropdownData(queryParams) {
-    const { PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_PROG_CODE, custCode, polFmDt, filter ,prodCode ,secCode
-
+    const { 
+      PLD_BLOCK_NAME, 
+      PLD_FIELD_NAME, 
+      PLD_PROG_CODE, 
+      custCode, 
+      polFmDt, 
+      filter, 
+      prodCode, 
+      secCode
     } = queryParams;
 
     if (!PLD_BLOCK_NAME || !PLD_FIELD_NAME) {
@@ -65,41 +70,36 @@ class DropdownService {
     }
 
     const specialQueries = {
-      POL_SRC_CODE:
-        "SELECT CUST_CODE, CUST_NAME FROM PCOM_CUST_CATG, PCOM_CUSTOMER WHERE CC_TYPE IN ('002', '012')",
-      POL_INSTL_METHOD:
-        "SELECT PARA_SUB_CODE, PARA_NAME FROM PCOM_APP_PARAMETER WHERE PARA_CODE = 'INSTL_METHOD'",
-      POL_FLEX_08:
-        "SELECT PARA_SUB_CODE, PARA_NAME FROM PCOM_APP_PARAMETER WHERE PARA_CODE = 'MODE_OF_PAY'",
-      POL_SRC_TYPE:
-        "SELECT PARA_SUB_CODE,PARA_NAME FROM PCOM_APP_PARAMETER WHERE   PARA_CODE = 'SRC_TYPE'",
-      POL_PREM_CALC_TYPE:
-        "SELECT PARA_SUB_CODE,PARA_NAME FROM PCOM_APP_PARAMETER WHERE  PARA_CODE = 'PREM_CALC'",
-      PRS_FLEXI_03: 
-      "SELECT PC_CODE,PC_DESC FROM PCOM_CODES WHERE PC_TYPE='STATE'",  
-      PRAI_CODE_02:
-       "SELECT PC_CODE,PC_DESC FROM PCOM_CODES WHERE PC_TYPE = 'OCCUPANCY'",
-      PRAI_CODE_03:
-      "SELECT PC_CODE,PC_DESC FROM PCOM_CODES WHERE PC_TYPE ='INDEM_PER_UN'" ,
-      PRC_CODE:
-      "select distinct PCVR_CVR_CODE , PCVR_DESC from PGIM_PROD_APPL_COVER where  PCVR_PROD_CODE = :prodCode and PCVR_SEC_CODE = :secCode and PCVR_CVR_TYPE = 'C'"
-     
-
+      POL_SRC_CODE: "SELECT CUST_CODE, CUST_NAME FROM PCOM_CUST_CATG, PCOM_CUSTOMER WHERE CC_TYPE IN ('002', '012')",
+      POL_INSTL_METHOD: "SELECT PARA_SUB_CODE, PARA_NAME FROM PCOM_APP_PARAMETER WHERE PARA_CODE = 'INSTL_METHOD'",
+      POL_FLEX_08: "SELECT PARA_SUB_CODE, PARA_NAME FROM PCOM_APP_PARAMETER WHERE PARA_CODE = 'MODE_OF_PAY'",
+      POL_SRC_TYPE: "SELECT PARA_SUB_CODE,PARA_NAME FROM PCOM_APP_PARAMETER WHERE PARA_CODE = 'SRC_TYPE'",
+      POL_PREM_CALC_TYPE: "SELECT PARA_SUB_CODE,PARA_NAME FROM PCOM_APP_PARAMETER WHERE PARA_CODE = 'PREM_CALC'",
+      PRS_FLEXI_03: "SELECT PC_CODE,PC_DESC FROM PCOM_CODES WHERE PC_TYPE='STATE'",  
+      PRAI_CODE_02: "SELECT PC_CODE,PC_DESC FROM PCOM_CODES WHERE PC_TYPE = 'OCCUPANCY'",
+      PRAI_CODE_03: "SELECT PC_CODE,PC_DESC FROM PCOM_CODES WHERE PC_TYPE ='INDEM_PER_UN'" ,
+      PRC_CODE: "select distinct PCVR_CVR_CODE , PCVR_DESC from PGIM_PROD_APPL_COVER where PCVR_PROD_CODE = :prodCode and PCVR_SEC_CODE = :secCode and PCVR_CVR_TYPE = 'C'",
+      PCD_CODE: "SELECT PADED_CODE, PADED_DESC FROM PGIM_PROD_APPL_DED WHERE PADED_PROD_CODE = :prodCode AND PADED_LVL = 'P' AND TRUNC(NVL(PADED_EFF_TO_DT,SYSDATE)) >= TRUNC(SYSDATE)"
     };
-             
+            
     // ----------- SPECIAL QUERIES WITH FILTER ADDED ------------
     if (specialQueries[PLD_FIELD_NAME]) {
       let sql = specialQueries[PLD_FIELD_NAME];
       let bind = {};
 
-
       if (PLD_FIELD_NAME === "PRC_CODE") {
-    bind.prodCode = prodCode || null;
-    bind.secCode  = secCode  || null;
-  }
+        bind.prodCode = prodCode || null;
+        bind.secCode = secCode || null;
+      } else if (PLD_FIELD_NAME === "PCD_CODE") {
+        bind.prodCode = prodCode || null;
+      }
 
       if (filter && filter.trim()) {
-        sql += ` AND UPPER(CUST_NAME) LIKE UPPER(:filterStr)`;
+        if (PLD_FIELD_NAME === "PCD_CODE") {
+          sql += ` AND UPPER(PADED_DESC) LIKE UPPER(:filterStr)`;
+        } else {
+          sql += ` AND UPPER(CUST_NAME) LIKE UPPER(:filterStr)`;
+        }
         bind.filterStr = `${filter.trim()}%`;
       }
 
@@ -116,8 +116,7 @@ class DropdownService {
       };
     }
 
-    // **************** NORMAL LOV FLOW (your existing logic) ****************
-
+    // **************** NORMAL LOV FLOW ****************
     const lovDef = await PGIM_LOV_DEFN.findOne({
       where: { PLD_BLOCK_NAME, PLD_FIELD_NAME, PLD_PROG_CODE },
     });
@@ -152,11 +151,13 @@ class DropdownService {
       P_PARA_5: queryParams.P_PARA_5 || null
     };
 
-    if (sqlUses_PARA3 && bind.P_PARA_3)
+    if (sqlUses_PARA3 && bind.P_PARA_3) {
       bind.P_PARA_3 = convertToOracleDate(bind.P_PARA_3);
+    }
 
-    if (sqlUses_POLFMDT && bind.polFmDt)
+    if (sqlUses_POLFMDT && bind.polFmDt) {
       bind.polFmDt = convertToOracleDate(bind.polFmDt);
+    }
 
     // ----------- AUTO DETECT FILTER COLUMN -----------
     if (filter && filter.trim()) {
@@ -185,10 +186,13 @@ class DropdownService {
 
     ({ sql, bind } = expandDuplicateBinds(sql, bind));
 
+
+
     const rows = await sequelize.query(sql, {
       type: QueryTypes.SELECT,
       bind,
     });
+
     return {
       blockName: PLD_BLOCK_NAME,
       fieldName: PLD_FIELD_NAME,
@@ -203,8 +207,7 @@ class DropdownService {
       const filtered = {};
       Object.keys(row).forEach(key => {
         if (key !== "NULL" && key !== "ROWID" && key !== "NULL_1" && key !== "ASSR_CIVIL_ID"
-        && key !== "PSMI_ADD_SI_YN" && key !== "NULL_2"
-        ) {
+        && key !== "PSMI_ADD_SI_YN" && key !== "NULL_2") {
           filtered[key] = row[key];
         }
       });
@@ -212,8 +215,5 @@ class DropdownService {
     });
   }
 }
-
-     
-
 
 module.exports = new DropdownService();
