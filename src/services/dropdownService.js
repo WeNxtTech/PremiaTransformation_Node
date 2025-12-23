@@ -100,7 +100,7 @@ class DropdownService {
         } else if (PLD_FIELD_NAME === "POL_SRC_CODE") {
           sql += ` AND UPPER(CUST_NAME) LIKE UPPER(:filterStr)`;
         } else {
-          sql += ` AND UPPER(PARA_NAME) LIKE UPPER(:filterStr)`; // Default for most special queries
+          sql += ` AND UPPER(PARA_NAME) LIKE UPPER(:filterStr)`;
         }
         bind.filterStr = `${filter.trim()}%`;
       }
@@ -142,7 +142,7 @@ class DropdownService {
     const sqlUses_PARA3 = sql.includes(":P_PARA_3");
     const sqlUses_POLFMDT = sql.includes(":polFmDt");
 
-    // FIXED BIND OBJECT - Proper fallback chain using nullish coalescing
+    // ✅ FIXED BIND - Correct priority for SMI queries
     let bind = {
       langCode: queryParams.langCode ?? "ENG",
       loginAppCode: queryParams.loginAppCode ?? "01",
@@ -150,8 +150,9 @@ class DropdownService {
       prodCode: prodCode ?? null,
       secCode: secCode ?? null,
       polFmDt: polFmDt ?? null,
-      P_PARA_1: queryParams.P_PARA_1 ?? "ENG",                    // Language default
-      P_PARA_2: queryParams.P_PARA_2 ?? custCode ?? "01",         // Customer/App default
+      // SMI queries need: P_PARA_1=prodCode, P_PARA_2=secCode
+      P_PARA_1: queryParams.P_PARA_1 ?? prodCode ?? "ENG",
+      P_PARA_2: queryParams.P_PARA_2 ?? secCode ?? custCode ?? "01",
       P_PARA_3: queryParams.P_PARA_3 ?? polFmDt ?? null,
       P_PARA_4: queryParams.P_PARA_4 ?? null,
       P_PARA_5: queryParams.P_PARA_5 ?? null
@@ -194,12 +195,12 @@ class DropdownService {
     // Fix duplicate binds
     ({ sql, bind } = expandDuplicateBinds(sql, bind));
 
-    // DEBUG LOGGING - CRITICAL for POL_DFLT_SI_CURR_CODE issue
+    // DEBUG LOGGING
     console.log('🔍 LOV Debug:', {
       PLD_BLOCK_NAME,
       PLD_FIELD_NAME, 
       PLD_PROG_CODE,
-      sqlSnippet: sql.substring(0, 200) + '...',
+      sqlSnippet: sql.substring(0, 500) + '...',
       finalBind: bind
     });
 
