@@ -1,23 +1,6 @@
 const { PgitPolicy, sequelize } = require('../models');
 const { QueryTypes } = require('sequelize');
 
-// Oracle Date Converter for procedure
-function convertToOracleDate(input) {
-  if (!input) return null;
-  const d = new Date(input);
-  if (isNaN(d)) return null;
-  
-  const monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
-  const day = String(d.getDate()).padStart(2, "0");
-  const month = monthNames[d.getMonth()];
-  const year = d.getFullYear();
-  const hh = String(d.getHours()).padStart(2, "0");
-  const mm = String(d.getMinutes()).padStart(2, "0");
-  const ss = String(d.getSeconds()).padStart(2, "0");
-  
-  return `${day}-${month}-${year} ${hh}:${mm}:${ss}`;
-}
-
 exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
   return PgitPolicy.findAll({ where: filters, limit, offset, ...(order && { order }) });
 };
@@ -43,38 +26,40 @@ exports.create = async (data) => {
 
   const createdRecord = await PgitPolicy.create(data);
 
-  // 🔥 PROCEDURE CALL - PGIPK_POLICY_ENTRY.Pr_Dflt_Currency
-  const procedureParams = {
-    P_POL_SYS_ID: createdRecord.POL_SYS_ID,
-    P_END_NO_IDX: parseInt(createdRecord.POL_END_NO_IDX) || 0,
-    P_END_SR_NO: parseInt(createdRecord.POL_END_SR_NO) || 0,
-    P_DS_TYPE: data.POL_DS_TYPE ,
-    P_DS_CODE: data.POL_DS_CODE ,
-    P_PROD_CODE: data.POL_PROD_CODE ,
-    P_POL_ISS_DT: convertToOracleDate(createdRecord.POL_ISSUE_DT),
-    P_COMP_CODE: data.POL_COMP_CODE ,
-  };
-
-  console.log('🔍 Calling Pr_Dflt_Currency:', procedureParams);
-
+  // 🔥 EXACT PL/SQL BLOCK - Matches your cursor logic
   const plsql = `
+    DECLARE
+      CURSOR C1 IS
+      SELECT POL_SYS_ID, POL_END_NO_IDX, POL_END_SR_NO, POL_COMP_CODE, 
+             POL_DS_TYPE, POL_DS_CODE, POL_PROD_CODE, POL_ISSUE_DT
+      FROM PGIT_POLICY
+      WHERE POL_SYS_ID = ${createdRecord.POL_SYS_ID};
     BEGIN
-      PGIPK_POLICY_ENTRY.Pr_Dflt_Currency(
-        :P_POL_SYS_ID, :P_END_NO_IDX, :P_END_SR_NO,
-        :P_DS_TYPE, :P_DS_CODE, :P_PROD_CODE,
-        :P_POL_ISS_DT, :P_COMP_CODE
-      );
+      FOR I IN C1 LOOP
+        Pcopk_Sys_Vars.M_COMP_CODE := I.POL_COMP_CODE;
+        PGIPK_POLICY_ENTRY.Pr_Dflt_Currency(
+          P_POL_SYS_ID => I.POL_SYS_ID,
+          P_END_NO_IDX => I.POL_END_NO_IDX,
+          P_END_SR_NO  => I.POL_END_SR_NO,
+          P_DS_TYPE    => I.POL_DS_TYPE,
+          P_DS_CODE    => I.POL_DS_CODE,
+          P_PROD_CODE  => I.POL_PROD_CODE,
+          P_POL_ISS_DT => TRUNC(I.POL_ISSUE_DT),
+          P_COMP_CODE  => I.POL_COMP_CODE
+        );
+      END LOOP;
     END;
   `;
+
+  console.log('🔍 Executing PL/SQL block for POL_SYS_ID:', createdRecord.POL_SYS_ID);
 
   try {
     await sequelize.query(plsql, {
       type: QueryTypes.RAW,
-      bind: procedureParams,
     });
-    console.log('✅ Procedure executed successfully');
+    console.log('✅ PL/SQL block executed successfully');
   } catch (error) {
-    console.error('⚠️ Procedure failed (policy still created):');
+    console.error('⚠️ PL/SQL block failed (policy still created):', error.message || error);
   }
 
   const responseData = {
