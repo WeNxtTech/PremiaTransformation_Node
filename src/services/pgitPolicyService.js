@@ -26,7 +26,6 @@ exports.create = async (data) => {
 
   const createdRecord = await PgitPolicy.create(data);
 
-  // 🔥 EXACT PL/SQL BLOCK - Matches your cursor logic
   const plsql = `
     DECLARE
       CURSOR C1 IS
@@ -51,15 +50,14 @@ exports.create = async (data) => {
     END;
   `;
 
-  console.log('🔍 Executing PL/SQL block for POL_SYS_ID:', createdRecord.POL_SYS_ID);
 
   try {
     await sequelize.query(plsql, {
       type: QueryTypes.RAW,
     });
-    console.log('✅ PL/SQL block executed successfully');
+    console.log('PL/SQL block executed successfully');
   } catch (error) {
-    console.error('⚠️ PL/SQL block failed (policy still created):', error.message || error);
+    console.error('PL/SQL block failed (policy still created):', error.message || error);
   }
 
   const responseData = {
