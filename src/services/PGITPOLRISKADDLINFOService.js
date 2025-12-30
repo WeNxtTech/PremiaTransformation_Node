@@ -9,11 +9,20 @@ async function getNextPolSysId() {
   return result[0].NEXTVAL || result[0].nextVal;
 }
 
+
 exports.create = async (data) => {
+  // 1) Generate PK from sequence
   const nextId = await getNextPolSysId();
   data.prai_sys_id = nextId;
 
+  // 2) First insert (without PRAI_LVL1_SYS_ID or with null)
   const createdRecord = await PGITPOLRISKADDLINFO.create(data);
+
+  // 3) Now set PRAI_LVL1_SYS_ID = PRAI_SYS_ID in same row
+  //    (or any other logic you want)
+  await createdRecord.update({
+    prai_lvl1_sys_id: createdRecord.prai_sys_id, // <== key line
+  });
 
   const responseData = {
     prai_sys_id: createdRecord.prai_sys_id,
@@ -23,8 +32,8 @@ exports.create = async (data) => {
     prai_risk_lvl_no: createdRecord.prai_risk_lvl_no,
     prai_risk_sr_no: createdRecord.prai_risk_sr_no,
     prai_lvl1_sr_no: createdRecord.prai_lvl1_sr_no,
-    prai_lvl2_sr_no: createdRecord.prai_lvl2_sr_no
-   
+    prai_lvl2_sr_no: createdRecord.prai_lvl2_sr_no,
+    prai_lvl1_sys_id: createdRecord.prai_lvl1_sys_id,
   };
 
   return {
