@@ -43,6 +43,13 @@ const riskDiscountLov = require('./riskDiscountLovRoute');
 const riskDeductible = require('./riskDeductibleFieldRoute');
 const riskDeductibleLov = require('./riskDeductibleLovRoute');
 const dsCode = require('./ds_codeRoute');
+const polConditionFieldRoute = require('./polConditionFieldRoute');
+const polConditionLovRoute = require('./polConditionLovRoute');
+const polPreInsDtlField = require('./polPrevInsDtlFieldRoute');
+const polPreInsDtlLov = require('./polPreInsDtlLovRoute');
+const polChargeField = require('./polChargeFieldRoute');
+const polChargeLov = require('./polChargeLovRoute');
+
 
 
 
@@ -97,9 +104,12 @@ router.use('/riskDiscountLov', riskDiscountLov);
 router.use('/riskDeductibleField', riskDeductible);
 router.use('/riskDeductibleLov', riskDeductibleLov);
 router.use('/dsCode',dsCode);
-
-
-
+router.use('/polConditionField', polConditionFieldRoute);
+router.use('/polConditionLov', polConditionLovRoute);
+router.use('/polPrevInsDtlField', polPreInsDtlField);
+router.use('/polPrevInsDtlLov', polPreInsDtlLov);
+router.use('/polChargeField', polChargeField);
+router.use('/polChargeLov', polChargeLov);
 
 
 
