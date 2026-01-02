@@ -14,6 +14,7 @@ const pgitPolPremCompSheetRouter = require('./pgitPolPremCompSheet');
 const pgitAcntDocRouter = require('./pgitAcntDoc');
 const pcomCodesRouter = require('./pcomCodes');
 const pcomAppParameterRouter = require('./pcomAppParameter');
+const PGITPOLHYPOTHECATIONRouter = require('./PGITPOLHYPOTHECATION');
 const router = express.Router();
 const lmCompanyRoutes=require('./lmCompanyRoutes');
 const class_of_busRoute = require('./class_of_busRoute');
@@ -49,10 +50,14 @@ const polPreInsDtlField = require('./polPrevInsDtlFieldRoute');
 const polPreInsDtlLov = require('./polPreInsDtlLovRoute');
 const polChargeField = require('./polChargeFieldRoute');
 const polChargeLov = require('./polChargeLovRoute');
-
-
-
-
+const polApplCurrField = require('./polApplCurrFieldRoute');
+const polApplCurrLovRoute = require('./polApplCurrLovRoute');
+const polInstPremFieldRoute = require('./polInstPremFieldRoute');
+const polInstPremLov = require('./polInstPremLovRoute');
+const polBrokerField = require('./polBrokerFieldRoute');
+const polBrokerLov = require('./polBrokerLovRoute');
+const polHypoField = require('./polHypoFieldRoute');
+const polHypoLovRoute = require('./polHypoLovRoute');
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,6 +115,20 @@ router.use('/polPrevInsDtlField', polPreInsDtlField);
 router.use('/polPrevInsDtlLov', polPreInsDtlLov);
 router.use('/polChargeField', polChargeField);
 router.use('/polChargeLov', polChargeLov);
+router.use('/polApplCurrField', polApplCurrField);
+router.use('/polApplCurrLov', polApplCurrLovRoute);
+router.use('/polInstPremField', polInstPremFieldRoute);
+router.use('/polInstPremLov', polInstPremLov);
+router.use('/polBrokerField', polBrokerField);
+router .use('/polBrokerLov', polBrokerLov);     
+router.use('/PGITPOLHYPOTHECATION', PGITPOLHYPOTHECATIONRouter);
+router.use('/polHypoField', polHypoField);
+router.use('/polHypoLov', polHypoLovRoute);
+
+
+
+
+
 
 
 

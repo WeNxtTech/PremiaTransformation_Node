@@ -50,8 +50,30 @@ exports.getAll = async (
     limit: Number(limit),
     offset: Number(offset),
     order: order || [['POL_NO', 'DESC']],
+    
   });
 };
+
+
+exports.getById = async (id) => {
+  const policy = await PgitPolicy.findByPk(id);
+
+  if (!policy) {
+    const error = new Error(`Policy with ID ${id} not found`);
+    error.statusCode = 404;
+    throw error;
+  }
+
+  return {
+    success: true,
+    message: 'Policy fetched successfully',
+    data: policy
+  };
+};
+
+
+
+
 
 
 
