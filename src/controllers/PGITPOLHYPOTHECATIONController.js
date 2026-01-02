@@ -1,30 +1,20 @@
-const pgitPolicyService = require('../services/pgitPolicyService');
+const PGITPOLHYPOTHECATIONService = require('../services/PGITPOLHYPOTHECATIONService');
 const { successResponse } = require('../utils/response');
 
 exports.getAll = async (req, res, next) => {
   try {
     const { limit, offset, order, sort = 'ASC', ...filters } = req.query;
     const queryOptions = { limit: limit ? parseInt(limit, 10) : parseInt(process.env.DEFAULT_LIMIT, 10), offset: offset ? parseInt(offset, 10) : 0, order: order ? [[order, sort.toUpperCase()]] : undefined };
-    const result = await pgitPolicyService.getAll(filters, queryOptions);
+    const result = await PGITPOLHYPOTHECATIONService.getAll(filters, queryOptions);
     return successResponse(res, 200, "Data Fetched", result);
   } catch (err) {
     next(err);
   }
 };
 
-
-
-exports.getById = async (req, res, next) => {
-  try {
-    const result = await pgitPolicyService.getById(req.params.id);
-    return successResponse(res, 200, result.message, result.data);
-  } catch (err) {
-    next(err);
-  }
-};
 exports.create = async (req, res, next) => {
   try {
-    const result = await pgitPolicyService.create(req.body);
+    const result = await PGITPOLHYPOTHECATIONService.create(req.body);
     return successResponse(res, 201, "Created", result);
   } catch (err) {
     next(err);
@@ -33,7 +23,7 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    const result = await pgitPolicyService.update(req.params.id, req.body);
+    const result = await PGITPOLHYPOTHECATIONService.update(req.params.id, req.body);
     return successResponse(res, 200, "Updated", result);
   } catch (err) {
     next(err);
@@ -42,7 +32,7 @@ exports.update = async (req, res, next) => {
 
 exports.deleteItem = async (req, res, next) => {
   try {
-    const result = await pgitPolicyService.deleteItem(req.params.id);
+    const result = await PGITPOLHYPOTHECATIONService.deleteItem(req.params.id);
     return successResponse(res, 200, "Deleted", result);
   } catch (err) {
     next(err);
