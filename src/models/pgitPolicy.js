@@ -52,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
    POL_NO_SECTION: { 
       type: DataTypes.INTEGER, 
       allowNull: true, 
+      defaultValue: '12121',
       
       field: 'POL_NO_SECTION' 
     }
