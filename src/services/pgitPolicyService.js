@@ -5,14 +5,19 @@ const { QueryTypes, Op, fn, col, where } = require('sequelize');
    GET ALL
 ================================ */
 exports.getAll = async (
-  { search },
+  { search, POL_PROD_CODE },          // <-- accept POL_PROD_CODE from params/query
   { limit = 10, offset = 0, order } = {}
 ) => {
-
   let whereClause = {};
 
+  // Base filter: exact match on POL_PROD_CODE if provided
+  if (POL_PROD_CODE) {
+    whereClause.POL_PROD_CODE = POL_PROD_CODE;   // implicit Op.eq [web:58][web:61]
+  }
+
+  // Optional search filter: LIKE on multiple fields
   if (search) {
-    whereClause = {
+    const searchFilter = {
       [Op.or]: [
         { POL_NO: { [Op.like]: `%${search}%` } },
         { POL_PREM_CURR_CODE: { [Op.like]: `%${search}%` } },
@@ -32,6 +37,12 @@ exports.getAll = async (
         }),
       ],
     };
+
+    // Combine existing whereClause (maybe with POL_PROD_CODE) AND searchFilter
+    whereClause = {
+      ...whereClause,
+      [Op.and]: [searchFilter],
+    };
   }
 
   return PgitPolicy.findAll({
@@ -46,6 +57,7 @@ exports.getAll = async (
       'POL_ASSR_CODE',
       'POL_CUST_CODE',
       'POL_SRC_CODE',
+      'POL_PROD_CODE',           // optional: include in result
     ],
     where: whereClause,
     limit: Number(limit),
@@ -53,6 +65,7 @@ exports.getAll = async (
     order: order || [['POL_NO', 'DESC']],
   });
 };
+
 
 /* ================================
    GET BY ID
