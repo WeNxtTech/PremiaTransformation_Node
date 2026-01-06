@@ -4,7 +4,7 @@ const pgitPolicyController = require('../controllers/pgitPolicyController');
 
 router.get('/', pgitPolicyController.getAll);
 router.post('/', pgitPolicyController.create);
-router.put('/:id', pgitPolicyController.update);
+router.put('/:polNo', pgitPolicyController.update);
 router.delete('/:id', pgitPolicyController.deleteItem);
 router.get('/:id', pgitPolicyController.getById);
 

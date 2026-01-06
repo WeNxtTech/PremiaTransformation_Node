@@ -225,16 +225,21 @@ exports.create = async (data) => {
 /* ================================
    UPDATE
 ================================ */
-exports.update = async (id, updatedData) => {
-  const item = await PgitPolicy.findByPk(id);
+exports.update = async (polNo, updatedData) => {
+  const item = await PgitPolicy.findOne({
+    where: { POL_NO: polNo }
+  });
+
   if (!item) {
-    const error = new Error(`PgitPolicy with ID ${id} not found`);
+    const error = new Error(`PgitPolicy with POL_NO ${polNo} not found`);
     error.statusCode = 404;
     throw error;
   }
+
   await item.update(updatedData);
   return item;
 };
+
 
 /* ================================
    DELETE
