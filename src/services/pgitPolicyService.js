@@ -57,7 +57,6 @@ exports.getAll = async (
       'POL_ASSR_CODE',
       'POL_CUST_CODE',
       'POL_SRC_CODE',
-      'POL_PROD_CODE',           // optional: include in result
     ],
     where: whereClause,
     limit: Number(limit),
