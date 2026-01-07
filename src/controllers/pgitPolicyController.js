@@ -14,14 +14,34 @@
 
 
 
-  exports.getById = async (req, res, next) => {
-    try {
-      const result = await pgitPolicyService.getById(req.params.id);
-      return successResponse(res, 200, result.message, result.data);
-    } catch (err) {
-      next(err);
+
+
+exports.getById = async (req, res, next) => {
+  try {
+    const { polSysId, polEndNoIdx, polEndSrNo } = req.query;
+
+    if (
+      polSysId === undefined ||
+      polEndNoIdx === undefined ||
+      polEndSrNo === undefined
+    ) {
+      return res.status(400).json({
+        message: 'polSysId, polEndNoIdx, and polEndSrNo are required'
+      });
     }
-  };
+
+    const result = await pgitPolicyService.getById({
+      POL_SYS_ID: Number(polSysId),
+      POL_END_NO_IDX: Number(polEndNoIdx),
+      POL_END_SR_NO: Number(polEndSrNo)
+    });
+
+    return successResponse(res, 200, 'Fetched', result);
+  } catch (err) {
+    next(err);
+  }
+};
+
   exports.create = async (req, res, next) => {
     try {
       const result = await pgitPolicyService.create(req.body);
@@ -30,14 +50,26 @@
       next(err);
     }
   };
-
- exports.update = async (req, res, next) => {
+exports.update = async (req, res, next) => {
   try {
+    const { polSysId, polEndNoIdx, polEndSrNo } = req.query;
+
+    if (!polSysId || !polEndNoIdx || !polEndSrNo) {
+      return res.status(400).json({
+        message: 'polSysId, polEndNoIdx, and polEndSrNo are required'
+      });
+    }
+
     const result = await pgitPolicyService.update(
-      req.params.polNo,
+      {
+        POL_SYS_ID: Number(polSysId),
+        POL_END_NO_IDX: Number(polEndNoIdx),
+        POL_END_SR_NO: Number(polEndSrNo)
+      },
       req.body
     );
-    return successResponse(res, 200, "Updated", result);
+
+    return successResponse(res, 200, 'Updated', result);
   } catch (err) {
     next(err);
   }
@@ -52,3 +84,24 @@
       next(err);
     }
   };
+
+
+
+exports.getStatus = async (req, res, next) => {
+  try {
+    const { POL_PROD_CODE } = req.query;
+
+    if (!POL_PROD_CODE) {
+      return res.status(400).json({
+        message: 'POL_PROD_CODE is required'
+      });
+    }
+
+    const data = await pgitPolicyService.getStatus(POL_PROD_CODE);
+
+    return successResponse(res, 200, 'Status data fetched successfully', data);
+  } catch (err) {
+    next(err);
+  }
+};
+

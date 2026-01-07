@@ -5,17 +5,19 @@ const { QueryTypes, Op, fn, col, where } = require('sequelize');
    GET ALL
 ================================ */
 exports.getAll = async (
-  { search, POL_PROD_CODE },          // <-- accept POL_PROD_CODE from params/query
+  { search, POL_PROD_CODE, POL_APPR_STS },
   { limit = 10, offset = 0, order } = {}
 ) => {
   let whereClause = {};
 
-  // Base filter: exact match on POL_PROD_CODE if provided
   if (POL_PROD_CODE) {
-    whereClause.POL_PROD_CODE = POL_PROD_CODE;   // implicit Op.eq [web:58][web:61]
+    whereClause.POL_PROD_CODE = POL_PROD_CODE;
   }
 
-  // Optional search filter: LIKE on multiple fields
+  if (POL_APPR_STS) {
+    whereClause.POL_APPR_STS = POL_APPR_STS;
+  }
+
   if (search) {
     const searchFilter = {
       [Op.or]: [
@@ -38,14 +40,13 @@ exports.getAll = async (
       ],
     };
 
-    // Combine existing whereClause (maybe with POL_PROD_CODE) AND searchFilter
     whereClause = {
       ...whereClause,
       [Op.and]: [searchFilter],
     };
   }
 
-  return PgitPolicy.findAll({
+  const results = await PgitPolicy.findAll({
     attributes: [
       'POL_NO',
       'POL_ISSUE_DT',
@@ -57,23 +58,45 @@ exports.getAll = async (
       'POL_ASSR_CODE',
       'POL_CUST_CODE',
       'POL_SRC_CODE',
+      'POL_SYS_ID',
+      'POL_APPR_STS',
     ],
     where: whereClause,
     limit: Number(limit),
     offset: Number(offset),
     order: order || [['POL_NO', 'DESC']],
+    raw: true,
   });
+
+  const groupedResult = results.reduce((acc, row) => {
+    const key = row.POL_APPR_STS;
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
+
+  return groupedResult; 
 };
+
+
 
 
 /* ================================
    GET BY ID
 ================================ */
-exports.getById = async (id) => {
-  const policy = await PgitPolicy.findByPk(id);
+
+exports.getById = async (keys) => {
+  const policy = await PgitPolicy.findOne({
+    where: {
+      POL_SYS_ID: keys.POL_SYS_ID,
+      POL_END_NO_IDX: keys.POL_END_NO_IDX,
+      POL_END_SR_NO: keys.POL_END_SR_NO
+    }
+  });
 
   if (!policy) {
-    const error = new Error(`Policy with ID ${id} not found`);
+    const error = new Error(
+      `Policy not found with SYS_ID=${keys.POL_SYS_ID}, END_NO_IDX=${keys.POL_END_NO_IDX}, END_SR_NO=${keys.POL_END_SR_NO}`
+    );
     error.statusCode = 404;
     throw error;
   }
@@ -84,6 +107,7 @@ exports.getById = async (id) => {
     data: policy
   };
 };
+
 
 /* ================================
    NEXT POL_SYS_ID
@@ -225,20 +249,40 @@ exports.create = async (data) => {
 /* ================================
    UPDATE
 ================================ */
-exports.update = async (polNo, updatedData) => {
+
+exports.update = async (keys, updatedData) => {
   const item = await PgitPolicy.findOne({
-    where: { POL_NO: polNo }
+    where: {
+      POL_SYS_ID: keys.POL_SYS_ID,
+      POL_END_NO_IDX: keys.POL_END_NO_IDX,
+      POL_END_SR_NO: keys.POL_END_SR_NO
+    }
   });
 
   if (!item) {
-    const error = new Error(`PgitPolicy with POL_NO ${polNo} not found`);
+    const error = new Error(
+      `Policy not found with SYS_ID=${keys.POL_SYS_ID}, END_NO_IDX=${keys.POL_END_NO_IDX}, END_SR_NO=${keys.POL_END_SR_NO}`
+    );
     error.statusCode = 404;
     throw error;
   }
 
+  // ⛔ Do not allow key fields to change
+  delete updatedData.POL_SYS_ID;
+  delete updatedData.POL_END_NO_IDX;
+  delete updatedData.POL_END_SR_NO;
+
   await item.update(updatedData);
-  return item;
+
+  return {
+    success: true,
+    message: 'Policy updated successfully',
+    data: item
+  };
 };
+
+
+
 
 
 /* ================================
@@ -253,4 +297,24 @@ exports.deleteItem = async (id) => {
   }
   await item.destroy();
   return item;
+};
+
+
+exports.getStatus = async (POL_PROD_CODE) => {
+  const query = `
+    SELECT DISTINCT
+      PARA_SUB_CODE,
+      PARA_NAME
+    FROM PCOM_APP_PARAMETER, PGIT_POLICY
+    WHERE PARA_CODE = 'POL_APPR_STS'
+      AND POL_APPR_STS = PARA_SUB_CODE
+      AND POL_PROD_CODE = :POL_PROD_CODE
+  `;
+
+  const records = await sequelize.query(query, {
+    replacements: { POL_PROD_CODE },   // ✅ bind variable
+    type: QueryTypes.SELECT,
+  });
+
+  return records;
 };
