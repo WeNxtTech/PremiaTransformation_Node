@@ -105,8 +105,6 @@ class DropdownService {
         bind.filterStr = `${filter.trim()}%`;
       }
 
-      console.log('🔍 Special Query SQL:', sql);
-      console.log('🔍 Special Query Bind:', bind);
 
       const rows = await sequelize.query(sql, {
         type: QueryTypes.SELECT,
@@ -196,13 +194,7 @@ class DropdownService {
     ({ sql, bind } = expandDuplicateBinds(sql, bind));
 
     // DEBUG LOGGING
-    console.log('🔍 LOV Debug:', {
-      PLD_BLOCK_NAME,
-      PLD_FIELD_NAME, 
-      PLD_PROG_CODE,
-      sqlSnippet: sql.substring(0, 500) + '...',
-      finalBind: bind
-    });
+ 
 
     const rows = await sequelize.query(sql, {
       type: QueryTypes.SELECT,

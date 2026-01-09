@@ -59,6 +59,8 @@ exports.getAll = async (
       'POL_CUST_CODE',
       'POL_SRC_CODE',
       'POL_SYS_ID',
+      'POL_END_SR_NO',
+      'POL_END_NO_IDX',
       'POL_APPR_STS',
     ],
     where: whereClause,

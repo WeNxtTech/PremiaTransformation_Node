@@ -42,38 +42,67 @@ exports.getById = async (req, res, next) => {
   }
 };
 
-  exports.create = async (req, res, next) => {
-    try {
-      const result = await pgitPolicyService.create(req.body);
-      return successResponse(res, 201, "Created", result);
-    } catch (err) {
-      next(err);
-    }
-  };
-exports.update = async (req, res, next) => {
+//   exports.create = async (req, res, next) => {
+//     try {
+//       const result = await pgitPolicyService.create(req.body);
+//       return successResponse(res, 201, "Created", result);
+//     } catch (err) {
+//       next(err);
+//     }
+//   };
+// exports.update = async (req, res, next) => {
+//   try {
+//     const { polSysId, polEndNoIdx, polEndSrNo } = req.query;
+
+//     if (!polSysId || !polEndNoIdx || !polEndSrNo) {
+//       return res.status(400).json({
+//         message: 'polSysId, polEndNoIdx, and polEndSrNo are required'
+//       });
+//     }
+
+//     const result = await pgitPolicyService.update(
+//       {
+//         POL_SYS_ID: Number(polSysId),
+//         POL_END_NO_IDX: Number(polEndNoIdx),
+//         POL_END_SR_NO: Number(polEndSrNo)
+//       },
+//       req.body
+//     );
+
+//     return successResponse(res, 200, 'Updated', result);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+exports.createOrUpdate = async (req, res, next) => {
   try {
     const { polSysId, polEndNoIdx, polEndSrNo } = req.query;
 
-    if (!polSysId || !polEndNoIdx || !polEndSrNo) {
-      return res.status(400).json({
-        message: 'polSysId, polEndNoIdx, and polEndSrNo are required'
-      });
+    // ===== UPDATE IF KEYS PRESENT =====
+    if (polSysId && polEndNoIdx && polEndSrNo) {
+
+      const result = await pgitPolicyService.update(
+        {
+          POL_SYS_ID: Number(polSysId),
+          POL_END_NO_IDX: Number(polEndNoIdx),
+          POL_END_SR_NO: Number(polEndSrNo)
+        },
+        req.body
+      );
+
+      return successResponse(res, 200, "Updated", result);
     }
 
-    const result = await pgitPolicyService.update(
-      {
-        POL_SYS_ID: Number(polSysId),
-        POL_END_NO_IDX: Number(polEndNoIdx),
-        POL_END_SR_NO: Number(polEndSrNo)
-      },
-      req.body
-    );
+    // ===== CREATE IF NO KEYS =====
+    const result = await pgitPolicyService.create(req.body);
+    return successResponse(res, 201, "Created", result);
 
-    return successResponse(res, 200, 'Updated', result);
   } catch (err) {
     next(err);
   }
 };
+
 
 
   exports.deleteItem = async (req, res, next) => {
