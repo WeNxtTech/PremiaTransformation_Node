@@ -74,13 +74,21 @@ exports.deleteItem = async (id) => {
 
 exports.getByPolSysId = async (PRAI_POL_SYS_ID) => {
   const items = await PGITPOLRISKADDLINFO.findAll({
-    where: { PRAI_POL_SYS_ID }
+    where: { PRAI_POL_SYS_ID },raw: true
   });
 
-  return {
-    success: true,
-    message: 'Records fetched successfully',
-    data: items
-  };
+   const groupedResult = items.reduce((acc, row) => {
+    const key = row.PRAI_SYS_ID;
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
+
+  return groupedResult; 
+
+  // return {
+  //   success: true,
+  //   message: 'Records fetched successfully',
+  //   data: items
+  // };
 };
 

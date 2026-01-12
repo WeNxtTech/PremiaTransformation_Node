@@ -56,13 +56,19 @@ exports.deleteItem = async (id) => {
 
 exports.getByPolSysId = async (PSEC_POL_SYS_ID) => {
   const items = await PgitPolSection.findAll({
-    where: { PSEC_POL_SYS_ID }
+    where: { PSEC_POL_SYS_ID },raw: true
   });
+  const groupedResult = items.reduce((acc, row) => {
+    const key = row.PSEC_SYS_ID;
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
 
-  return {
-    success: true,
-    message: 'Records fetched successfully',
-    data: items
-  };
+  return groupedResult; 
+  // return {
+  //   success: true,
+  //   message: 'Records fetched successfully',
+  //   data: items
+  // };
 };
 

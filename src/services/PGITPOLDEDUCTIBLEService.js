@@ -42,15 +42,17 @@ exports.deleteItem = async (id) => {
 };
 
 
-
 exports.getByPolSysId = async (PCD_POL_SYS_ID) => {
   const items = await PGITPOLDEDUCTIBLE.findAll({
-    where: { PCD_POL_SYS_ID }
+    where: { PCD_POL_SYS_ID },
+    raw: true
   });
 
-  return {
-    success: true,
-    message: 'Records fetched successfully',
-    data: items
-  };
+  const groupedResult = items.reduce((acc, row) => {
+    const key = row.pcd_sys_id; 
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
+
+  return groupedResult;
 };
