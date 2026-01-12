@@ -85,7 +85,6 @@ exports.getAll = async (
 /* ================================
    GET BY ID
 ================================ */
-
 exports.getById = async (keys) => {
   const policy = await PgitPolicy.findOne({
     where: {
@@ -103,10 +102,24 @@ exports.getById = async (keys) => {
     throw error;
   }
 
+  // Convert Sequelize model to plain object for iteration
+  const plain = policy.get({ plain: true });
+
+  // 🔹 Dynamically convert any Date fields to YYYY-MM-DD
+  const formatted = {};
+  for (const key in plain) {
+    const value = plain[key];
+    if (value instanceof Date) {
+      formatted[key] = value.toISOString().split('T')[0];
+    } else {
+      formatted[key] = value;
+    }
+  }
+
   return {
     success: true,
     message: 'Policy fetched successfully',
-    data: policy
+    data: formatted
   };
 };
 
