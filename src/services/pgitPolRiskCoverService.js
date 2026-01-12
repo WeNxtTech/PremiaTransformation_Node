@@ -1,3 +1,4 @@
+const { raw } = require('express');
 const { PGITPOLRISKCOVER ,sequelize} = require('../models');
 
 exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
@@ -42,12 +43,19 @@ exports.deleteItem = async (id) => {
 
 exports.getByPolSysId = async (PRC_POL_SYS_ID) => {
   const items = await PGITPOLRISKCOVER.findAll({
-    where: { PRC_POL_SYS_ID }
+    where: { PRC_POL_SYS_ID },raw: true
   });
+   const groupedResult = items.reduce((acc, row) => {
+    const key = row.PRC_SYS_ID;
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
 
-  return {
-    success: true,
-    message: 'Records fetched successfully',
-    data: items
-  };
+  return groupedResult; 
+
+  // return {
+  //   success: true,
+  //   message: 'Records fetched successfully',
+  //   data: items
+  // };
 };
