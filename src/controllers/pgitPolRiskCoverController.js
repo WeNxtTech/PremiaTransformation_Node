@@ -38,3 +38,24 @@ exports.deleteItem = async (req, res, next) => {
     next(err);
   }
 };
+
+
+exports.getByPolSysId = async (req, res, next) => {
+  try {
+    const { coverPolSysId } = req.query;
+
+    if (!coverPolSysId) {
+      return res.status(400).json({
+        success: false,
+        message: "coverPolSysId is required"
+      });
+    }
+
+    const result = await PGITPOLRISKCOVERService.getByPolSysId(Number(coverPolSysId));
+
+    return successResponse(res, 200, 'Fetched', result);
+
+  } catch (err) {
+    next(err);
+  }
+};

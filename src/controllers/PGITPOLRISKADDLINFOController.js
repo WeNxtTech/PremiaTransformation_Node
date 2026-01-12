@@ -47,3 +47,25 @@ exports.deleteItem = async (req, res, next) => {
     next(err);
   }
 };
+
+
+
+exports.getByPolSysId = async (req, res, next) => {
+  try {
+    const { praiPolSysId } = req.query;
+
+    if (!praiPolSysId) {
+      return res.status(400).json({
+        success: false,
+        message: "praiPolSysId is required"
+      });
+    }
+
+    const result = await PGITPOLRISKADDLINFOService.getByPolSysId(Number(praiPolSysId));
+
+    return successResponse(res, 200, 'Fetched', result);
+
+  } catch (err) {
+    next(err);
+  }
+};

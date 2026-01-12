@@ -61,3 +61,17 @@ exports.deleteItem = async (id) => {
   await item.destroy();
   return item;
 };
+
+
+exports.getByPolSysId = async (PRAI_POL_SYS_ID) => {
+  const items = await PGITPOLRISKADDLINFO.findAll({
+    where: { PRAI_POL_SYS_ID }
+  });
+
+  return {
+    success: true,
+    message: 'Records fetched successfully',
+    data: items
+  };
+};
+

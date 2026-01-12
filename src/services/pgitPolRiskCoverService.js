@@ -38,3 +38,16 @@ exports.deleteItem = async (id) => {
   await item.destroy();
   return item;
 };
+
+
+exports.getByPolSysId = async (PRC_POL_SYS_ID) => {
+  const items = await PGITPOLRISKCOVER.findAll({
+    where: { PRC_POL_SYS_ID }
+  });
+
+  return {
+    success: true,
+    message: 'Records fetched successfully',
+    data: items
+  };
+};
