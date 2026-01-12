@@ -6,5 +6,8 @@ router.get('/', PGITPOLDEDUCTIBLEController.getAll);
 router.post('/', PGITPOLDEDUCTIBLEController.create);
 router.put('/:id', PGITPOLDEDUCTIBLEController.update);
 router.delete('/:id', PGITPOLDEDUCTIBLEController.deleteItem);
+router.get('/dedPolId', PGITPOLDEDUCTIBLEController.getByPolSysId);
+
+
 
 module.exports = router;
