@@ -125,14 +125,6 @@ router .use('/polBrokerLov', polBrokerLov);
 router.use('/PGITPOLHYPOTHECATION', PGITPOLHYPOTHECATIONRouter);
 router.use('/polHypoField', polHypoField);
 router.use('/polHypoLov', polHypoLovRoute);
-
-
-
-
-
-
-
-
-
 router.use('/PGITPOLPREVINSDTL', PGITPOLPREVINSDTLRouter);
+
 module.exports = router;

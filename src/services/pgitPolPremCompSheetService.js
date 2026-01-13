@@ -6,7 +6,7 @@ exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
 
 async function getNextPolSysId() {
   const [result] = await sequelize.query('SELECT POL_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
-  return result[0].NEXTVAL || result[0].nextVal;  // depending on driver case
+  return result[0].NEXTVAL || result[0].nextVal;  
 }
 
 exports.create = async (data) => {
@@ -16,9 +16,7 @@ exports.create = async (data) => {
   return await PgitPolicy.create(data);
 };
 
-// exports.create = async (data) => {
-//   return await PgitPolPremCompSheet.create(data);
-// };
+
 
 exports.update = async (id, updatedData) => {
   const item = await PgitPolPremCompSheet.findByPk(id);
