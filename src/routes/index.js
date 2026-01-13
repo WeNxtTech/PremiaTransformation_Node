@@ -15,6 +15,7 @@ const pgitAcntDocRouter = require('./pgitAcntDoc');
 const pcomCodesRouter = require('./pcomCodes');
 const pcomAppParameterRouter = require('./pcomAppParameter');
 const PGITPOLHYPOTHECATIONRouter = require('./PGITPOLHYPOTHECATION');
+const PGITPOLPREVINSDTLRouter = require('./PGITPOLPREVINSDTL'); //newly added 
 const router = express.Router();
 const lmCompanyRoutes=require('./lmCompanyRoutes');
 const class_of_busRoute = require('./class_of_busRoute');
@@ -133,4 +134,5 @@ router.use('/polHypoLov', polHypoLovRoute);
 
 
 
+router.use('/PGITPOLPREVINSDTL', PGITPOLPREVINSDTLRouter);
 module.exports = router;

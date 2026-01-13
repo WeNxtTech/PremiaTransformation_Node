@@ -1,9 +1,7 @@
 const { PgitPolicy, sequelize } = require('../models');
 const { QueryTypes, Op, fn, col, where } = require('sequelize');
 
-/* ================================
-   GET ALL
-================================ */
+
 exports.getAll = async (
   { search, POL_PROD_CODE, POL_APPR_STS },
   { limit = 10, offset = 0, order } = {}
@@ -82,9 +80,6 @@ exports.getAll = async (
 
 
 
-/* ================================
-   GET BY ID
-================================ */
 exports.getById = async (keys) => {
   const policy = await PgitPolicy.findOne({
     where: {
@@ -102,10 +97,8 @@ exports.getById = async (keys) => {
     throw error;
   }
 
-  // Convert Sequelize model to plain object for iteration
   const plain = policy.get({ plain: true });
 
-  // 🔹 Dynamically convert any Date fields to YYYY-MM-DD
   const formatted = {};
   for (const key in plain) {
     const value = plain[key];
@@ -124,9 +117,8 @@ exports.getById = async (keys) => {
 };
 
 
-/* ================================
-   NEXT POL_SYS_ID
-================================ */
+
+
 async function getNextPolSysId() {
   const [result] = await sequelize.query(
     'SELECT POL_SYS_ID_SEQ.NEXTVAL AS NEXTVAL FROM DUAL',
@@ -135,10 +127,7 @@ async function getNextPolSysId() {
   return result.NEXTVAL;
 }
 
-/* ================================
-   GENERATE POLICY NUMBER
-   (NO OUT BIND – ORACLE UPDATES TABLE)
-================================ */
+
 async function generatePolicyNumber(polSysId, transaction) {
   const plsql = `
     DECLARE
@@ -186,24 +175,21 @@ async function generatePolicyNumber(polSysId, transaction) {
   return result?.POL_NO;
 }
 
-/* ================================
-   CREATE POLICY
-================================ */
+
+
+
 exports.create = async (data) => {
   const transaction = await sequelize.transaction();
 
   try {
-    /* 1. Generate PK */
     const nextId = await getNextPolSysId();
     data.POL_SYS_ID = nextId;
 
-    /* 2. TEMP POL_NO */
+
     data.POL_NO = 'NUMBER';
 
-    /* 3. Insert Policy */
     const createdRecord = await PgitPolicy.create(data, { transaction });
 
-    /* 4. Default Currency Procedure */
     const currencyPlsql = `
       DECLARE
         CURSOR C1 IS
@@ -234,7 +220,6 @@ exports.create = async (data) => {
       transaction
     });
 
-    /* 5. Generate & Update POL_NO */
     const generatedPolNo = await generatePolicyNumber(
       createdRecord.POL_SYS_ID,
       transaction
@@ -261,9 +246,7 @@ exports.create = async (data) => {
   }
 };
 
-/* ================================
-   UPDATE
-================================ */
+
 
 exports.update = async (keys, updatedData) => {
   const item = await PgitPolicy.findOne({
@@ -282,7 +265,6 @@ exports.update = async (keys, updatedData) => {
     throw error;
   }
 
-  // ⛔ Do not allow key fields to change
   delete updatedData.POL_SYS_ID;
   delete updatedData.POL_END_NO_IDX;
   delete updatedData.POL_END_SR_NO;
@@ -297,12 +279,6 @@ exports.update = async (keys, updatedData) => {
 };
 
 
-
-
-
-/* ================================
-   DELETE
-================================ */
 exports.deleteItem = async (id) => {
   const item = await PgitPolicy.findByPk(id);
   if (!item) {
@@ -327,7 +303,7 @@ exports.getStatus = async (POL_PROD_CODE) => {
   `;
 
   const records = await sequelize.query(query, {
-    replacements: { POL_PROD_CODE },   // ✅ bind variable
+    replacements: { POL_PROD_CODE },   
     type: QueryTypes.SELECT,
   });
 
