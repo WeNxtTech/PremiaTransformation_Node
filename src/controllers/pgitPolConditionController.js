@@ -38,3 +38,24 @@ exports.deleteItem = async (req, res, next) => {
     next(err);
   }
 };
+
+
+exports.getByPolSysId = async (req, res, next) => {
+  try {
+    const { pconPolSysId } = req.query;
+
+    if (!pconPolSysId) {
+      return res.status(400).json({
+        success: false,
+        message: "pconPolSysId is required"
+      });
+    }
+
+    const result = await pgitPolConditionService.getByPolSysId(Number(pconPolSysId));
+
+    return successResponse(res, 200, 'Fetched', result);
+
+  } catch (err) {
+    next(err);
+  }
+};

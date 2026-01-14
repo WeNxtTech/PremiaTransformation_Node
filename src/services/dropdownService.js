@@ -140,7 +140,7 @@ class DropdownService {
     const sqlUses_PARA3 = sql.includes(":P_PARA_3");
     const sqlUses_POLFMDT = sql.includes(":polFmDt");
 
-    // ✅ FIXED BIND - Correct priority for SMI queries
+    // FIXED BIND - Correct priority for SMI queries
     let bind = {
       langCode: queryParams.langCode ?? "ENG",
       loginAppCode: queryParams.loginAppCode ?? "01",
@@ -192,9 +192,6 @@ class DropdownService {
 
     // Fix duplicate binds
     ({ sql, bind } = expandDuplicateBinds(sql, bind));
-
-    // DEBUG LOGGING
- 
 
     const rows = await sequelize.query(sql, {
       type: QueryTypes.SELECT,

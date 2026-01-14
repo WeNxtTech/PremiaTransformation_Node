@@ -6,5 +6,6 @@ router.get('/', pgitPolApplCurrController.getAll);
 router.post('/', pgitPolApplCurrController.create);
 router.put('/:id', pgitPolApplCurrController.update);
 router.delete('/:id', pgitPolApplCurrController.deleteItem);
+router.get('/pacPolId', pgitPolApplCurrController.getByPolSysId);
 
 module.exports = router;

@@ -6,5 +6,6 @@ router.get('/', pgitPolInstPremController.getAll);
 router.post('/', pgitPolInstPremController.create);
 router.put('/:id', pgitPolInstPremController.update);
 router.delete('/:id', pgitPolInstPremController.deleteItem);
+router.get('/pipPolId', pgitPolInstPremController.getByPolSysId);
 
 module.exports = router;

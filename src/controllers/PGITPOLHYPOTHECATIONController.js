@@ -38,3 +38,24 @@ exports.deleteItem = async (req, res, next) => {
     next(err);
   }
 };
+
+
+exports.getByPolSysId = async (req, res, next) => {
+  try {
+    const { phpoPolSysId } = req.query;
+
+    if (!phpoPolSysId) {
+      return res.status(400).json({
+        success: false,
+        message: "phpoPolSysId is required"
+      });
+    }
+
+    const result = await PGITPOLHYPOTHECATIONService.getByPolSysId(Number(phpoPolSysId));
+
+    return successResponse(res, 200, 'Fetched', result);
+
+  } catch (err) {
+    next(err);
+  }
+};

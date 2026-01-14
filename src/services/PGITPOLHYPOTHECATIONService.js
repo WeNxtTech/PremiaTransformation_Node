@@ -29,3 +29,19 @@ exports.deleteItem = async (id) => {
   await item.destroy();
   return item;
 };
+
+
+exports.getByPolSysId = async (PHPO_POL_SYS_ID) => {
+  const items = await PGITPOLHYPOTHECATION.findAll({
+    where: { PHPO_POL_SYS_ID },
+    raw: true
+  });
+
+  const groupedResult = items.reduce((acc, row) => {
+    const key = row.PHPO_SYS_ID; 
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
+
+  return groupedResult;
+};

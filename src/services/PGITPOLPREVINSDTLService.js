@@ -29,3 +29,18 @@ exports.deleteItem = async (id) => {
   await item.destroy();
   return item;
 };
+
+exports.getByPolSysId = async (PID_POL_SYS_ID) => {
+  const items = await PGITPOLPREVINSDTL.findAll({
+    where: { PID_POL_SYS_ID },
+    raw: true
+  });
+
+  const groupedResult = items.reduce((acc, row) => {
+    const key = row.PID_SYS_ID; 
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
+
+  return groupedResult;
+};

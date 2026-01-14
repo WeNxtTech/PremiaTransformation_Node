@@ -6,7 +6,7 @@ exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
 
 async function getNextPolSysId() {
   const [result] = await sequelize.query('SELECT PIP_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
-  return result[0].NEXTVAL || result[0].nextVal;  // depending on driver case
+  return result[0].NEXTVAL || result[0].nextVal;  
 }
 
 exports.create = async (data) => {
@@ -16,9 +16,7 @@ exports.create = async (data) => {
   return await PgitPolInstPrem.create(data);
 };
 
-// exports.create = async (data) => {
-//   return await PgitPolInstPrem.create(data);
-// };
+
 
 exports.update = async (id, updatedData) => {
   const item = await PgitPolInstPrem.findByPk(id);
@@ -40,4 +38,20 @@ exports.deleteItem = async (id) => {
   }
   await item.destroy();
   return item;
+};
+
+
+exports.getByPolSysId = async (PIP_POL_SYS_ID) => {
+  const items = await PgitPolInstPrem.findAll({
+    where: { PIP_POL_SYS_ID },
+    raw: true
+  });
+
+  const groupedResult = items.reduce((acc, row) => {
+    const key = row.pip_sys_id; 
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
+
+  return groupedResult;
 };
