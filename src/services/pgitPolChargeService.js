@@ -38,3 +38,19 @@ exports.deleteItem = async (id) => {
   await item.destroy();
   return item;
 };
+
+
+exports.getByPolSysId = async (PCHG_POL_SYS_ID) => {
+  const items = await PgitPolCharge.findAll({
+    where: { PCHG_POL_SYS_ID },
+    raw: true
+  });
+
+  const groupedResult = items.reduce((acc, row) => {
+    const key = row.pchg_sys_id; 
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
+
+  return groupedResult;
+};

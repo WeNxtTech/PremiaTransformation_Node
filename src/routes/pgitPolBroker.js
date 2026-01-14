@@ -6,5 +6,7 @@ router.get('/', pgitPolBrokerController.getAll);
 router.post('/', pgitPolBrokerController.create);
 router.put('/:id', pgitPolBrokerController.update);
 router.delete('/:id', pgitPolBrokerController.deleteItem);
+router.get('/pbrkPolId', pgitPolBrokerController.getByPolSysId);
+
 
 module.exports = router;

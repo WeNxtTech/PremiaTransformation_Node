@@ -37,3 +37,24 @@ exports.deleteItem = async (id) => {
   await item.destroy();
   return item;
 };
+
+
+exports.getByPolSysId = async (pcon_pol_sys_id) => {
+  const items = await PgitPolCondition.findAll({
+    where: { pcon_pol_sys_id },raw: true
+  });
+    const groupedResult = items.reduce((acc, row) => {
+    const key = row.pcon_sys_id;
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
+
+  return groupedResult; 
+
+  // return {
+  //   success: true,
+  //   message: 'Records fetched successfully',
+  //   data: items
+  // };
+};
+
