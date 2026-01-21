@@ -8,7 +8,7 @@ exports.create = async (data) => {
   return await PGITPOLHYPOTHECATION.create(data);
 };
 
-exports.update = async (id, updatedData) => {
+exports.update = async (id, updatedData) =>  {
   const item = await PGITPOLHYPOTHECATION.findByPk(id);
   if (!item) {
     const error = new Error(`PGITPOLHYPOTHECATION with ID ${id} not found`);
