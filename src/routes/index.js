@@ -59,7 +59,7 @@ const polBrokerField = require('./polBrokerFieldRoute');
 const polBrokerLov = require('./polBrokerLovRoute');
 const polHypoField = require('./polHypoFieldRoute');
 const polHypoLovRoute = require('./polHypoLovRoute');
-
+const screenSetup = require('./screenSetupRoute');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -125,5 +125,6 @@ router.use('/PGITPOLHYPOTHECATION', PGITPOLHYPOTHECATIONRouter);
 router.use('/polHypoField', polHypoField);
 router.use('/polHypoLov', polHypoLovRoute);
 router.use('/PGITPOLPREVINSDTL', PGITPOLPREVINSDTLRouter);
+router.use('/screenSetup',screenSetup);
 
 module.exports = router;

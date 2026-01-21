@@ -12,7 +12,7 @@ exports.getAll = async (
     whereClause.POL_PROD_CODE = POL_PROD_CODE;
   }
 
-  if (POL_APPR_STS) {
+  if (POL_APPR_STS) { 
     whereClause.POL_APPR_STS = POL_APPR_STS;
   }
 
