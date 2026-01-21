@@ -64,7 +64,7 @@ exports.getAll = async (
     where: whereClause,
     limit: Number(limit),
     offset: Number(offset),
-    order: order || [['POL_NO', 'DESC']],
+    order: order || [['POL_SYS_ID', 'DESC']],
     raw: true,
   });
 
