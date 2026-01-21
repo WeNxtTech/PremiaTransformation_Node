@@ -51,10 +51,5 @@ exports.getByPolSysId = async (pcon_pol_sys_id) => {
 
   return groupedResult; 
 
-  // return {
-  //   success: true,
-  //   message: 'Records fetched successfully',
-  //   data: items
-  // };
 };
 

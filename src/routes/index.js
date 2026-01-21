@@ -15,7 +15,7 @@ const pgitAcntDocRouter = require('./pgitAcntDoc');
 const pcomCodesRouter = require('./pcomCodes');
 const pcomAppParameterRouter = require('./pcomAppParameter');
 const PGITPOLHYPOTHECATIONRouter = require('./PGITPOLHYPOTHECATION');
-const PGITPOLPREVINSDTLRouter = require('./PGITPOLPREVINSDTL'); //newly added 
+const PGITPOLPREVINSDTLRouter = require('./PGITPOLPREVINSDTL'); 
 const router = express.Router();
 const lmCompanyRoutes=require('./lmCompanyRoutes');
 const class_of_busRoute = require('./class_of_busRoute');
@@ -68,7 +68,6 @@ const polHypoLovRoute = require('./polHypoLovRoute');
 
 router.use('/company',lmCompanyRoutes);
 router.use('/businesses', class_of_busRoute);
-// router.use('/businesses/motor/programs/PGIT6_01/instances/10-PD-01_01',motorRoute);
 router.use('/policyFields',policyFields);
 router.use('/templates/policy',mainTemplateRoute);
 router.use('/policy/instance',instancePolicy_01Route);
