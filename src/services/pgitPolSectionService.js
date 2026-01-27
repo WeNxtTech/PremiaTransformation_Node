@@ -10,6 +10,7 @@ async function getNextPsecSysId() {
   );
   return result[0].NEXTVAL;
 }
+
 exports.create = async (data) => {
 const nextId = await getNextPsecSysId();
 data.PSEC_SYS_ID = nextId;

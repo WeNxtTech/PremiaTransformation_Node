@@ -78,7 +78,7 @@ exports.getByPolSysId = async (PRAI_POL_SYS_ID) => {
   });
 
    const groupedResult = items.reduce((acc, row) => {
-    const key = row.PRAI_SYS_ID;
+    const key = row.prai_sys_id;
     (acc[key] ??= []).push(row);
     return acc;
   }, {});
