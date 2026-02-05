@@ -97,7 +97,7 @@ class DropdownService {
       }else if (PLD_FIELD_NAME === "PCON_CODE") {
   bind.prodCode = prodCode || null;
   bind.secCode = secCode || null;
-}
+} 
 
       if (filter && filter.trim()) {
         if (PLD_FIELD_NAME === "PCD_CODE") {
@@ -155,7 +155,7 @@ class DropdownService {
       polFmDt: polFmDt ?? null,
       // SMI queries need: P_PARA_1=prodCode, P_PARA_2=secCode
       P_PARA_1: queryParams.P_PARA_1 ?? prodCode ?? "ENG",
-      P_PARA_2: queryParams.P_PARA_2 ?? prodCode ?? secCode ?? custCode  ?? "01",
+      P_PARA_2: queryParams.P_PARA_2 ?? secCode ?? custCode ?? prodCode ?? "01",
       P_PARA_3: queryParams.P_PARA_3 ?? secCode ?? polFmDt  ?? null,
       P_PARA_4: queryParams.P_PARA_4 ?? null,
       P_PARA_5: queryParams.P_PARA_5 ?? null
