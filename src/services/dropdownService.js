@@ -81,6 +81,7 @@ class DropdownService {
       PRC_CODE: "select distinct PCVR_CVR_CODE , PCVR_DESC from PGIM_PROD_APPL_COVER where PCVR_PROD_CODE = :prodCode and PCVR_SEC_CODE = :secCode and PCVR_CVR_TYPE = 'C'",
       PCD_CODE: "SELECT PADED_CODE, PADED_DESC FROM PGIM_PROD_APPL_DED WHERE PADED_PROD_CODE = :prodCode AND PADED_LVL = 'P' AND TRUNC(NVL(PADED_EFF_TO_DT,SYSDATE)) >= TRUNC(SYSDATE)",
       POL_BUS_TYPE: "SELECT PARA_SUB_CODE, PARA_NAME FROM PCOM_APP_PARAMETER WHERE PARA_CODE = 'BUS_TYPE' AND PARA_SUB_CODE in(1,2,3,4,5)",
+      PCON_CODE :"SELECT ROWID,PACO_CODE,DECODE('ENG','ENG',PACO_DESC,PACO_DESC_BL),NULL,NULL FROM  PGIM_PROD_APPL_COND WHERE ROWID IN ( SELECT MAX(ROWID) FROM PGIM_PROD_APPL_COND WHERE PACO_PROD_CODE= :prodCode AND PACO_LVL = 'SEC' AND PACO_SEC_CODE = :secCode GROUP BY PACO_CODE)"
     };
     
     // ----------- SPECIAL QUERIES WITH FILTER ADDED ------------
@@ -93,7 +94,10 @@ class DropdownService {
         bind.secCode = secCode || null;
       } else if (PLD_FIELD_NAME === "PCD_CODE") {
         bind.prodCode = prodCode || null;
-      }
+      }else if (PLD_FIELD_NAME === "PCON_CODE") {
+  bind.prodCode = prodCode || null;
+  bind.secCode = secCode || null;
+}
 
       if (filter && filter.trim()) {
         if (PLD_FIELD_NAME === "PCD_CODE") {
@@ -151,8 +155,8 @@ class DropdownService {
       polFmDt: polFmDt ?? null,
       // SMI queries need: P_PARA_1=prodCode, P_PARA_2=secCode
       P_PARA_1: queryParams.P_PARA_1 ?? prodCode ?? "ENG",
-      P_PARA_2: queryParams.P_PARA_2 ?? secCode ?? custCode ?? "01",
-      P_PARA_3: queryParams.P_PARA_3 ?? polFmDt ?? null,
+      P_PARA_2: queryParams.P_PARA_2 ?? prodCode ?? secCode ?? custCode  ?? "01",
+      P_PARA_3: queryParams.P_PARA_3 ?? secCode ?? polFmDt  ?? null,
       P_PARA_4: queryParams.P_PARA_4 ?? null,
       P_PARA_5: queryParams.P_PARA_5 ?? null
     };
