@@ -26,7 +26,8 @@ exports.get = async (prodCode) => {
       AND PARA_CODE = 'BUS_TYPE'
       AND PARA_SUB_CODE = POL_BUS_TYPE
       AND PROD_CODE = POL_PROD_CODE
-      AND PARA_NAME='Direct with coinsurance'
+      AND PARA_NAME='Direct with coinsurance' 
+      AND IFD_INST_CODE='20-PD-01_01'
       AND  (POL_PROD_CODE = :prodCode)`;
    const records = await sequelize.query(query, {
     type: QueryTypes.SELECT,
