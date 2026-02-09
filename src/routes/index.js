@@ -60,6 +60,11 @@ const polBrokerLov = require('./polBrokerLovRoute');
 const polHypoField = require('./polHypoFieldRoute');
 const polHypoLovRoute = require('./polHypoLovRoute');
 const screenSetup = require('./screenSetupRoute');
+const Calculate_Premium = require('./P_CALC_PREMIUMRoute');
+const compSheetField = require('./compSheetRoute');
+
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -126,5 +131,9 @@ router.use('/polHypoField', polHypoField);
 router.use('/polHypoLov', polHypoLovRoute);
 router.use('/PGITPOLPREVINSDTL', PGITPOLPREVINSDTLRouter);
 router.use('/screenSetup',screenSetup);
+router.use('/CalculatePremium',Calculate_Premium);
+router.use('/compSheetField',compSheetField);
+
+
 
 module.exports = router;
