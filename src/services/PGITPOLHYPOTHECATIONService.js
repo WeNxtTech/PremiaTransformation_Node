@@ -1,11 +1,33 @@
-const { PGITPOLHYPOTHECATION } = require('../models');
+const { PGITPOLHYPOTHECATION,sequelize } = require('../models');
 
 exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
   return PGITPOLHYPOTHECATION.findAll({ where: filters, limit, offset, ...(order && { order }) });
 };
 
+
+async function getNextPsecSysId() {
+  const result = await sequelize.query( 'SELECT PHPO_SYS_ID_SEQ.NEXTVAL AS NEXTVAL FROM DUAL',
+    { type: sequelize.QueryTypes.SELECT }
+  );
+  return result[0].NEXTVAL;
+}
+
 exports.create = async (data) => {
-  return await PGITPOLHYPOTHECATION.create(data);
+  const nextId = await getNextPsecSysId();
+  data.PHPO_SYS_ID = nextId;
+  const createRecord = await PGITPOLHYPOTHECATION.create(data);
+  const responseData = {
+    PHPO_SYS_ID: createRecord.PHPO_SYS_ID,
+        PHPO_POL_SYS_ID: createRecord.PHPO_POL_SYS_ID,
+        PHPO_CR_UID: createRecord.PHPO_CR_UID,
+        PHPO_CR_DT:createRecord.PHPO_CR_DT,
+  }
+
+   return {
+        success: true,
+        message: 'Record created successfully',
+        data: responseData,
+      };
 };
 
 exports.update = async (id, updatedData) =>  {
