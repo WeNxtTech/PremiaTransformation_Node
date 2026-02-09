@@ -83,6 +83,7 @@ class DropdownService {
       POL_BUS_TYPE: "SELECT PARA_SUB_CODE, PARA_NAME FROM PCOM_APP_PARAMETER WHERE PARA_CODE = 'BUS_TYPE' AND PARA_SUB_CODE in(1,2,3,4,5)",
       PCON_CODE :"SELECT ROWID,PACO_CODE,DECODE('ENG','ENG',PACO_DESC,PACO_DESC_BL),NULL,NULL FROM  PGIM_PROD_APPL_COND WHERE ROWID IN ( SELECT MAX(ROWID) FROM PGIM_PROD_APPL_COND WHERE PACO_PROD_CODE= :prodCode AND PACO_LVL = 'SEC' AND PACO_SEC_CODE = :secCode GROUP BY PACO_CODE)",
       PBRK_COMM_CURR:"SELECT CURR_CODE,CURR_NAME FROM FM_CURRENCY",
+      PID_RISK_SYS_ID:"SELECT TO_CHAR(PRAI_SYS_ID) FROM PGIT_POL_RISK_ADDL_INFO  WHERE PRAI_POL_SYS_ID=:pol_sys_id AND PRAI_RISK_LVL_NO =1 AND PRAI_RISK_SR_NO =1",
     };
     
     // ----------- SPECIAL QUERIES WITH FILTER ADDED ------------
@@ -90,15 +91,17 @@ class DropdownService {
       let sql = specialQueries[PLD_FIELD_NAME];
       let bind = {};
 
-      if (PLD_FIELD_NAME === "PRC_CODE") {
-        bind.prodCode = prodCode || null;
-        bind.secCode = secCode || null;
-      } else if (PLD_FIELD_NAME === "PCD_CODE") {
-        bind.prodCode = prodCode || null;
-      }else if (PLD_FIELD_NAME === "PCON_CODE") {
+     if (PLD_FIELD_NAME === "PRC_CODE") {
+  bind.prodCode = prodCode || null;
+} else if (PLD_FIELD_NAME === "PCD_CODE") {
+  bind.prodCode = prodCode || null;
+} else if (PLD_FIELD_NAME === "PCON_CODE") {
   bind.prodCode = prodCode || null;
   bind.secCode = secCode || null;
-} 
+} else if (PLD_FIELD_NAME === "PID_RISK_SYS_ID") {
+  bind.pol_sys_id = queryParams.pol_sys_id || null;
+}
+
 
       if (filter && filter.trim()) {
         if (PLD_FIELD_NAME === "PCD_CODE") {
@@ -143,6 +146,7 @@ class DropdownService {
     sql = sql.replace(/:GLOBAL\.M_PROD_CODE/g, ":prodCode");
     sql = sql.replace(/:GLOBAL\.M_SECTION_CODE/g, ":secCode");
 
+
     const sqlUses_PARA3 = sql.includes(":P_PARA_3");
     const sqlUses_POLFMDT = sql.includes(":polFmDt");
 
@@ -154,8 +158,9 @@ class DropdownService {
       prodCode: prodCode ?? null,
       secCode: secCode ?? null,
       polFmDt: polFmDt ?? null,
+      pol_sys_id:pol_sys_id ?? null,
       // SMI queries need: P_PARA_1=prodCode, P_PARA_2=secCode
-      P_PARA_1: queryParams.P_PARA_1 ?? prodCode ?? "ENG",
+      P_PARA_1: queryParams.P_PARA_1 ?? prodCode ?? pol_sys_id?? "ENG",
       P_PARA_2: queryParams.P_PARA_2 ?? secCode ?? custCode ?? prodCode ?? "01",
       P_PARA_3: queryParams.P_PARA_3 ?? secCode ?? polFmDt  ?? null,
       P_PARA_4: queryParams.P_PARA_4 ?? null,
