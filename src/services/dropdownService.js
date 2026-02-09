@@ -62,7 +62,8 @@ class DropdownService {
       polFmDt, 
       filter, 
       prodCode, 
-      secCode
+      secCode,
+      pol_sys_id
     } = queryParams;
 
     if (!PLD_BLOCK_NAME || !PLD_FIELD_NAME) {
@@ -83,6 +84,7 @@ class DropdownService {
       POL_BUS_TYPE: "SELECT PARA_SUB_CODE, PARA_NAME FROM PCOM_APP_PARAMETER WHERE PARA_CODE = 'BUS_TYPE' AND PARA_SUB_CODE in(1,2,3,4,5)",
       PCON_CODE :"SELECT ROWID,PACO_CODE,DECODE('ENG','ENG',PACO_DESC,PACO_DESC_BL),NULL,NULL FROM  PGIM_PROD_APPL_COND WHERE ROWID IN ( SELECT MAX(ROWID) FROM PGIM_PROD_APPL_COND WHERE PACO_PROD_CODE= :prodCode AND PACO_LVL = 'SEC' AND PACO_SEC_CODE = :secCode GROUP BY PACO_CODE)",
       PBRK_COMM_CURR:"SELECT CURR_CODE,CURR_NAME FROM FM_CURRENCY",
+      PID_RISK_SYS_ID :"SELECT TO_CHAR(PRAI_SYS_ID)FROM PGIT_POL_RISK_ADDL_INFO WHERE PRAI_POL_SYS_ID = :pol_sys_id AND PRAI_RISK_LVL_NO =1 AND PRAI_RISK_SR_NO =1",
 
     };
     
@@ -99,7 +101,9 @@ class DropdownService {
       }else if (PLD_FIELD_NAME === "PCON_CODE") {
   bind.prodCode = prodCode || null;
   bind.secCode = secCode || null;
-} 
+} else if (PLD_FIELD_NAME === "PID_RISK_SYS_ID") {
+  bind.pol_sys_id = pol_sys_id || null;
+}
 
       if (filter && filter.trim()) {
         if (PLD_FIELD_NAME === "PCD_CODE") {
