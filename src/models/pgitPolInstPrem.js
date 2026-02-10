@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     ,
    pip_pol_sys_id: { 
       type: DataTypes.INTEGER, 
-      allowNull: true, 
+      allowNull: false, 
       
       field: 'PIP_POL_SYS_ID' 
     }
