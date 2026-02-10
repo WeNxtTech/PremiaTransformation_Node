@@ -63,7 +63,8 @@ class DropdownService {
       filter, 
       prodCode, 
       secCode,
-      pol_sys_id
+      pol_sys_id,
+      value,
     } = queryParams;
 
     if (!PLD_BLOCK_NAME || !PLD_FIELD_NAME) {
@@ -85,7 +86,8 @@ class DropdownService {
       PCON_CODE :"SELECT ROWID,PACO_CODE,DECODE('ENG','ENG',PACO_DESC,PACO_DESC_BL),NULL,NULL FROM  PGIM_PROD_APPL_COND WHERE ROWID IN ( SELECT MAX(ROWID) FROM PGIM_PROD_APPL_COND WHERE PACO_PROD_CODE= :prodCode AND PACO_LVL = 'SEC' AND PACO_SEC_CODE = :secCode GROUP BY PACO_CODE)",
       PBRK_COMM_CURR:"SELECT CURR_CODE,CURR_NAME FROM FM_CURRENCY",
       PID_RISK_SYS_ID :"SELECT TO_CHAR(PRAI_SYS_ID)FROM PGIT_POL_RISK_ADDL_INFO WHERE PRAI_POL_SYS_ID = :pol_sys_id AND PRAI_RISK_LVL_NO =1 AND PRAI_RISK_SR_NO =1",
-
+      PCHG_TYPE :"SELECT ROWID,PARA_SUB_CODE,DECODE('ENG','ENG',PARA_NAME,PARA_BL_NAME),NULL,NULL FROM PCOM_APP_PARAMETER WHERE PARA_APP_CODE ='01' AND   PARA_CODE='TAX_CHRG_TYP' AND PARA_SUB_CODE <> '008'",
+      PCHG_CODE:"SELECT ROWID,PTDL_TAX_CHG_CODE,DECODE('ENG','ENG',PTDL_TAX_CHG_DESC,PTDL_TAX_CHG_DESC_BL),NULL,NULL FROM PGIM_PROD_TAX_CHARGE WHERE PTDL_PROD_CODE =:prodCode AND PTDL_TAX_CHG_TYPE =:value ",
     };
     
     // ----------- SPECIAL QUERIES WITH FILTER ADDED ------------
@@ -103,7 +105,12 @@ class DropdownService {
   bind.secCode = secCode || null;
 } else if (PLD_FIELD_NAME === "PID_RISK_SYS_ID") {
   bind.pol_sys_id = pol_sys_id || null;
+}  else if (PLD_FIELD_NAME === "PCHG_CODE") {
+  bind.prodCode = prodCode || null;   
+  bind.value = value || null;         
 }
+
+
 
       if (filter && filter.trim()) {
         if (PLD_FIELD_NAME === "PCD_CODE") {
@@ -163,7 +170,7 @@ class DropdownService {
       // SMI queries need: P_PARA_1=prodCode, P_PARA_2=secCode
       P_PARA_1: queryParams.P_PARA_1 ?? prodCode ?? "ENG",
       P_PARA_2: queryParams.P_PARA_2 ?? secCode ?? custCode ?? prodCode ?? "01",
-      P_PARA_3: queryParams.P_PARA_3 ?? secCode ?? polFmDt  ?? null,
+      P_PARA_3: queryParams.P_PARA_3 ?? prodCode ?? secCode ?? polFmDt  ??   null,
       P_PARA_4: queryParams.P_PARA_4 ?? null,
       P_PARA_5: queryParams.P_PARA_5 ?? null
     };
