@@ -167,9 +167,11 @@ class DropdownService {
       prodCode: prodCode ?? null,
       secCode: secCode ?? null,
       polFmDt: polFmDt ?? null,
+      pol_sys_id: pol_sys_id ?? null,
+      
       // SMI queries need: P_PARA_1=prodCode, P_PARA_2=secCode
       P_PARA_1: queryParams.P_PARA_1 ?? prodCode ?? "ENG",
-      P_PARA_2: queryParams.P_PARA_2 ?? secCode ?? custCode ?? prodCode ?? "01",
+      P_PARA_2: queryParams.P_PARA_2 ?? secCode ?? custCode ?? prodCode ??  pol_sys_id ??"01",
       P_PARA_3: queryParams.P_PARA_3 ?? prodCode ?? secCode ?? polFmDt  ??   null,
       P_PARA_4: queryParams.P_PARA_4 ?? null,
       P_PARA_5: queryParams.P_PARA_5 ?? null
