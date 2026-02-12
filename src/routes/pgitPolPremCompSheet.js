@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const pgitPolPremCompSheetController = require('../controllers/pgitPolPremCompSheetController');
+const PGITPOLPREMCOMPSHEETController = require('../controllers/PGITPOLPREMCOMPSHEETController');
 
-router.get('/', pgitPolPremCompSheetController.getAll);
-router.post('/', pgitPolPremCompSheetController.create);
-router.put('/:id', pgitPolPremCompSheetController.update);
-router.delete('/:id', pgitPolPremCompSheetController.deleteItem);
+// router.get('/', PGITPOLPREMCOMPSHEETController.getAll);
+// router.post('/', PGITPOLPREMCOMPSHEETController.create);
+// router.put('/:id', PGITPOLPREMCOMPSHEETController.update);
+// router.delete('/:id', PGITPOLPREMCOMPSHEETController.deleteItem);
+router.get('/oneId', PGITPOLPREMCOMPSHEETController.getById);
+
+
 
 module.exports = router;

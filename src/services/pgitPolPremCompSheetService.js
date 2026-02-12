@@ -1,41 +1,64 @@
-const { PgitPolPremCompSheet } = require('../models');
+const { PGITPOLPREMCOMPSHEET } = require('../models');
 
-exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
-  return PgitPolPremCompSheet.findAll({ where: filters, limit, offset, ...(order && { order }) });
-};
+// exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
+//   return PGITPOLPREMCOMPSHEET.findAll({ where: filters, limit, offset, ...(order && { order }) });
+// };
 
-async function getNextPolSysId() {
-  const [result] = await sequelize.query('SELECT POL_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
-  return result[0].NEXTVAL || result[0].nextVal;  
-}
+// exports.create = async (data) => {
+//   return await PGITPOLPREMCOMPSHEET.create(data);
+// };
 
-exports.create = async (data) => {
-  const nextId = await getNextPolSysId();
-  data.pol_sys_id = nextId;
+// exports.update = async (id, updatedData) => {
+//   const item = await PGITPOLPREMCOMPSHEET.findByPk(id);
+//   if (!item) {
+//     const error = new Error(`PGITPOLPREMCOMPSHEET with ID ${id} not found`);
+//     error.statusCode = 404;
+//     throw error;
+//   }
+//   await item.update(updatedData);
+//   return item;
+// };
 
-  return await PgitPolicy.create(data);
-};
+// exports.deleteItem = async (id) => {
+//   const item = await PGITPOLPREMCOMPSHEET.findByPk(id);
+//   if (!item) {
+//     const error = new Error(`PGITPOLPREMCOMPSHEET with ID ${id} not found`);
+//     error.statusCode = 404;
+//     throw error;
+//   }
+//   await item.destroy();
+//   return item;
+// };
 
 
 
-exports.update = async (id, updatedData) => {
-  const item = await PgitPolPremCompSheet.findByPk(id);
-  if (!item) {
-    const error = new Error(`PgitPolPremCompSheet with ID ${id} not found`);
+
+exports.getById = async (keys) => {
+  const policy = await PGITPOLPREMCOMPSHEET.findAll({
+    where: {
+      PCST_POL_SYS_ID: keys.PCST_SYS_ID,
+      PCST_END_NO_IDX: keys.PCST_END_NO_IDX,
+      PCST_END_SR_NO: keys.PCST_END_SR_NO
+    }
+  });
+  if (!policy) {
+    const error = new Error(
+      `Policy not found with SYS_ID=${keys.PCST_SYS_ID}, END_NO_IDX=${keys.PCST_END_NO_IDX}, END_SR_NO=${keys.PCST_END_SR_NO}`
+    );
     error.statusCode = 404;
     throw error;
   }
-  await item.update(updatedData);
-  return item;
+  return policy;
 };
+// exports.getByPolSysId = async (PSEC_POL_SYS_ID) => {
+//   const items = await PgitPolSection.findAll({
+//     where: { PSEC_POL_SYS_ID },raw: true
+//   });
+//   const groupedResult = items.reduce((acc, row) => {
+//     const key = row.PSEC_SYS_ID;
+//     (acc[key] ??= []).push(row);
+//     return acc;
+//   }, {});
 
-exports.deleteItem = async (id) => {
-  const item = await PgitPolPremCompSheet.findByPk(id);
-  if (!item) {
-    const error = new Error(`PgitPolPremCompSheet with ID ${id} not found`);
-    error.statusCode = 404;
-    throw error;
-  }
-  await item.destroy();
-  return item;
-};
+//   return groupedResult; 
+//}
