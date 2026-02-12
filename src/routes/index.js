@@ -10,12 +10,12 @@ const pgitTaxDtlRouter = require('./pgitTaxDtl');
 const pgitPolChargeRouter = require('./pgitPolCharge');
 const pgitPolApplCurrRouter = require('./pgitPolApplCurr');
 const pgitPolInstPremRouter = require('./pgitPolInstPrem');
-const pgitPolPremCompSheetRouter = require('./pgitPolPremCompSheet');
 const pgitAcntDocRouter = require('./pgitAcntDoc');
 const pcomCodesRouter = require('./pcomCodes');
 const pcomAppParameterRouter = require('./pcomAppParameter');
 const PGITPOLHYPOTHECATIONRouter = require('./PGITPOLHYPOTHECATION');
 const PGITPOLPREVINSDTLRouter = require('./PGITPOLPREVINSDTL'); 
+const PGITPOLPREMCOMPSHEETRouter = require('./PGITPOLPREMCOMPSHEET');
 const router = express.Router();
 const lmCompanyRoutes=require('./lmCompanyRoutes');
 const class_of_busRoute = require('./class_of_busRoute');
@@ -90,7 +90,6 @@ router.use('/pgitTaxDtl', pgitTaxDtlRouter);
 router.use('/pgitPolCharge', pgitPolChargeRouter);
 router.use('/pgitPolApplCurr', pgitPolApplCurrRouter);
 router.use('/pgitPolInstPrem', pgitPolInstPremRouter);
-router.use('/pgitPolPremCompSheet', pgitPolPremCompSheetRouter);
 router.use('/pgitAcntDoc', pgitAcntDocRouter);
 router.use('/policyLov',policyLov);
 router.use('/secForOneProd',secForOneProd);
@@ -136,4 +135,5 @@ router.use('/compSheetField',compSheetField);
 
 
 
+router.use('/PGITPOLPREMCOMPSHEET', PGITPOLPREMCOMPSHEETRouter);
 module.exports = router;
