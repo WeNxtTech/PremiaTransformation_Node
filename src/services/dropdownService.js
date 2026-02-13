@@ -109,6 +109,8 @@ class DropdownService {
 }  else if (PLD_FIELD_NAME === "PCHG_CODE") {
   bind.prodCode = prodCode || null;   
   bind.value = value || null;         
+}else if (PLD_FIELD_NAME === "PCHG_TYPE") {
+        bind.prodCode = prodCode || null;
 }
 
 
