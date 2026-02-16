@@ -62,7 +62,8 @@ const polHypoLovRoute = require('./polHypoLovRoute');
 const screenSetup = require('./screenSetupRoute');
 const Calculate_Premium = require('./P_CALC_PREMIUMRoute');
 const compSheetField = require('./compSheetRoute');
-
+const POL_APPR_VALRoute = require('./POL_APPR_VALRoute');
+const GET_EXCH_RATERoute  = require('./GET_EXCH_RATERoute');
 
 
 
@@ -132,8 +133,9 @@ router.use('/PGITPOLPREVINSDTL', PGITPOLPREVINSDTLRouter);
 router.use('/screenSetup',screenSetup);
 router.use('/CalculatePremium',Calculate_Premium);
 router.use('/compSheetField',compSheetField);
-
-
-
 router.use('/PGITPOLPREMCOMPSHEET', PGITPOLPREMCOMPSHEETRouter);
+router.use('/approval',POL_APPR_VALRoute);
+router.use('/amount',GET_EXCH_RATERoute);
+
+
 module.exports = router;
