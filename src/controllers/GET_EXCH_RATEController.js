@@ -3,7 +3,13 @@ const { successResponse, errorResponse } = require('../utils/response');
 
 exports.Amount = async (req, res) => {
   try {
-    const { pol_sys_id, pol_end_no_idx, pol_end_sr_no } = req.query;
+    const {
+      pol_sys_id,
+      pol_end_no_idx,
+      pol_end_sr_no,
+      currency,
+      amount
+    } = req.query;
 
     /* ===============================
        Validate required query params
@@ -20,13 +26,23 @@ exports.Amount = async (req, res) => {
       return errorResponse(res, 400, 'pol_end_sr_no query parameter is required');
     }
 
+    if (!currency) {
+      return errorResponse(res, 400, 'currency query parameter is required');
+    }
+
+    if (amount === undefined) {
+      return errorResponse(res, 400, 'amount query parameter is required');
+    }
+
     /* ===============================
-       Call service (ONLY 3 params)
+       Call service (ALL params)
        =============================== */
     const data = await Amount(
-      pol_sys_id,
-      pol_end_no_idx,
-      pol_end_sr_no
+      Number(pol_sys_id),
+      Number(pol_end_no_idx),
+      Number(pol_end_sr_no),
+      currency,
+      Number(amount)
     );
 
     return successResponse(
