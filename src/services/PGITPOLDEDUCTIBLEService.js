@@ -4,17 +4,14 @@ exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
   return PGITPOLDEDUCTIBLE.findAll({ where: filters, limit, offset, ...(order && { order }) });
 };
 
-async function getNextPolSysId() {
-  const [result] = await sequelize.query('SELECT PCD_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
-  return result[0].NEXTVAL || result[0].nextVal;  
-}
 
-exports.create = async (data) => {
-  const nextId = await getNextPolSysId();
-  data.pcd_sys_id = nextId;
 
-  return await PGITPOLDEDUCTIBLE.create(data);
-};
+// exports.create = async (data) => {
+//   const nextId = await getNextPolSysId();
+//   data.pcd_sys_id = nextId;
+
+//   return await PGITPOLDEDUCTIBLE.create(data);
+// };
 
 
 exports.update = async (id, updatedData) => {
@@ -53,4 +50,74 @@ exports.getByPolSysId = async (PCD_POL_SYS_ID) => {
   }, {});
 
   return groupedResult;
+};
+
+
+async function getNextPolSysId() {
+  const [result] = await sequelize.query('SELECT PCD_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
+  return result[0].NEXTVAL || result[0].nextVal;  
+}
+
+
+exports.saveRiskCover = async (data) => {
+  const payload = Array.isArray(data) ? data : [data];
+  const transaction = await sequelize.transaction();
+
+  try {
+    const createdRecords = [];
+    for (const item of payload) {
+      if (item.PRD_SYS_ID) {
+        continue;
+      }
+      const {
+        pcd_pol_sys_id,
+pcd_end_no_idx,
+pcd_end_sr_no,
+pcd_code,
+pcd_psec_sys_id,
+pcd_lvl1_sys_id
+      } = item;
+      const existing = await PGITPOLDEDUCTIBLE.findOne({
+        where: {
+          pcd_pol_sys_id,
+pcd_end_no_idx,
+pcd_end_sr_no,
+pcd_code,
+pcd_psec_sys_id,
+pcd_lvl1_sys_id
+        },
+        transaction
+      });
+
+      if (existing) {
+        throw new Error(
+          `Duplicate Risk Cover found for SR_NO ${pcd_code} (Risk ${pcd_lvl1_sys_id})`
+        );
+      }
+      const nextId = await getNextPolSysId();
+      const payloadToSave = {
+        ...item,
+        pcd_sys_id: nextId
+      };
+      Object.keys(payloadToSave).forEach(
+        key => payloadToSave[key] === undefined && delete payloadToSave[key]
+      );
+      const created = await PGITPOLDEDUCTIBLE.create(payloadToSave, {
+        transaction
+      });
+      createdRecords.push(created);
+    }
+    await transaction.commit();
+    return Array.isArray(data)
+      ? {
+          message: 'Saved successfully',
+          count: createdRecords.length,
+          data: createdRecords
+        }
+      : createdRecords[0];
+
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
+  }
 };
