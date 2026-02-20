@@ -59,3 +59,14 @@ exports.getByPolSysId = async (req, res, next) => {
     next(err);
   }
 };
+
+
+
+exports.save = async (req, res, next) => {
+  try {
+    const result = await PGITPOLRISKSMIService.saveRiskCover(req.body);
+    return successResponse(res, 201, 'Saved', result);
+  } catch (err) {
+    next(err);
+  }
+};
