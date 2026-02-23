@@ -54,66 +54,104 @@ exports.getByPolSysId = async (PCHG_POL_SYS_ID) => {
 
 
 
+
+
+
 async function getNextPolSysId() {
-  const [result] = await sequelize.query('SELECT PCHG_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
-  return result[0].NEXTVAL || result[0].nextVal; 
+  const [result] = await sequelize.query(
+    'SELECT PCHG_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL'
+  );
+  return result[0].NEXTVAL || result[0].nextVal;
 }
 
-
-
 exports.saveRiskCover = async (data) => {
-  const payload = Array.isArray(data) ? data : [data];
+  const isBulk = Array.isArray(data);
+  const payload = isBulk ? data : [data];
   const transaction = await sequelize.transaction();
 
   try {
     const createdRecords = [];
+    const skippedRecords = [];
+
     for (const item of payload) {
+      // SYS_ID already exists → skip
       if (item.pchg_sys_id) {
+        skippedRecords.push({
+          reason: 'SYS_ID already present',
+          item
+        });
         continue;
       }
+
       const {
         pchg_pol_sys_id,
-pchg_end_no_idx,
-pchg_end_sr_no,
-pchg_sr_no,
-
+        pchg_end_no_idx,
+        pchg_end_sr_no,
+        pchg_sr_no
       } = item;
+
       const existing = await PgitPolCharge.findOne({
         where: {
-       pchg_pol_sys_id,
-pchg_end_no_idx,
-pchg_end_sr_no,
-pchg_sr_no,
+          pchg_pol_sys_id,
+          pchg_end_no_idx,
+          pchg_end_sr_no,
+          pchg_sr_no
         },
         transaction
       });
 
       if (existing) {
-        throw new Error(
-          `Duplicate Risk Cover found for SR_NO ${pchg_sr_no} `
-        );
+        // ❌ Single insert → ERROR
+        if (!isBulk) {
+          throw new Error(
+            `Duplicate Charge not allowed for SR_NO ${pchg_sr_no}`
+          );
+        }
+
+        // ✅ Bulk insert → SKIP
+        skippedRecords.push({
+          reason: 'Already exists in DB',
+          keys: {
+            pchg_pol_sys_id,
+            pchg_end_no_idx,
+            pchg_end_sr_no,
+            pchg_sr_no
+          }
+        });
+        continue;
       }
+
       const nextId = await getNextPolSysId();
+
       const payloadToSave = {
         ...item,
         pchg_sys_id: nextId
       };
+
       Object.keys(payloadToSave).forEach(
         key => payloadToSave[key] === undefined && delete payloadToSave[key]
       );
+
       const created = await PgitPolCharge.create(payloadToSave, {
         transaction
       });
+
       createdRecords.push(created);
     }
+
     await transaction.commit();
-    return Array.isArray(data)
-      ? {
-          message: 'Saved successfully',
-          count: createdRecords.length,
-          data: createdRecords
-        }
-      : createdRecords[0];
+
+    if (isBulk) {
+      return {
+        message: 'Bulk save completed',
+        savedCount: createdRecords.length,
+        skippedCount: skippedRecords.length,
+        saved: createdRecords,
+        skipped: skippedRecords
+      };
+    }
+
+    return createdRecords[0];
 
   } catch (error) {
     await transaction.rollback();

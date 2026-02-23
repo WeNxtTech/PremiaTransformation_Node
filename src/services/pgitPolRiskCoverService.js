@@ -43,6 +43,7 @@ exports.getByPolSysId = async (PRC_POL_SYS_ID) => {
   
 };
 
+
 async function getNextTranSysId() {
   const [result] = await sequelize.query(
     'SELECT PRC_SYS_IDD_SEQ.NEXTVAL AS nextVal FROM DUAL'
@@ -51,15 +52,24 @@ async function getNextTranSysId() {
 }
 
 exports.saveRiskCover = async (data) => {
-  const payload = Array.isArray(data) ? data : [data];
+  const isBulk = Array.isArray(data);
+  const payload = isBulk ? data : [data];
   const transaction = await sequelize.transaction();
 
   try {
     const createdRecords = [];
+    const skippedRecords = [];
+
     for (const item of payload) {
+      // If SYS_ID already present → skip
       if (item.PRC_SYS_ID) {
+        skippedRecords.push({
+          reason: 'SYS_ID already present',
+          item
+        });
         continue;
       }
+
       const {
         PRC_POL_SYS_ID,
         PRC_END_NO_IDX,
@@ -68,6 +78,7 @@ exports.saveRiskCover = async (data) => {
         PRC_PSEC_SYS_ID,
         PRC_LVL1_SYS_ID
       } = item;
+
       const existing = await PGITPOLRISKCOVER.findOne({
         where: {
           PRC_POL_SYS_ID,
@@ -80,32 +91,62 @@ exports.saveRiskCover = async (data) => {
         transaction
       });
 
+      // 🔴 Difference here
       if (existing) {
-        throw new Error(
-          `Duplicate Risk Cover found for SR_NO ${PRC_SR_NO} (Risk ${PRC_LVL1_SYS_ID})`
-        );
+        if (!isBulk) {
+          // single payload → error
+          throw new Error(
+            `Duplicate Risk Cover found for SR_NO ${PRC_SR_NO} (Risk ${PRC_LVL1_SYS_ID})`
+          );
+        }
+
+        // bulk payload → skip
+        skippedRecords.push({
+          reason: 'Already exists in DB',
+          keys: {
+            PRC_POL_SYS_ID,
+            PRC_END_NO_IDX,
+            PRC_END_SR_NO,
+            PRC_SR_NO,
+            PRC_PSEC_SYS_ID,
+            PRC_LVL1_SYS_ID
+          }
+        });
+        continue;
       }
+
       const nextId = await getNextTranSysId();
+
       const payloadToSave = {
         ...item,
         PRC_SYS_ID: nextId
       };
+
       Object.keys(payloadToSave).forEach(
         key => payloadToSave[key] === undefined && delete payloadToSave[key]
       );
+
       const created = await PGITPOLRISKCOVER.create(payloadToSave, {
         transaction
       });
+
       createdRecords.push(created);
     }
+
     await transaction.commit();
-    return Array.isArray(data)
-      ? {
-          message: 'Saved successfully',
-          count: createdRecords.length,
-          data: createdRecords
-        }
-      : createdRecords[0];
+
+    // Response
+    if (isBulk) {
+      return {
+        message: 'Bulk save completed',
+        savedCount: createdRecords.length,
+        skippedCount: skippedRecords.length,
+        saved: createdRecords,
+        skipped: skippedRecords
+      };
+    }
+
+    return createdRecords[0];
 
   } catch (error) {
     await transaction.rollback();
