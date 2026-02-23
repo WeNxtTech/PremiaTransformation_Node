@@ -54,69 +54,110 @@ exports.getByPolSysId = async (PBRK_POL_SYS_ID) => {
 };
 
 
+
+
 async function getNextPolSysId() {
-  const [result] = await sequelize.query('SELECT PBRK_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
-  return result[0].NEXTVAL || result[0].nextVal;  
+  const [result] = await sequelize.query(
+    'SELECT PBRK_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL'
+  );
+  return result[0].NEXTVAL || result[0].nextVal;
 }
 
-
-
 exports.saveRiskCover = async (data) => {
-  const payload = Array.isArray(data) ? data : [data];
+  const isBulk = Array.isArray(data);
+  const payload = isBulk ? data : [data];
   const transaction = await sequelize.transaction();
 
   try {
     const createdRecords = [];
+    const skippedRecords = [];
+
     for (const item of payload) {
+      // If SYS_ID already exists → skip
       if (item.pbrk_sys_id) {
+        skippedRecords.push({
+          reason: 'SYS_ID already present',
+          item
+        });
         continue;
       }
+
       const {
         pbrk_pol_sys_id,
-pbrk_end_no_idx,
-pbrk_end_sr_no,
-pbrk_psec_sys_id,
-pbrk_brk_code,
-pbrk_comm_code,
+        pbrk_end_no_idx,
+        pbrk_end_sr_no,
+        pbrk_psec_sys_id,
+        pbrk_brk_code,
+        pbrk_comm_code
       } = item;
+
       const existing = await PgitPolBroker.findOne({
         where: {
-       pbrk_pol_sys_id,
-pbrk_end_no_idx,
-pbrk_end_sr_no,
-pbrk_psec_sys_id,
-pbrk_brk_code,
-pbrk_comm_code,
+          pbrk_pol_sys_id,
+          pbrk_end_no_idx,
+          pbrk_end_sr_no,
+          pbrk_psec_sys_id,
+          pbrk_brk_code,
+          pbrk_comm_code
         },
         transaction
       });
 
-   if (existing) {
-  throw new Error(
-    `Duplicate Risk Cover not allowed for BRK=${pbrk_brk_code} and COMM=${pbrk_comm_code}`
-  );
-}
+      if (existing) {
+        // ❌ Single insert → ERROR
+        if (!isBulk) {
+          throw new Error(
+            `Duplicate Broker not allowed for BRK=${pbrk_brk_code} and COMM=${pbrk_comm_code}`
+          );
+        }
+
+        // ✅ Bulk insert → SKIP
+        skippedRecords.push({
+          reason: 'Already exists in DB',
+          keys: {
+            pbrk_pol_sys_id,
+            pbrk_end_no_idx,
+            pbrk_end_sr_no,
+            pbrk_psec_sys_id,
+            pbrk_brk_code,
+            pbrk_comm_code
+          }
+        });
+        continue;
+      }
+
       const nextId = await getNextPolSysId();
+
       const payloadToSave = {
         ...item,
         pbrk_sys_id: nextId
       };
+
       Object.keys(payloadToSave).forEach(
         key => payloadToSave[key] === undefined && delete payloadToSave[key]
       );
+
       const created = await PgitPolBroker.create(payloadToSave, {
         transaction
       });
+
       createdRecords.push(created);
     }
+
     await transaction.commit();
-    return Array.isArray(data)
-      ? {
-          message: 'Saved successfully',
-          count: createdRecords.length,
-          data: createdRecords
-        }
-      : createdRecords[0];
+
+    // Final response
+    if (isBulk) {
+      return {
+        message: 'Bulk save completed',
+        savedCount: createdRecords.length,
+        skippedCount: skippedRecords.length,
+        saved: createdRecords,
+        skipped: skippedRecords
+      };
+    }
+
+    return createdRecords[0];
 
   } catch (error) {
     await transaction.rollback();

@@ -55,64 +55,96 @@ exports.getByPolSysId = async (PAC_POL_SYS_ID) => {
 
 
 
+
 async function getNextPolSysId() {
-  const [result] = await sequelize.query('SELECT PAC_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL');
-  return result[0].NEXTVAL || result[0].nextVal;  
+  const [result] = await sequelize.query(
+    'SELECT PAC_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL'
+  );
+  return result[0].NEXTVAL || result[0].nextVal;
 }
 
-
-
-
 exports.saveRiskCover = async (data) => {
-  const payload = Array.isArray(data) ? data : [data];
+  const isBulk = Array.isArray(data);
+  const payload = isBulk ? data : [data];
   const transaction = await sequelize.transaction();
 
   try {
     const createdRecords = [];
+    const skippedRecords = [];
+
     for (const item of payload) {
+      // SYS_ID already exists → skip
       if (item.pac_sys_id) {
+        skippedRecords.push({
+          reason: 'SYS_ID already present',
+          item
+        });
         continue;
       }
+
       const {
         pac_pol_sys_id,
-pac_curr_code,
-
+        pac_curr_code
       } = item;
+
       const existing = await PgitPolApplCurr.findOne({
         where: {
           pac_pol_sys_id,
-pac_curr_code
-
+          pac_curr_code
         },
         transaction
       });
 
       if (existing) {
-        throw new Error(
-          `Duplicate Risk Cover found for Currency_code ${pac_curr_code} (Sys_Id ${pac_pol_sys_id})`
-        );
+        // ❌ Single save → error
+        if (!isBulk) {
+          throw new Error(
+            `Duplicate Currency not allowed for CURR=${pac_curr_code} (POL_SYS_ID=${pac_pol_sys_id})`
+          );
+        }
+
+        // ✅ Bulk save → skip
+        skippedRecords.push({
+          reason: 'Already exists in DB',
+          keys: {
+            pac_pol_sys_id,
+            pac_curr_code
+          }
+        });
+        continue;
       }
+
       const nextId = await getNextPolSysId();
+
       const payloadToSave = {
         ...item,
         pac_sys_id: nextId
       };
+
       Object.keys(payloadToSave).forEach(
         key => payloadToSave[key] === undefined && delete payloadToSave[key]
       );
+
       const created = await PgitPolApplCurr.create(payloadToSave, {
         transaction
       });
+
       createdRecords.push(created);
     }
+
     await transaction.commit();
-    return Array.isArray(data)
-      ? {
-          message: 'Saved successfully',
-          count: createdRecords.length,
-          data: createdRecords
-        }
-      : createdRecords[0];
+
+    if (isBulk) {
+      return {
+        message: 'Bulk save completed',
+        savedCount: createdRecords.length,
+        skippedCount: skippedRecords.length,
+        saved: createdRecords,
+        skipped: skippedRecords
+      };
+    }
+
+    return createdRecords[0];
 
   } catch (error) {
     await transaction.rollback();
