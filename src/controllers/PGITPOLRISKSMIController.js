@@ -12,14 +12,14 @@ exports.getAll = async (req, res, next) => {
   }
 };
 
-exports.create = async (req, res, next) => {
-  try {
-    const result = await PGITPOLRISKSMIService.create(req.body);
-    return successResponse(res, 201, "Created", result);
-  } catch (err) {
-    next(err);
-  }
-};
+// exports.create = async (req, res, next) => {
+//   try {
+//     const result = await PGITPOLRISKSMIService.create(req.body);
+//     return successResponse(res, 201, "Created", result);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
 
 exports.update = async (req, res, next) => {
   try {

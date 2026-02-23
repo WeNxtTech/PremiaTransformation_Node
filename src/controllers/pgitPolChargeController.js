@@ -12,14 +12,14 @@ exports.getAll = async (req, res, next) => {
   }
 };
 
-exports.create = async (req, res, next) => {
-  try {
-    const result = await pgitPolChargeService.create(req.body);
-    return successResponse(res, 201, "Created", result);
-  } catch (err) {
-    next(err);
-  }
-};
+// exports.create = async (req, res, next) => {
+//   try {
+//     const result = await pgitPolChargeService.create(req.body);
+//     return successResponse(res, 201, "Created", result);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
 
 exports.update = async (req, res, next) => {
   try {
@@ -54,6 +54,17 @@ exports.getByPolSysId = async (req, res, next) => {
 
     return successResponse(res, 200, 'Fetched', result);
 
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+
+exports.save = async (req, res, next) => {
+  try {
+    const result = await pgitPolChargeService.saveRiskCover(req.body);
+    return successResponse(res, 201, 'Saved', result);
   } catch (err) {
     next(err);
   }
