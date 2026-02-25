@@ -43,10 +43,10 @@ exports.getByPolSysId = async (PRC_POL_SYS_ID) => {
   
 };
 
-
-async function getNextTranSysId() {
+async function getNextTranSysId(transaction) {
   const [result] = await sequelize.query(
-    'SELECT PRC_SYS_IDD_SEQ.NEXTVAL AS nextVal FROM DUAL'
+    'SELECT PRC_SYS_IDD_SEQ.NEXTVAL AS nextVal FROM DUAL',
+    { transaction }
   );
   return result[0].NEXTVAL || result[0].nextVal;
 }
@@ -61,7 +61,7 @@ exports.saveRiskCover = async (data) => {
     const skippedRecords = [];
 
     for (const item of payload) {
-      // If SYS_ID already present → skip
+
       if (item.PRC_SYS_ID) {
         skippedRecords.push({
           reason: 'SYS_ID already present',
@@ -71,51 +71,34 @@ exports.saveRiskCover = async (data) => {
       }
 
       const {
-        PRC_POL_SYS_ID,
-        PRC_END_NO_IDX,
-        PRC_END_SR_NO,
         PRC_SR_NO,
-        PRC_PSEC_SYS_ID,
-        PRC_LVL1_SYS_ID
+        PRC_CVR_TYPE
       } = item;
 
+      // ✅ NEW UNIQUE CHECK (ONLY 2 FIELDS)
       const existing = await PGITPOLRISKCOVER.findOne({
         where: {
-          PRC_POL_SYS_ID,
-          PRC_END_NO_IDX,
-          PRC_END_SR_NO,
           PRC_SR_NO,
-          PRC_PSEC_SYS_ID,
-          PRC_LVL1_SYS_ID
+          PRC_CVR_TYPE
         },
         transaction
       });
 
-      // 🔴 Difference here
       if (existing) {
         if (!isBulk) {
-          // single payload → error
           throw new Error(
-            `Duplicate Risk Cover found for SR_NO ${PRC_SR_NO} (Risk ${PRC_LVL1_SYS_ID})`
+            `Duplicate not allowed for SR_NO ${PRC_SR_NO} and CVR_TYPE ${PRC_CVR_TYPE}`
           );
         }
 
-        // bulk payload → skip
         skippedRecords.push({
           reason: 'Already exists in DB',
-          keys: {
-            PRC_POL_SYS_ID,
-            PRC_END_NO_IDX,
-            PRC_END_SR_NO,
-            PRC_SR_NO,
-            PRC_PSEC_SYS_ID,
-            PRC_LVL1_SYS_ID
-          }
+          keys: { PRC_SR_NO, PRC_CVR_TYPE }
         });
         continue;
       }
 
-      const nextId = await getNextTranSysId();
+      const nextId = await getNextTranSysId(transaction);
 
       const payloadToSave = {
         ...item,
@@ -135,7 +118,6 @@ exports.saveRiskCover = async (data) => {
 
     await transaction.commit();
 
-    // Response
     if (isBulk) {
       return {
         message: 'Bulk save completed',
