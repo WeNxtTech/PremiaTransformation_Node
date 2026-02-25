@@ -51,17 +51,24 @@ async function getNextTranSysId(transaction) {
   return result[0].NEXTVAL || result[0].nextVal;
 }
 
+async function getNextTranSysId() {
+  const [result] = await sequelize.query(
+    'SELECT PRC_SYS_IDD_SEQ.NEXTVAL AS nextVal FROM DUAL'
+  );
+  return result[0].NEXTVAL || result[0].nextVal;
+}
+ 
 exports.saveRiskCover = async (data) => {
   const isBulk = Array.isArray(data);
   const payload = isBulk ? data : [data];
   const transaction = await sequelize.transaction();
-
+ 
   try {
     const createdRecords = [];
     const skippedRecords = [];
-
+ 
     for (const item of payload) {
-
+      // If SYS_ID already present → skip
       if (item.PRC_SYS_ID) {
         skippedRecords.push({
           reason: 'SYS_ID already present',
@@ -69,55 +76,76 @@ exports.saveRiskCover = async (data) => {
         });
         continue;
       }
-
+ 
       const {
+        PRC_POL_SYS_ID,
+        PRC_END_NO_IDX,
+        PRC_END_SR_NO,
         PRC_SR_NO,
+        PRC_PSEC_SYS_ID,
+        PRC_LVL1_SYS_ID,
         PRC_CVR_TYPE
       } = item;
-
-      // ✅ NEW UNIQUE CHECK (ONLY 2 FIELDS)
+ 
       const existing = await PGITPOLRISKCOVER.findOne({
         where: {
+          PRC_POL_SYS_ID,
+          PRC_END_NO_IDX,
+          PRC_END_SR_NO,
           PRC_SR_NO,
+          PRC_PSEC_SYS_ID,
+          PRC_LVL1_SYS_ID,
           PRC_CVR_TYPE
         },
         transaction
       });
-
+ 
+      // 🔴 Difference here
       if (existing) {
         if (!isBulk) {
+          // single payload → error
           throw new Error(
-            `Duplicate not allowed for SR_NO ${PRC_SR_NO} and CVR_TYPE ${PRC_CVR_TYPE}`
+            `Duplicate Risk Cover found for SR_NO ${PRC_SR_NO} (Risk ${PRC_CVR_TYPE})`
           );
         }
-
+ 
+        // bulk payload → skip
         skippedRecords.push({
           reason: 'Already exists in DB',
-          keys: { PRC_SR_NO, PRC_CVR_TYPE }
+          keys: {
+            PRC_POL_SYS_ID,
+            PRC_END_NO_IDX,
+            PRC_END_SR_NO,
+            PRC_SR_NO,
+            PRC_PSEC_SYS_ID,
+            PRC_LVL1_SYS_ID,
+            PRC_CVR_TYPE
+          }
         });
         continue;
       }
-
-      const nextId = await getNextTranSysId(transaction);
-
+ 
+      const nextId = await getNextTranSysId();
+ 
       const payloadToSave = {
         ...item,
         PRC_SYS_ID: nextId
       };
-
+ 
       Object.keys(payloadToSave).forEach(
         key => payloadToSave[key] === undefined && delete payloadToSave[key]
       );
-
+ 
       const created = await PGITPOLRISKCOVER.create(payloadToSave, {
         transaction
       });
-
+ 
       createdRecords.push(created);
     }
-
+ 
     await transaction.commit();
-
+ 
+    // Response
     if (isBulk) {
       return {
         message: 'Bulk save completed',
@@ -127,9 +155,9 @@ exports.saveRiskCover = async (data) => {
         skipped: skippedRecords
       };
     }
-
+ 
     return createdRecords[0];
-
+ 
   } catch (error) {
     await transaction.rollback();
     throw error;
