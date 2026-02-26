@@ -64,6 +64,7 @@ const Calculate_Premium = require('./P_CALC_PREMIUMRoute');
 const compSheetField = require('./compSheetRoute');
 const POL_APPR_VALRoute = require('./POL_APPR_VALRoute');
 const GET_EXCH_RATERoute  = require('./GET_EXCH_RATERoute');
+const instcharge =require('./polInstChargeFieldRoute');
 
 
 
@@ -136,6 +137,7 @@ router.use('/compSheetField',compSheetField);
 router.use('/PGITPOLPREMCOMPSHEET', PGITPOLPREMCOMPSHEETRouter);
 router.use('/approval',POL_APPR_VALRoute);
 router.use('/amount',GET_EXCH_RATERoute);
+router.use ('/instChargeField',instcharge);
 
 
 module.exports = router;
