@@ -85,7 +85,6 @@ exports.saveRiskCover = async (data) => {
         pcd_end_no_idx,
         pcd_end_sr_no,
         pcd_code,
-        pcd_psec_sys_id,
         pcd_lvl1_sys_id
       } = item;
 
@@ -95,7 +94,6 @@ exports.saveRiskCover = async (data) => {
           pcd_end_no_idx,
           pcd_end_sr_no,
           pcd_code,
-          pcd_psec_sys_id,
           pcd_lvl1_sys_id
         },
         transaction
@@ -118,7 +116,6 @@ exports.saveRiskCover = async (data) => {
             pcd_end_no_idx,
             pcd_end_sr_no,
             pcd_code,
-            pcd_psec_sys_id,
             pcd_lvl1_sys_id
           }
         });

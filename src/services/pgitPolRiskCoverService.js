@@ -28,19 +28,35 @@ exports.deleteItem = async (id) => {
 };
 
 
-exports.getByPolSysId = async (PRC_POL_SYS_ID , PRC_LVL1_SYS_ID) => {
+exports.getByPolSysId = async (PRC_POL_SYS_ID, PRC_LVL1_SYS_ID) => {
+
+  const whereCondition = {};
+
+  if (PRC_POL_SYS_ID !== undefined && PRC_POL_SYS_ID !== null) {
+    whereCondition.PRC_POL_SYS_ID = PRC_POL_SYS_ID;
+  }
+
+  if (PRC_LVL1_SYS_ID !== undefined && PRC_LVL1_SYS_ID !== null) {
+    whereCondition.PRC_LVL1_SYS_ID = PRC_LVL1_SYS_ID;
+  }
+
+  // Optional: if no filters provided, prevent full table fetch
+  if (Object.keys(whereCondition).length === 0) {
+    throw new Error("At least one filter (PRC_POL_SYS_ID or PRC_LVL1_SYS_ID) is required");
+  }
+
   const items = await PGITPOLRISKCOVER.findAll({
-    where: { PRC_POL_SYS_ID , PRC_LVL1_SYS_ID },raw: true
+    where: whereCondition,
+    raw: true
   });
-   const groupedResult = items.reduce((acc, row) => {
+
+  const groupedResult = items.reduce((acc, row) => {
     const key = row.PRC_CVR_TYPE;
     (acc[key] ??= []).push(row);
     return acc;
   }, {});
 
-  return groupedResult; 
-
-  
+  return groupedResult;
 };
 
 async function getNextTranSysId(transaction) {
