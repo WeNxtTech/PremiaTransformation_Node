@@ -28,12 +28,12 @@ exports.deleteItem = async (id) => {
 };
 
 
-exports.getByPolSysId = async (PRC_POL_SYS_ID) => {
+exports.getByPolSysId = async (PRC_POL_SYS_ID , PRC_LVL1_SYS_ID) => {
   const items = await PGITPOLRISKCOVER.findAll({
-    where: { PRC_POL_SYS_ID },raw: true
+    where: { PRC_POL_SYS_ID , PRC_LVL1_SYS_ID },raw: true
   });
    const groupedResult = items.reduce((acc, row) => {
-    const key = row.PRC_SYS_ID;
+    const key = row.PRC_CVR_TYPE;
     (acc[key] ??= []).push(row);
     return acc;
   }, {});

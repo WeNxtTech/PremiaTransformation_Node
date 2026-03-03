@@ -39,9 +39,9 @@ exports.deleteItem = async (id) => {
 };
 
 
-exports.getByPolSysId = async (PRS_POL_SYS_ID) => {
+exports.getByPolSysId = async (PRS_POL_SYS_ID , PRS_LVL1_SYS_ID) => {
   const items = await PGITPOLRISKSMI.findAll({
-    where: { PRS_POL_SYS_ID },raw: true
+    where: { PRS_POL_SYS_ID , PRS_LVL1_SYS_ID },raw: true
   });
     const groupedResult = items.reduce((acc, row) => {
     const key = row.PRS_SYS_ID;

@@ -52,7 +52,7 @@ exports.deleteItem = async (req, res, next) => {
 
 exports.getByPolSysId = async (req, res, next) => {
   try {
-    const { praiPolSysId } = req.query;
+    const { praiPolSysId , secSysId} = req.query;
 
     if (!praiPolSysId) {
       return res.status(400).json({
@@ -61,7 +61,7 @@ exports.getByPolSysId = async (req, res, next) => {
       });
     }
 
-    const result = await PGITPOLRISKADDLINFOService.getByPolSysId(Number(praiPolSysId));
+    const result = await PGITPOLRISKADDLINFOService.getByPolSysId(Number(praiPolSysId), Number(secSysId));
 
     return successResponse(res, 200, 'Fetched', result);
 

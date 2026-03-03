@@ -37,9 +37,9 @@ exports.deleteItem = async (id) => {
 };
 
 
-exports.getByPolSysId = async (PCD_POL_SYS_ID) => {
+exports.getByPolSysId = async (PCD_POL_SYS_ID ,PCD_LVL1_SYS_ID) => {
   const items = await PGITPOLDEDUCTIBLE.findAll({
-    where: { PCD_POL_SYS_ID },
+    where: { PCD_POL_SYS_ID ,PCD_LVL1_SYS_ID },
     raw: true
   });
 

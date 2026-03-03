@@ -44,7 +44,7 @@ exports.deleteItem = async (req, res, next) => {
 
 exports.getByPolSysId = async (req, res, next) => {
   try {
-    const { dedPolSysId } = req.query;
+    const { dedPolSysId ,riskSysId } = req.query;
 
     if (!dedPolSysId) {
       return res.status(400).json({
@@ -53,7 +53,7 @@ exports.getByPolSysId = async (req, res, next) => {
       });
     }
 
-    const result = await PGITPOLDEDUCTIBLEService.getByPolSysId(Number(dedPolSysId));
+    const result = await PGITPOLDEDUCTIBLEService.getByPolSysId(Number(dedPolSysId) , Number(riskSysId));
 
     return successResponse(res, 200, 'Fetched', result);
 

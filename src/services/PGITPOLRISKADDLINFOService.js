@@ -103,9 +103,9 @@ exports.deleteItem = async (id) => {
 };
 
 
-exports.getByPolSysId = async (PRAI_POL_SYS_ID) => {
+exports.getByPolSysId = async (PRAI_POL_SYS_ID , PRAI_PSEC_SYS_ID) => {
   const items = await PGITPOLRISKADDLINFO.findAll({
-    where: { PRAI_POL_SYS_ID },raw: true
+    where: { PRAI_POL_SYS_ID , PRAI_PSEC_SYS_ID },raw: true
   });
 
    const groupedResult = items.reduce((acc, row) => {

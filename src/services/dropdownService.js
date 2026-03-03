@@ -30,7 +30,7 @@ function extractSelectColumns(sql) {
     .map(col => col.trim().split(" ")[0]);
 }
 
-// ----------- DUPLICATE BIND FIX ------------
+// ----------- DUPLICATE BIND FIX ------------ 
 function expandDuplicateBinds(sql, bind) {
   const newBind = {};
 
