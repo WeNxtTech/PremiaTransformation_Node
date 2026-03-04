@@ -46,3 +46,20 @@ exports.deleteItem = async (id) => {
   await item.destroy();
   return item;
 };
+exports.getByPolSysId = async (PIC_POL_SYS_ID, PIC_END_NO_IDX, PIC_END_SR_NO) => {
+
+  if (!PIC_POL_SYS_ID || PIC_END_NO_IDX === undefined || PIC_END_SR_NO === undefined) {
+    throw new Error("PIC_POL_SYS_ID, PIC_END_NO_IDX and PIC_END_SR_NO are required");
+  }
+
+  const items = await PGITPOLINSTCHARGE.findAll({
+    where: {
+      PIC_POL_SYS_ID,
+      PIC_END_NO_IDX,
+      PIC_END_SR_NO
+    },
+    raw: true
+  });
+
+  return items;
+};

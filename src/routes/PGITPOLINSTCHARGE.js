@@ -6,5 +6,5 @@ router.get('/', PGITPOLINSTCHARGEController.getAll);
 router.post('/', PGITPOLINSTCHARGEController.create);
 router.put('/:id', PGITPOLINSTCHARGEController.update);
 router.delete('/:id', PGITPOLINSTCHARGEController.deleteItem);
-
+router.get("/instChargePolId", PGITPOLINSTCHARGEController.getByPolSysId);
 module.exports = router;
