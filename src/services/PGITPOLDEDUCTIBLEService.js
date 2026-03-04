@@ -38,11 +38,24 @@ exports.deleteItem = async (id) => {
 
 
 exports.getByPolSysId = async (PCD_POL_SYS_ID ,PCD_LVL1_SYS_ID) => {
+  const whereCondition = {};
+
+   if (PCD_POL_SYS_ID !== undefined && PCD_POL_SYS_ID !== null) {
+    whereCondition.PCD_POL_SYS_ID = PCD_POL_SYS_ID;
+  }
+
+  if (PCD_LVL1_SYS_ID !== undefined && PCD_LVL1_SYS_ID !== null) {
+    whereCondition.PCD_LVL1_SYS_ID = PCD_LVL1_SYS_ID;
+  }
+
+   if (Object.keys(whereCondition).length === 0) {
+    throw new Error("At least one filter (PCD_POL_SYS_ID or PCD_LVL1_SYS_ID) is required");
+  }
+
   const items = await PGITPOLDEDUCTIBLE.findAll({
-    where: { PCD_POL_SYS_ID ,PCD_LVL1_SYS_ID },
+    where: whereCondition,
     raw: true
   });
-
   const groupedResult = items.reduce((acc, row) => {
     const key = row.pcd_sys_id; 
     (acc[key] ??= []).push(row);

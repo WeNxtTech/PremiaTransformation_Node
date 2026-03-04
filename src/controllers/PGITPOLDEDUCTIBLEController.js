@@ -53,7 +53,7 @@ exports.getByPolSysId = async (req, res, next) => {
       });
     }
 
-    const result = await PGITPOLDEDUCTIBLEService.getByPolSysId(Number(dedPolSysId) , Number(riskSysId));
+    const result = await PGITPOLDEDUCTIBLEService.getByPolSysId(Number(dedPolSysId) ,riskSysId ?  Number(riskSysId) : undefined );
 
     return successResponse(res, 200, 'Fetched', result);
 
