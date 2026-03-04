@@ -98,7 +98,7 @@ exports.saveRiskCover = async (data) => {
         pcd_end_no_idx,
         pcd_end_sr_no,
         pcd_code,
-        pcd_lvl1_sys_id
+        
       } = item;
 
       const existing = await PGITPOLDEDUCTIBLE.findOne({
@@ -107,7 +107,7 @@ exports.saveRiskCover = async (data) => {
           pcd_end_no_idx,
           pcd_end_sr_no,
           pcd_code,
-          pcd_lvl1_sys_id
+          
         },
         transaction
       });
@@ -117,7 +117,7 @@ exports.saveRiskCover = async (data) => {
         if (!isBulk) {
           // single payload → error
           throw new Error(
-            `Duplicate Deductible found for CODE ${pcd_code} (Risk ${pcd_lvl1_sys_id})`
+            `Duplicate Deductible found for CODE ${pcd_code} (Risk ${pcd_pol_sys_id})`
           );
         }
 
@@ -129,7 +129,7 @@ exports.saveRiskCover = async (data) => {
             pcd_end_no_idx,
             pcd_end_sr_no,
             pcd_code,
-            pcd_lvl1_sys_id
+            
           }
         });
         continue;
