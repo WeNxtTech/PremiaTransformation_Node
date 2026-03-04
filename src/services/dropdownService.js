@@ -100,7 +100,6 @@ class DropdownService {
 
       if (PLD_FIELD_NAME === "PRC_CODE") {
         bind.prodCode = prodCode || null;
-        bind.secCode = secCode || null;
       } else if (PLD_FIELD_NAME === "PCD_CODE") {
         bind.prodCode = prodCode || null;
       }else if (PLD_FIELD_NAME === "PCON_CODE") {
