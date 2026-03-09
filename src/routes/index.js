@@ -66,7 +66,9 @@ const compSheetField = require('./compSheetRoute');
 const POL_APPR_VALRoute = require('./POL_APPR_VALRoute');
 const GET_EXCH_RATERoute  = require('./GET_EXCH_RATERoute');
 const instcharge =require('./polInstChargeFieldRoute');
-
+const PGIT_POL_PREM_DTLRoute =require('./PGIT_POL_PREM_DTLRoute');
+const sdrop = require ('./simpleDropdownRoutes.js');
+const simpleDropdownService = require('./simpleDropdownRoutes.js');
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,6 +142,7 @@ router.use('/approval',POL_APPR_VALRoute);
 router.use('/amount',GET_EXCH_RATERoute);
 router.use ('/instChargeField',instcharge);
 router.use('/polInstCharge', PGITPOLINSTCHARGERouter);
-
+router.use('/preDtls',PGIT_POL_PREM_DTLRoute);
+router.use('/sdrop',simpleDropdownService);
 
 module.exports = router;
