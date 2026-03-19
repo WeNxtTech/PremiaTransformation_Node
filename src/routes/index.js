@@ -70,6 +70,9 @@ const PGIT_POL_PREM_DTLRoute =require('./PGIT_POL_PREM_DTLRoute');
 const sdrop = require ('./simpleDropdownRoutes.js');
 const simpleDropdownService = require('./simpleDropdownRoutes.js');
 const appBtn = require('./approveBtnRoute.js');
+const riInterfaceField = require('./pgitRiInterfaceFieldRoute.js');
+const riTtyDtlPgField = require ('./pgitRiPropTtyDtlPgFieldRoute.js');
+const riTtyAllocField = require ('./pgitRiPropTtyAllocFieldRoute.js');
 
 
 
@@ -147,7 +150,8 @@ router.use('/polInstCharge', PGITPOLINSTCHARGERouter);
 router.use('/preDtls',PGIT_POL_PREM_DTLRoute);
 router.use('/sdrop',simpleDropdownService);
 router.use('/approveBtn',appBtn);
-
-
+router.use('/treatyTab1',riInterfaceField);
+router.use('/treatyTab2',riTtyDtlPgField);
+router.use('/treatyTab3',riTtyAllocField);
 
 module.exports = router;
