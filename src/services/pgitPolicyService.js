@@ -190,29 +190,41 @@ exports.create = async (data) => {
 
     const createdRecord = await PgitPolicy.create(data, { transaction });
 
-    const currencyPlsql = `
-      DECLARE
-        CURSOR C1 IS
-          SELECT POL_SYS_ID, POL_END_NO_IDX, POL_END_SR_NO, POL_COMP_CODE,
-                 POL_DS_TYPE, POL_DS_CODE, POL_PROD_CODE, POL_ISSUE_DT
-          FROM PGIT_POLICY
-          WHERE POL_SYS_ID = :polSysId;
-      BEGIN
-        FOR I IN C1 LOOP
-          Pcopk_Sys_Vars.M_COMP_CODE := I.POL_COMP_CODE;
-          PGIPK_POLICY_ENTRY.Pr_Dflt_Currency(
-            P_POL_SYS_ID => I.POL_SYS_ID,
-            P_END_NO_IDX => I.POL_END_NO_IDX,
-            P_END_SR_NO  => I.POL_END_SR_NO,
-            P_DS_TYPE    => I.POL_DS_TYPE,
-            P_DS_CODE    => I.POL_DS_CODE,
-            P_PROD_CODE  => I.POL_PROD_CODE,
-            P_POL_ISS_DT => TRUNC(I.POL_ISSUE_DT),
-            P_COMP_CODE  => I.POL_COMP_CODE
-          );
-        END LOOP;
-      END;
-    `;
+   const currencyPlsql = `
+  DECLARE
+    CURSOR C1 IS
+      SELECT POL_SYS_ID, POL_END_NO_IDX, POL_END_SR_NO, POL_COMP_CODE,
+             POL_DS_TYPE, POL_DS_CODE, POL_PROD_CODE, POL_ISSUE_DT,
+             POL_FM_DT    -- ✅ ADD THIS
+      FROM PGIT_POLICY
+      WHERE POL_SYS_ID = :polSysId;
+  BEGIN
+    FOR I IN C1 LOOP
+      Pcopk_Sys_Vars.M_COMP_CODE := I.POL_COMP_CODE;
+      PGIPK_POLICY_ENTRY.Pr_Dflt_Currency(
+        P_POL_SYS_ID => I.POL_SYS_ID,
+        P_END_NO_IDX => I.POL_END_NO_IDX,
+        P_END_SR_NO  => I.POL_END_SR_NO,
+        P_DS_TYPE    => I.POL_DS_TYPE,
+        P_DS_CODE    => I.POL_DS_CODE,
+        P_PROD_CODE  => I.POL_PROD_CODE,
+        P_POL_ISS_DT => TRUNC(I.POL_ISSUE_DT),
+        P_COMP_CODE  => I.POL_COMP_CODE
+      );
+
+      PGIPK_POLICY_ENTRY.Pr_Dflt_Charge(
+        P_POL_SYS_ID => I.POL_SYS_ID,
+        P_END_NO_IDX => I.POL_END_NO_IDX,
+        P_END_SR_NO  => I.POL_END_SR_NO,
+        P_DS_TYPE    => I.POL_DS_TYPE,
+        P_DS_CODE    => I.POL_DS_CODE,
+        P_PROD_CODE  => I.POL_PROD_CODE,
+        P_PREM_CODE  => NULL,
+        P_POL_DT     => I.POL_FM_DT   -- ✅ now valid
+      );
+    END LOOP;
+  END;
+`;
 
     await sequelize.query(currencyPlsql, {
       replacements: { polSysId: createdRecord.POL_SYS_ID },
@@ -236,7 +248,8 @@ exports.create = async (data) => {
       message: 'Policy created successfully',
       data: {
         POL_SYS_ID: createdRecord.POL_SYS_ID,
-        POL_NO: generatedPolNo
+        POL_NO: generatedPolNo, 
+        createdRecord
       }
     };
 

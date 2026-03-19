@@ -66,7 +66,8 @@ exports.create = async (data) => {
       prai_lvl1_sr_no: createdRecord.prai_lvl1_sr_no,
       prai_lvl2_sr_no: createdRecord.prai_lvl2_sr_no,
       prai_lvl1_sys_id: createdRecord.prai_lvl1_sys_id,
-      prai_risk_id: createdRecord.prai_risk_id
+      prai_risk_id: createdRecord.prai_risk_id,
+      createdRecord
     };
 
     return {
