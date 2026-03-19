@@ -17,6 +17,9 @@ const PGITPOLHYPOTHECATIONRouter = require('./PGITPOLHYPOTHECATION');
 const PGITPOLPREVINSDTLRouter = require('./PGITPOLPREVINSDTL'); 
 const PGITPOLPREMCOMPSHEETRouter = require('./PGITPOLPREMCOMPSHEET');
 const PGITPOLINSTCHARGERouter = require('./PGITPOLINSTCHARGE');
+const PGITRIINTERFACERouter = require('./PGITRIINTERFACE');
+const PGITRIPROPTTYDTLPGRouter = require('./PGITRIPROPTTYDTLPG');
+const PGITRIPROPTTYALLOCRouter = require('./PGITRIPROPTTYALLOC');
 const router = express.Router();
 const lmCompanyRoutes=require('./lmCompanyRoutes');
 const class_of_busRoute = require('./class_of_busRoute');
@@ -153,5 +156,11 @@ router.use('/approveBtn',appBtn);
 router.use('/treatyTab1',riInterfaceField);
 router.use('/treatyTab2',riTtyDtlPgField);
 router.use('/treatyTab3',riTtyAllocField);
+router.use('/PGITRIINTERFACE', PGITRIINTERFACERouter);
+router.use('/PGITRIPROPTTYDTLPG', PGITRIPROPTTYDTLPGRouter);
+router.use('/PGITRIPROPTTYALLOC', PGITRIPROPTTYALLOCRouter);
+
+
+
 
 module.exports = router;
