@@ -6,7 +6,7 @@ router.get('/', PGITRIPROPTTYDTLPGController.getAll);
 router.post('/', PGITRIPROPTTYDTLPGController.create);
 router.put('/:id', PGITRIPROPTTYDTLPGController.update);
 router.delete('/:id', PGITRIPROPTTYDTLPGController.deleteItem);
-router.get('/',PGITRIPROPTTYDTLPGController.getByPolSysId);
+router.get('/byId',PGITRIPROPTTYDTLPGController.getById);
 
 
 module.exports = router;

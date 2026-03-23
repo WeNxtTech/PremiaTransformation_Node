@@ -33,15 +33,32 @@ exports.deleteItem = async (id) => {
 
 
 
-exports.getByPolSysId = async (RPTA_POL_SYS_ID) => {
-  if (!RPTA_POL_SYS_ID) {
-    throw new Error("RPTA_POL_SYS_ID is required");
-  }
+// exports.getByPolSysId = async (RPTA_POL_SYS_ID) => {
+//   if (!RPTA_POL_SYS_ID) {
+//     throw new Error("RPTA_POL_SYS_ID is required");
+//   }
 
+//   const items = await PGITRIPROPTTYALLOC.findAll({
+//     where: { RPTA_POL_SYS_ID },
+//     raw: true
+//   });
+
+//   return items;
+// };
+
+
+
+exports.getById = async ({ RPTA_POL_SYS_ID, RPTA_END_NO_IDX, RPTA_END_SR_NO }) => {
   const items = await PGITRIPROPTTYALLOC.findAll({
-    where: { RPTA_POL_SYS_ID },
+    where: { RPTA_POL_SYS_ID, RPTA_END_NO_IDX, RPTA_END_SR_NO },
     raw: true
   });
 
-  return items;
+  const groupedResult = items.reduce((acc, row) => {
+    const key = row.RPTA_RPTDG_SYS_ID;
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
+
+  return groupedResult;
 };

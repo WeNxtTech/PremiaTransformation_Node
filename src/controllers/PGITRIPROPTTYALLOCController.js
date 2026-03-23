@@ -38,36 +38,28 @@ exports.deleteItem = async (req, res, next) => {
     next(err);
   }
 };
-
-
-
-
-
-exports.getByPolSysId = async (req, res, next) => {
+exports.getById = async (req, res, next) => {
   try {
-    const { RPTA_POL_SYS_ID } = req.query;
+    const { RPTA_POL_SYS_ID, RPTA_END_NO_IDX, RPTA_END_SR_NO } = req.query;
 
-    if (!RPTA_POL_SYS_ID) {
-      return errorResponse(res, 400, "RPTA_POL_SYS_ID is required");
+    if (
+      RPTA_POL_SYS_ID === undefined ||
+      RPTA_END_NO_IDX === undefined ||
+      RPTA_END_SR_NO === undefined
+    ) {
+      return res.status(400).json({
+        message: 'RPTA_POL_SYS_ID, RPTA_END_NO_IDX, and RPTA_END_SR_NO are required'
+      });
     }
 
-    const polSysIdNum = Number(RPTA_POL_SYS_ID);
+    const result = await PGITRIPROPTTYALLOCService.getById({
+      RPTA_POL_SYS_ID: Number(RPTA_POL_SYS_ID),
+      RPTA_END_NO_IDX: Number(RPTA_END_NO_IDX),
+      RPTA_END_SR_NO: Number(RPTA_END_SR_NO)
+    });
 
-    if (isNaN(polSysIdNum)) {
-      return errorResponse(res, 400, "Invalid riPolSysId");
-    }
-
-    const result = await PGITRIPROPTTYALLOCService.getByPolSysId(polSysIdNum);
-
-    return successResponse(
-      res,
-      200,
-      "Fetched successfully",
-      result
-    );
-
+    return successResponse(res, 200, 'Fetched', result);
   } catch (err) {
-    console.error("Error in getByPolSysId:", err);
     next(err);
   }
 };

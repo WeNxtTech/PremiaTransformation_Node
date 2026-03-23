@@ -33,15 +33,32 @@ exports.deleteItem = async (id) => {
 
 
 
-exports.getByPolSysId = async (RPTDG_POL_SYS_ID) => {
-  if (!RPTDG_POL_SYS_ID) {
-    throw new Error("RPTDG_POL_SYS_ID is required");
-  }
+// exports.getByPolSysId = async (RPTDG_POL_SYS_ID) => {
+//   if (!RPTDG_POL_SYS_ID) {
+//     throw new Error("RPTDG_POL_SYS_ID is required");
+//   }
 
+//   const items = await PGITRIPROPTTYDTLPG.findAll({
+//     where: { RPTDG_POL_SYS_ID },
+//     raw: true
+//   });
+
+//   return items;
+// };
+
+
+
+exports.getById = async ({ RPTDG_POL_SYS_ID, RPTDG_END_NO_IDX, RPTDG_END_SR_NO }) => {
   const items = await PGITRIPROPTTYDTLPG.findAll({
-    where: { RPTDG_POL_SYS_ID },
+    where: { RPTDG_POL_SYS_ID, RPTDG_END_NO_IDX, RPTDG_END_SR_NO },
     raw: true
   });
 
-  return items;
+  const groupedResult = items.reduce((acc, row) => {
+    const key = row.RPTDG_SYS_ID;
+    (acc[key] ??= []).push(row);
+    return acc;
+  }, {});
+
+  return groupedResult; // ✅ no "items" after this
 };

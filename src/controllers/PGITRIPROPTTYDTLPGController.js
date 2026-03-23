@@ -42,31 +42,58 @@ exports.deleteItem = async (req, res, next) => {
 
 
 
-exports.getByPolSysId = async (req, res, next) => {
+// exports.getByPolSysId = async (req, res, next) => {
+//   try {
+//     const { RPTDG_POL_SYS_ID } = req.query;
+
+//     if (!RPTDG_POL_SYS_ID) {
+//       return errorResponse(res, 400, "RPTDG_POL_SYS_ID is required");
+//     }
+
+//     const polSysIdNum = Number(RPTDG_POL_SYS_ID);
+
+//     if (isNaN(polSysIdNum)) {
+//       return errorResponse(res, 400, "Invalid riPolSysId");
+//     }
+
+//     const result = await PGITRIPROPTTYDTLPGService.getByPolSysId(polSysIdNum);
+
+//     return successResponse(
+//       res,
+//       200,
+//       "Fetched successfully",
+//       result
+//     );
+
+//   } catch (err) {
+//     console.error("Error in getByPolSysId:", err);
+//     next(err);
+//   }
+// };
+
+
+exports.getById = async (req, res, next) => {
   try {
-    const { RPTDG_POL_SYS_ID } = req.query;
+    const { RPTDG_POL_SYS_ID, RPTDG_END_NO_IDX, RPTDG_END_SR_NO } = req.query;
 
-    if (!RPTDG_POL_SYS_ID) {
-      return errorResponse(res, 400, "RPTDG_POL_SYS_ID is required");
+    if (
+      RPTDG_POL_SYS_ID === undefined ||
+      RPTDG_END_NO_IDX === undefined ||
+      RPTDG_END_SR_NO === undefined
+    ) {
+      return res.status(400).json({
+        message: 'RPTDG_POL_SYS_ID, RPTDG_END_NO_IDX, and RPTDG_END_SR_NO are required'
+      });
     }
 
-    const polSysIdNum = Number(RPTDG_POL_SYS_ID);
+    const result = await PGITRIPROPTTYDTLPGService.getById({
+      RPTDG_POL_SYS_ID: Number(RPTDG_POL_SYS_ID),
+      RPTDG_END_NO_IDX: Number(RPTDG_END_NO_IDX),
+      RPTDG_END_SR_NO: Number(RPTDG_END_SR_NO)
+    });
 
-    if (isNaN(polSysIdNum)) {
-      return errorResponse(res, 400, "Invalid riPolSysId");
-    }
-
-    const result = await PGITRIPROPTTYDTLPGService.getByPolSysId(polSysIdNum);
-
-    return successResponse(
-      res,
-      200,
-      "Fetched successfully",
-      result
-    );
-
+    return successResponse(res, 200, 'Fetched', result);
   } catch (err) {
-    console.error("Error in getByPolSysId:", err);
     next(err);
   }
 };

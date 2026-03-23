@@ -6,6 +6,6 @@ router.get('/', PGITRIPROPTTYALLOCController.getAll);
 router.post('/', PGITRIPROPTTYALLOCController.create);
 router.put('/:id', PGITRIPROPTTYALLOCController.update);
 router.delete('/:id', PGITRIPROPTTYALLOCController.deleteItem);
-router.get('/',PGITRIPROPTTYALLOCController.getByPolSysId);
+router.get('/byId',PGITRIPROPTTYALLOCController.getById);
 
 module.exports = router;
