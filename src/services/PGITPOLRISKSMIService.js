@@ -61,7 +61,7 @@ exports.getByPolSysId = async (PRS_POL_SYS_ID , PRS_LVL1_SYS_ID) => {
 
 async function getNextTranSysId() {
   const [result] = await sequelize.query(
-    'SELECT PRS_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL'
+    'SELECT PGI_PRS_SYS_ID.NEXTVAL AS nextVal FROM DUAL'
   );
   return result[0].NEXTVAL || result[0].nextVal;
 }

@@ -121,7 +121,7 @@ exports.getById = async (keys) => {
 
 async function getNextPolSysId() {
   const [result] = await sequelize.query(
-    'SELECT POL_SYS_ID_SEQ.NEXTVAL AS NEXTVAL FROM DUAL',
+    'SELECT PGI_POL_SYS_ID.NEXTVAL AS NEXTVAL FROM DUAL',
     { type: QueryTypes.SELECT }
   );
   return result.NEXTVAL;

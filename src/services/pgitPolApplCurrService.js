@@ -58,7 +58,7 @@ exports.getByPolSysId = async (PAC_POL_SYS_ID) => {
 
 async function getNextPolSysId() {
   const [result] = await sequelize.query(
-    'SELECT PAC_SYS_ID_SEQ.NEXTVAL AS nextVal FROM DUAL'
+    'SELECT PGI_PAC_SYS_ID.NEXTVAL AS nextVal FROM DUAL'
   );
   return result[0].NEXTVAL || result[0].nextVal;
 }

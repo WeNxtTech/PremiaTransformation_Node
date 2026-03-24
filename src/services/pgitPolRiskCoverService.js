@@ -61,7 +61,7 @@ exports.getByPolSysId = async (PRC_POL_SYS_ID, PRC_LVL1_SYS_ID) => {
 
 async function getNextTranSysId(transaction) {
   const [result] = await sequelize.query(
-    'SELECT PRC_SYS_IDD_SEQ.NEXTVAL AS nextVal FROM DUAL',
+    'SELECT PGI_PRS_SYS_ID.NEXTVAL AS nextVal FROM DUAL',
     { transaction }
   );
   return result[0].NEXTVAL || result[0].nextVal;
@@ -69,7 +69,7 @@ async function getNextTranSysId(transaction) {
 
 async function getNextTranSysId() {
   const [result] = await sequelize.query(
-    'SELECT PRC_SYS_IDD_SEQ.NEXTVAL AS nextVal FROM DUAL'
+    'SELECT PGI_PRS_SYS_ID.NEXTVAL AS nextVal FROM DUAL'
   );
   return result[0].NEXTVAL || result[0].nextVal;
 }

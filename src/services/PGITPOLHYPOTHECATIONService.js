@@ -6,7 +6,7 @@ exports.getAll = async (filters, { limit = 10, offset = 0, order } = {}) => {
 
 
 async function getNextPsecSysId() {
-  const result = await sequelize.query( 'SELECT PHPO_SYS_ID_SEQ.NEXTVAL AS NEXTVAL FROM DUAL',
+  const result = await sequelize.query( 'SELECT PGI_PHPO_SYS_ID.NEXTVAL AS NEXTVAL FROM DUAL',
     { type: sequelize.QueryTypes.SELECT }
   );
   return result[0].NEXTVAL;
