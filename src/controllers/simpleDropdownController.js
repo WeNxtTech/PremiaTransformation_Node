@@ -15,3 +15,17 @@ exports.getAcGenType = async (req, res, next) => {
     next(err);
   }
 };
+
+
+exports.getCustomer = async (req, res, next) => {
+  try {
+    const result = await simpleDropdownService.getCustomer();
+    return res.status(200).json({
+      success: true,
+      message: "Data fetched successfully",
+      data: result
+    });
+  } catch (err) {
+    next(err);
+  }
+};

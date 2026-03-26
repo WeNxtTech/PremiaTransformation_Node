@@ -18,6 +18,17 @@ class SimpleDropdownService {
     return rows;
   }
 
+  async getCustomer() {
+    const sql = `
+      SELECT  CUST_CODE, CUST_NAME
+      FROM PCOM_CUSTOMER
+    `;
+    const rows = await sequelize.query(sql, { type: QueryTypes.SELECT });
+    return rows;
+  }
+
 }
+
+
 
 module.exports = new SimpleDropdownService();
