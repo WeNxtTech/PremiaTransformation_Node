@@ -20,6 +20,12 @@ const PGITPOLINSTCHARGERouter = require('./PGITPOLINSTCHARGE');
 const PGITRIINTERFACERouter = require('./PGITRIINTERFACE');
 const PGITRIPROPTTYDTLPGRouter = require('./PGITRIPROPTTYDTLPG');
 const PGITRIPROPTTYALLOCRouter = require('./PGITRIPROPTTYALLOC');
+const pgithPolicyRouter = require('./pgithPolicy');
+const pgithPolSectionRouter = require('./pgithPolSection');
+const pgithPolRiskAddlInfoRouter = require('./pgithPolRiskAddlInfo');
+const pgithPolRiskCoverRouter = require('./pgithPolRiskCover');
+const pgithPolRiskSmiRouter = require('./pgithPolRiskSmi');
+const pgithPolDeductibleRouter = require('./pgithPolDeductible');
 const router = express.Router();
 const lmCompanyRoutes=require('./lmCompanyRoutes');
 const class_of_busRoute = require('./class_of_busRoute');
@@ -163,4 +169,10 @@ router.use('/PGITRIPROPTTYALLOC', PGITRIPROPTTYALLOCRouter);
 
 
 
+router.use('/pgithPolicy', pgithPolicyRouter);
+router.use('/pgithPolSection', pgithPolSectionRouter);
+router.use('/pgithPolRiskAddlInfo', pgithPolRiskAddlInfoRouter);
+router.use('/pgithPolRiskCover', pgithPolRiskCoverRouter);
+router.use('/pgithPolRiskSmi', pgithPolRiskSmiRouter);
+router.use('/pgithPolDeductible', pgithPolDeductibleRouter);
 module.exports = router;
