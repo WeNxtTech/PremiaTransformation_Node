@@ -6,66 +6,71 @@ exports.getAll = async (
   { search, POL_PROD_CODE, POL_APPR_STS },
   { limit = 10, offset = 0, order } = {}
 ) => {
-  let whereClause = {};
+
+  let conditions = [];
+  let replacements = {};
 
   if (POL_PROD_CODE) {
-    whereClause.POL_PROD_CODE = POL_PROD_CODE;
+    conditions.push(`P.POL_PROD_CODE = :POL_PROD_CODE`);
+    replacements.POL_PROD_CODE = POL_PROD_CODE;
   }
 
-  if (POL_APPR_STS) { 
-    whereClause.POL_APPR_STS = POL_APPR_STS;
+  if (POL_APPR_STS) {
+    conditions.push(`P.POL_APPR_STS = :POL_APPR_STS`);
+    replacements.POL_APPR_STS = POL_APPR_STS;
   }
 
   if (search) {
-    const searchFilter = {
-      [Op.or]: [
-        { POL_NO: { [Op.like]: `%${search}%` } },
-        { POL_PREM_CURR_CODE: { [Op.like]: `%${search}%` } },
-        { POL_DFLT_SI_CURR_CODE: { [Op.like]: `%${search}%` } },
-        { POL_SRC_TYPE: { [Op.like]: `%${search}%` } },
-        { POL_ASSR_CODE: { [Op.like]: `%${search}%` } },
-        { POL_CUST_CODE: { [Op.like]: `%${search}%` } },
-        { POL_SRC_CODE: { [Op.like]: `%${search}%` } },
-        where(fn('TO_CHAR', col('POL_ISSUE_DT'), 'YYYY-MM-DD'), {
-          [Op.like]: `%${search}%`,
-        }),
-        where(fn('TO_CHAR', col('POL_FM_DT'), 'YYYY-MM-DD'), {
-          [Op.like]: `%${search}%`,
-        }),
-        where(fn('TO_CHAR', col('POL_TO_DT'), 'YYYY-MM-DD'), {
-          [Op.like]: `%${search}%`,
-        }),
-      ],
-    };
-
-    whereClause = {
-      ...whereClause,
-      [Op.and]: [searchFilter],
-    };
+    conditions.push(`(
+      P.POL_NO               LIKE :search OR
+      P.POL_PREM_CURR_CODE   LIKE :search OR
+      P.POL_DFLT_SI_CURR_CODE LIKE :search OR
+      P.POL_SRC_TYPE         LIKE :search OR
+      P.POL_ASSR_CODE        LIKE :search OR
+      P.POL_CUST_CODE        LIKE :search OR
+      P.POL_SRC_CODE         LIKE :search OR
+      TO_CHAR(P.POL_ISSUE_DT, 'YYYY-MM-DD') LIKE :search OR
+      TO_CHAR(P.POL_FM_DT,    'YYYY-MM-DD') LIKE :search OR
+      TO_CHAR(P.POL_TO_DT,    'YYYY-MM-DD') LIKE :search
+    )`);
+    replacements.search = `%${search}%`;
   }
 
-  const results = await PgitPolicy.findAll({
-    attributes: [
-      'POL_NO',
-      'POL_CUST_CODE',
-      'POL_ISSUE_DT',
-      'POL_FM_DT',
-      'POL_TO_DT',
-      'POL_PREM_CURR_CODE',
-      'POL_DFLT_SI_CURR_CODE',
-      'POL_SRC_TYPE',
-      'POL_ASSR_CODE',
-      'POL_SRC_CODE',
-      'POL_SYS_ID',
-      'POL_END_SR_NO',
-      'POL_END_NO_IDX',
-      'POL_APPR_STS',
-    ],
-    where: whereClause,
-    limit: Number(limit),
-    offset: Number(offset),
-    order: order || [['POL_SYS_ID', 'DESC']],
-    raw: true,
+  const whereSQL = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
+  const orderSQL = order ? `ORDER BY P.${order}` : `ORDER BY P.POL_SYS_ID DESC`;
+
+  const sql = `
+    SELECT
+      P.POL_NO,
+      P.POL_CUST_CODE,
+      C.CUST_NAME,
+      P.POL_CUST_CODE || ' - ' || C.CUST_NAME  AS CUSTOMER,
+      P.POL_ISSUE_DT,
+      P.POL_FM_DT,
+      P.POL_TO_DT,
+      P.POL_PREM_CURR_CODE,
+      P.POL_DFLT_SI_CURR_CODE,
+      P.POL_SRC_TYPE,
+      P.POL_ASSR_CODE,
+      P.POL_SRC_CODE,
+      P.POL_SYS_ID,
+      P.POL_END_SR_NO,
+      P.POL_END_NO_IDX,
+      P.POL_APPR_STS
+    FROM PGIT_POLICY P
+    LEFT JOIN PCOM_CUSTOMER C ON C.CUST_CODE = P.POL_CUST_CODE
+    ${whereSQL}
+    ${orderSQL}
+    OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY
+  `;
+
+  replacements.limit  = Number(limit);
+  replacements.offset = Number(offset);
+
+  const results = await sequelize.query(sql, {
+    replacements,
+    type: QueryTypes.SELECT,
   });
 
   const groupedResult = results.reduce((acc, row) => {
@@ -74,9 +79,8 @@ exports.getAll = async (
     return acc;
   }, {});
 
-  return groupedResult; 
+  return groupedResult;
 };
-
 
 
 
