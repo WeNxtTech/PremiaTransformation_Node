@@ -47,6 +47,7 @@ exports.getAll = async (
   const results = await PgitPolicy.findAll({
     attributes: [
       'POL_NO',
+      'POL_CUST_CODE',
       'POL_ISSUE_DT',
       'POL_FM_DT',
       'POL_TO_DT',
@@ -54,7 +55,6 @@ exports.getAll = async (
       'POL_DFLT_SI_CURR_CODE',
       'POL_SRC_TYPE',
       'POL_ASSR_CODE',
-      'POL_CUST_CODE',
       'POL_SRC_CODE',
       'POL_SYS_ID',
       'POL_END_SR_NO',
