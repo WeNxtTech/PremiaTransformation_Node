@@ -30,9 +30,9 @@ exports.deleteItem = async (id) => {
   return item;
 };
 
-exports.getByPolSysId = async (PIDH_POL_SYS_ID) => {
+exports.getByPolSysId = async (PIDH_POL_SYS_ID, PIDH_END_NO_IDX) => {
   const items = await PgithPolPrevInsDtl.findAll({
-    where: { PIDH_POL_SYS_ID },
+    where: { PIDH_POL_SYS_ID, PIDH_END_NO_IDX },
     raw: true
   });
 

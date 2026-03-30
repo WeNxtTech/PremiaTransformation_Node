@@ -31,14 +31,14 @@ exports.deleteItem = async (id) => {
 };
 
 
-exports.getByPolSysId = async (PCONH_POL_SYS_ID) => {
+exports.getByPolSysId = async (PCONH_POL_SYS_ID, PCONH_END_NO_IDX) => {
   const items = await PgithPolCondition.findAll({
-    where: { PCONH_POL_SYS_ID },
+    where: { PCONH_POL_SYS_ID, PCONH_END_NO_IDX },
     raw: true
   });
 
   const groupedResult = items.reduce((acc, row) => {
-    const key = row.PCONH_END_NO_IDX; 
+    const key = row.PCONH_SR_NO; 
     (acc[key] ??= []).push(row);
     return acc;
   }, {});

@@ -30,17 +30,11 @@ exports.deleteItem = async (id) => {
   return item;
 };
 
-exports.getByPolSysId = async (PACH_POL_SYS_ID) => {
+exports.getByPolSysId = async (PACH_POL_SYS_ID, PACH_END_NO_IDX) => {
   const items = await PgithPolApplCurr.findAll({
-    where: { PACH_POL_SYS_ID },
+    where: { PACH_POL_SYS_ID, PACH_END_NO_IDX },
     raw: true
   });
 
-  const groupedResult = items.reduce((acc, row) => {
-    const key = row.PACH_END_NO_IDX; 
-    (acc[key] ??= []).push(row);
-    return acc;
-  }, {});
-
-  return groupedResult;
+  return items;
 };

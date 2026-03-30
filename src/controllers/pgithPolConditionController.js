@@ -43,16 +43,16 @@ exports.deleteItem = async (req, res, next) => {
 
 exports.getByPolSysId = async (req, res, next) => {
   try {
-    const { polSysId } = req.query;
+    const { polSysId, endNoIdx } = req.query;
 
-    if (!polSysId) {
+    if (!polSysId || !endNoIdx) {
       return res.status(400).json({
         success: false,
-        message: "polSysId is required"
+        message: "polSysId and endNoIdx are required"
       });
     }
 
-    const result = await pgithPolConditionService.getByPolSysId(Number(polSysId));
+    const result = await pgithPolConditionService.getByPolSysId(Number(polSysId), Number(endNoIdx));
 
     return successResponse(res, 200, 'Fetched', result);
 
