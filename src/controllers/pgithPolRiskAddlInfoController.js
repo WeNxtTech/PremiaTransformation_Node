@@ -42,7 +42,7 @@ const { successResponse } = require('../utils/response');
 
 exports.getByPolSysId = async (req, res, next) => {
   try {
-    const { polSysId } = req.query;
+    const { polSysId, endNoIdx, psecSysId } = req.query;
 
     if (!polSysId) {
       return res.status(400).json({
@@ -51,7 +51,11 @@ exports.getByPolSysId = async (req, res, next) => {
       });
     }
 
-    const result = await pgithPolRiskAddlInfoService.getByPolSysId(Number(polSysId));
+    const result = await pgithPolRiskAddlInfoService.getByPolSysId(
+      Number(polSysId),
+      endNoIdx ? Number(endNoIdx) : undefined,
+      psecSysId ? Number(psecSysId) : undefined
+    );
 
     return successResponse(res, 200, 'Fetched', result);
 

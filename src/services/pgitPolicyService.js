@@ -43,6 +43,7 @@ exports.getAll = async (
   const sql = `
     SELECT
       P.POL_NO,
+      P.POL_END_NO,
       P.POL_CUST_CODE,
       C.CUST_NAME,
       P.POL_CUST_CODE || ' - ' || C.CUST_NAME  AS CUSTOMER,

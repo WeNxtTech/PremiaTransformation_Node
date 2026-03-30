@@ -32,15 +32,38 @@ exports.deleteItem = async (id) => {
 
 
 
-exports.getByPolSysId = async (PRCH_POL_SYS_ID) => {
+exports.getByPolSysId = async (PRCH_POL_SYS_ID, PRCH_END_NO_IDX, PRCH_PSEC_SYS_ID, PRCH_LVL1_SYS_ID) => {
+  const whereClause = { PRCH_POL_SYS_ID };
+
+  if (PRCH_END_NO_IDX !== null && PRCH_END_NO_IDX !== undefined && !isNaN(PRCH_END_NO_IDX)) {
+    whereClause.PRCH_END_NO_IDX = PRCH_END_NO_IDX;
+  }
+  if (PRCH_PSEC_SYS_ID !== null && PRCH_PSEC_SYS_ID !== undefined && !isNaN(PRCH_PSEC_SYS_ID)) {
+    whereClause.PRCH_PSEC_SYS_ID = PRCH_PSEC_SYS_ID;
+  }
+  if (PRCH_LVL1_SYS_ID !== null && PRCH_LVL1_SYS_ID !== undefined && !isNaN(PRCH_LVL1_SYS_ID)) {
+    whereClause.PRCH_LVL1_SYS_ID = PRCH_LVL1_SYS_ID;
+  }
+
   const items = await PgithPolRiskCover.findAll({
-    where: { PRCH_POL_SYS_ID },
+    where: whereClause,
     raw: true
   });
 
   const groupedResult = items.reduce((acc, row) => {
-    const key = row.PRCH_END_NO_IDX; 
-    (acc[key] ??= []).push(row);
+    const endNoIdx = row.PRCH_END_NO_IDX; 
+    const srNo = row.PRCH_SR_NO;
+
+    if (!acc[endNoIdx]) {
+      acc[endNoIdx] = {};
+    }
+    
+    if (!acc[endNoIdx][srNo]) {
+      acc[endNoIdx][srNo] = [];
+    }
+    
+    acc[endNoIdx][srNo].push(row);
+    
     return acc;
   }, {});
 

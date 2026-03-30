@@ -31,9 +31,15 @@ exports.deleteItem = async (id) => {
 };
 
 
-exports.getByPolSysId = async (PCDH_POL_SYS_ID) => {
+exports.getByPolSysId = async (PCDH_POL_SYS_ID, PCDH_END_NO_IDX) => {
+  const whereClause = { PCDH_POL_SYS_ID };
+
+  if (PCDH_END_NO_IDX !== null && PCDH_END_NO_IDX !== undefined && !isNaN(PCDH_END_NO_IDX)) {
+    whereClause.PCDH_END_NO_IDX = PCDH_END_NO_IDX;
+  }
+
   const items = await PgithPolDeductible.findAll({
-    where: { PCDH_POL_SYS_ID },
+    where: whereClause,
     raw: true
   });
 

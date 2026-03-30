@@ -42,7 +42,7 @@ exports.deleteItem = async (req, res, next) => {
 
 exports.getByPolSysId = async (req, res, next) => {
   try {
-    const { polSysId } = req.query;
+    const { polSysId, endNoIdx, psecSysId, riskSysId } = req.query;
 
     if (!polSysId) {
       return res.status(400).json({
@@ -51,7 +51,12 @@ exports.getByPolSysId = async (req, res, next) => {
       });
     }
 
-    const result = await pgithPolRiskSmiService.getByPolSysId(Number(polSysId));
+    const result = await pgithPolRiskSmiService.getByPolSysId(
+      Number(polSysId),
+      endNoIdx !== undefined ? Number(endNoIdx) : undefined,
+      psecSysId !== undefined ? Number(psecSysId) : undefined,
+      riskSysId !== undefined ? Number(riskSysId) : undefined
+    );
 
     return successResponse(res, 200, 'Fetched', result);
 

@@ -31,16 +31,33 @@ const { PgithPolSection } = require('../models');
 // };
 
 
-exports.getByPolSysId = async (PSECH_POL_SYS_ID) => {
+exports.getByPolSysId = async (PSECH_POL_SYS_ID, PSECH_END_NO_IDX) => {
+  const whereClause = { PSECH_POL_SYS_ID };
+  
+  if (PSECH_END_NO_IDX !== null && PSECH_END_NO_IDX !== undefined && !isNaN(PSECH_END_NO_IDX)) {
+    whereClause.PSECH_END_NO_IDX = PSECH_END_NO_IDX;
+  }
+
   const items = await PgithPolSection.findAll({
-    where: { PSECH_POL_SYS_ID },raw: true
+    where: whereClause,
+    raw: true
   });
   const groupedResult = items.reduce((acc, row) => {
-    const key = row.PSECH_SYS_ID;
-    (acc[key] ??= []).push(row);
+    const sysId = row.PSECH_SYS_ID;
+    const srNo = row.PSECH_SRNO;
+
+    if (!acc[sysId]) {
+      acc[sysId] = {};
+    }
+
+    if (!acc[sysId][srNo]) {
+      acc[sysId][srNo] = [];
+    }
+
+    acc[sysId][srNo].push(row);
+
     return acc;
   }, {});
 
   return groupedResult; 
- 
 };

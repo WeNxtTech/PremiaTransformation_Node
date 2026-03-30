@@ -42,7 +42,7 @@ const { successResponse } = require('../utils/response');
 
 exports.getByPolSysId = async (req, res, next) => {
   try {
-    const { polSysId } = req.query;
+    const { polSysId, endNoIdx } = req.query;
 
     if (!polSysId) {
       return res.status(400).json({
@@ -51,7 +51,10 @@ exports.getByPolSysId = async (req, res, next) => {
       });
     }
 
-    const result = await pgithPolSectionService.getByPolSysId(Number(polSysId));
+    const result = await pgithPolSectionService.getByPolSysId(
+      Number(polSysId),
+      endNoIdx ? Number(endNoIdx) : undefined
+    );
 
     return successResponse(res, 200, 'Fetched', result);
 
