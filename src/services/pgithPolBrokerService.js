@@ -39,7 +39,7 @@ exports.getByPolSysId = async (PBRKH_POL_SYS_ID, PBRKH_END_NO_IDX) => {
   });
 
   const groupedResult = items.reduce((acc, row) => {
-    const key = row.PBRKH_PSEC_SYS_ID; 
+    const key = row.PBRKH_END_NO_IDX; 
     (acc[key] ??= []).push(row);
     return acc;
   }, {});
