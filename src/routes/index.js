@@ -32,6 +32,7 @@ const pgithPolChargeRouter = require('./pgithPolCharge');
 const pgithPolApplCurrRouter = require('./pgithPolApplCurr');
 const pgithPolBrokerRouter = require('./pgithPolBroker');
 const pgithPolHypothecationRouter = require('./pgithPolHypothecation');
+const pgithPolInstPremRouter = require('./pgithPolInstPrem');
 const router = express.Router();
 const lmCompanyRoutes=require('./lmCompanyRoutes');
 const class_of_busRoute = require('./class_of_busRoute');
@@ -187,4 +188,7 @@ router.use('/pgithPolCharge', pgithPolChargeRouter);
 router.use('/pgithPolApplCurr', pgithPolApplCurrRouter);
 router.use('/pgithPolBroker', pgithPolBrokerRouter);
 router.use('/pgithPolHypothecation', pgithPolHypothecationRouter);
+router.use('/pgithPolInstPrem', pgithPolInstPremRouter);
+
+
 module.exports = router;
