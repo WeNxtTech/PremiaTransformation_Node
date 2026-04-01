@@ -89,7 +89,9 @@ const appBtn = require('./approveBtnRoute.js');
 const riInterfaceField = require('./pgitRiInterfaceFieldRoute.js');
 const riTtyDtlPgField = require ('./pgitRiPropTtyDtlPgFieldRoute.js');
 const riTtyAllocField = require ('./pgitRiPropTtyAllocFieldRoute.js');
-
+const facPlacementFieldRoute = require('./facPlacementFieldRoute.js');
+const facShareDtlFieldRoute = require('./facShareDtlFieldRoute.js');
+const placementFieldRoute = require('./placementFieldRoute.js');
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,6 +191,9 @@ router.use('/pgithPolApplCurr', pgithPolApplCurrRouter);
 router.use('/pgithPolBroker', pgithPolBrokerRouter);
 router.use('/pgithPolHypothecation', pgithPolHypothecationRouter);
 router.use('/pgithPolInstPrem', pgithPolInstPremRouter);
+router.use('/facPlacementField',facPlacementFieldRoute);
+router.use('/facShareDtlField',facShareDtlFieldRoute);
+router.use('/placementField',placementFieldRoute);
 
 
 module.exports = router;
