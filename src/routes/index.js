@@ -33,6 +33,10 @@ const pgithPolApplCurrRouter = require('./pgithPolApplCurr');
 const pgithPolBrokerRouter = require('./pgithPolBroker');
 const pgithPolHypothecationRouter = require('./pgithPolHypothecation');
 const pgithPolInstPremRouter = require('./pgithPolInstPrem');
+const pgitFacOutRouter = require('./pgitFacOut');
+const pgitRiPolRiskDtlRouter = require('./pgitRiPolRiskDtl');
+const pgitFacPlaceShareRouter = require('./pgitFacPlaceShare');
+const pgitFacPlacePcDtlRouter = require('./pgitFacPlacePcDtl');
 const router = express.Router();
 const lmCompanyRoutes=require('./lmCompanyRoutes');
 const class_of_busRoute = require('./class_of_busRoute');
@@ -92,6 +96,7 @@ const riTtyAllocField = require ('./pgitRiPropTtyAllocFieldRoute.js');
 const facPlacementFieldRoute = require('./facPlacementFieldRoute.js');
 const facShareDtlFieldRoute = require('./facShareDtlFieldRoute.js');
 const placementFieldRoute = require('./placementFieldRoute.js');
+const facPolDtlFieldRoute = require('./facPolDtlFieldRoute.js');
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,6 +199,10 @@ router.use('/pgithPolInstPrem', pgithPolInstPremRouter);
 router.use('/facPlacementField',facPlacementFieldRoute);
 router.use('/facShareDtlField',facShareDtlFieldRoute);
 router.use('/placementField',placementFieldRoute);
+router.use('/facPolDtlField',facPolDtlFieldRoute);
 
-
+router.use('/pgitFacOut', pgitFacOutRouter);
+router.use('/pgitRiPolRiskDtl', pgitRiPolRiskDtlRouter);
+router.use('/pgitFacPlaceShare', pgitFacPlaceShareRouter);
+router.use('/pgitFacPlacePcDtl', pgitFacPlacePcDtlRouter);
 module.exports = router;
