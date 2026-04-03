@@ -97,6 +97,15 @@ const facPlacementFieldRoute = require('./facPlacementFieldRoute.js');
 const facShareDtlFieldRoute = require('./facShareDtlFieldRoute.js');
 const placementFieldRoute = require('./placementFieldRoute.js');
 const facPolDtlFieldRoute = require('./facPolDtlFieldRoute.js');
+const pgitFacCustFieldRoute = require('./pgitFacCustFieldRoute.js');
+const pgitFacCommTaxFieldRoute = require('./pgitFacCommTaxFieldRoute.js');
+
+
+
+
+
+
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,7 +191,6 @@ router.use('/PGITRIPROPTTYALLOC', PGITRIPROPTTYALLOCRouter);
 
 
 
-
 router.use('/pgithPolicy', pgithPolicyRouter);
 router.use('/pgithPolSection', pgithPolSectionRouter);
 router.use('/pgithPolRiskAddlInfo', pgithPolRiskAddlInfoRouter);
@@ -200,6 +208,8 @@ router.use('/facPlacementField',facPlacementFieldRoute);
 router.use('/facShareDtlField',facShareDtlFieldRoute);
 router.use('/placementField',placementFieldRoute);
 router.use('/facPolDtlField',facPolDtlFieldRoute);
+router.use('/pgitFacCustField',pgitFacCustFieldRoute);  
+router.use('/pgitFacCommTaxField',pgitFacCommTaxFieldRoute);
 
 router.use('/pgitFacOut', pgitFacOutRouter);
 router.use('/pgitRiPolRiskDtl', pgitRiPolRiskDtlRouter);
